@@ -1,6 +1,6 @@
 // Constantes da aplicação
 export const APP_CONFIG = {
-  FIRST_DATE: '2025-06-14T21:00:00',
+  FIRST_DATE: '2024-06-14T21:00:00',
   SERVER_PORT: 3000,
   BUILD_TARGET: 'esnext',
 } as const;

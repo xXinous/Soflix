@@ -18,8 +18,7 @@ import { useTimer, useMobileMenu } from '@/hooks';
 import { MOVIES, AMOR_EM_CASCATA_MOVIE } from '@/constants/movies';
 import { PageType, UserType, Movie } from '@/types';
 
-
-export default function App() {
+function App() {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [showBannedGenres, setShowBannedGenres] = useState(false);
   const [currentPage, setCurrentPage] = useState<PageType>('home');
@@ -27,7 +26,6 @@ export default function App() {
   
   const timeElapsed = useTimer();
   const { showMobileMenu, closeMobileMenu, toggleMobileMenu } = useMobileMenu();
-
 
   // Handler para navegação das páginas
   const handlePageNavigation = useCallback((page: PageType) => {
@@ -127,3 +125,6 @@ export default function App() {
     </div>
   );
 }
+
+export default App;
+

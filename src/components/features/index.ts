@@ -3,3 +3,4 @@ export { AdminDashboard } from './AdminDashboard';
 export { MovieModal } from './MovieModal';
 export { NetflixCategories } from './NetflixCategories';
 export { MovieSections } from './MovieSections';
+export { BannedGenresModal } from '../layout/BannedGenresModal';
