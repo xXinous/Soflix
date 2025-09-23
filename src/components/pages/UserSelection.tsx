@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Plus, Settings, Heart, User, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, Settings, Heart, User } from 'lucide-react';
 import { getDeviceInfo, getUserIP, generateSessionId } from '@/utils/deviceInfo';
 
 interface UserSelectionProps {
@@ -10,30 +10,6 @@ export function UserSelection({ onUserSelect }: UserSelectionProps) {
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [adminPassword, setAdminPassword] = useState('');
   const [error, setError] = useState('');
-  const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Detectar se é mobile
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Funções do carrossel
-  const nextProfile = () => {
-    setCurrentProfileIndex((prev) => (prev + 1) % 3);
-  };
-
-  const prevProfile = () => {
-    setCurrentProfileIndex((prev) => (prev - 1 + 3) % 3);
-  };
 
   const handleAdminLogin = async () => {
     if (adminPassword === '179598') {
@@ -99,168 +75,58 @@ export function UserSelection({ onUserSelect }: UserSelectionProps) {
 
         {/* User Profiles */}
         <div className="mb-12">
-          {isMobile ? (
-            // Carrossel para mobile
-            <div className="relative">
-              {/* Botões de navegação */}
-              <button
-                onClick={prevProfile}
-                className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-all duration-200"
-              >
-                <ChevronLeft className="w-6 h-6 text-white" />
-              </button>
-              
-              <button
-                onClick={nextProfile}
-                className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-all duration-200"
-              >
-                <ChevronRight className="w-6 h-6 text-white" />
-              </button>
-
-              {/* Container do carrossel */}
-              <div 
-                ref={carouselRef}
-                className="overflow-hidden mx-12"
-                style={{ 
-                  touchAction: 'pan-y pinch-zoom'
-                }}
-              >
+          <div className="flex items-center justify-center space-x-4 md:space-x-8">
+            {/* Sofia Profile */}
+            <div 
+              className="text-center cursor-pointer" 
+              onClick={handleSofiaSelect}
+            >
+              <div className="relative mb-4">
                 <div 
-                  className="flex transition-transform duration-300 ease-in-out"
-                  style={{ 
-                    transform: `translateX(-${currentProfileIndex * 100}%)`,
-                    width: '300%'
-                  }}
+                  className="w-24 h-24 md:w-32 md:h-32 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-105" 
+                  style={{ background: 'linear-gradient(to bottom right, #ec4899, #ef4444)' }}
                 >
-                  {/* Sofia Profile */}
-                  <div className="w-1/3 flex-shrink-0 flex justify-center">
-                    <div 
-                      className="text-center cursor-pointer" 
-                      onClick={handleSofiaSelect}
-                    >
-                      <div className="relative mb-4">
-                        <div 
-                          className="w-32 h-32 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-105" 
-                          style={{ background: 'linear-gradient(to bottom right, #ec4899, #ef4444)' }}
-                        >
-                          <Heart className="w-16 h-16 text-white" />
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-gray-300">
-                        Sofia
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* Admin Profile */}
-                  <div className="w-1/3 flex-shrink-0 flex justify-center">
-                    <div 
-                      className="text-center cursor-pointer" 
-                      onClick={() => setShowAdminLogin(true)}
-                    >
-                      <div className="relative mb-4">
-                        <div 
-                          className="w-32 h-32 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-105" 
-                          style={{ background: 'linear-gradient(to bottom right, #4b5563, #1f2937)' }}
-                        >
-                          <Settings className="w-16 h-16 text-white" />
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-gray-300">
-                        Painel Admin
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* Add Profile (disabled) */}
-                  <div className="w-1/3 flex-shrink-0 flex justify-center">
-                    <div className="text-center opacity-50">
-                      <div className="relative mb-4">
-                        <div 
-                          className="w-32 h-32 bg-gray-800 border-2 border-gray-600 rounded-lg flex items-center justify-center" 
-                          style={{ borderStyle: 'dashed' }}
-                        >
-                          <Plus className="w-12 h-12 text-gray-600" />
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-gray-500">
-                        Adicionar Perfil
-                      </h3>
-                    </div>
-                  </div>
+                  <Heart className="w-12 h-12 md:w-16 md:h-16 text-white" />
                 </div>
               </div>
-
-              {/* Indicadores */}
-              <div className="flex justify-center mt-6 space-x-2">
-                {[0, 1, 2].map((index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentProfileIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                      currentProfileIndex === index 
-                        ? 'bg-red-500 w-6' 
-                        : 'bg-gray-600 hover:bg-gray-500'
-                    }`}
-                  />
-                ))}
-              </div>
+              <h3 className="text-sm md:text-lg font-semibold text-gray-300">
+                Sofia
+              </h3>
             </div>
-          ) : (
-            // Layout original para desktop
-            <div className="flex items-center justify-center space-x-8">
-              {/* Sofia Profile */}
-              <div 
-                className="text-center cursor-pointer" 
-                onClick={handleSofiaSelect}
-              >
-                <div className="relative mb-4">
-                  <div 
-                    className="w-32 h-32 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-105" 
-                    style={{ background: 'linear-gradient(to bottom right, #ec4899, #ef4444)' }}
-                  >
-                    <Heart className="w-16 h-16 text-white" />
-                  </div>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-300">
-                  Sofia
-                </h3>
-              </div>
 
-              {/* Admin Profile */}
-              <div 
-                className="text-center cursor-pointer" 
-                onClick={() => setShowAdminLogin(true)}
-              >
-                <div className="relative mb-4">
-                  <div 
-                    className="w-32 h-32 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-105" 
-                    style={{ background: 'linear-gradient(to bottom right, #4b5563, #1f2937)' }}
-                  >
-                    <Settings className="w-16 h-16 text-white" />
-                  </div>
+            {/* Admin Profile */}
+            <div 
+              className="text-center cursor-pointer" 
+              onClick={() => setShowAdminLogin(true)}
+            >
+              <div className="relative mb-4">
+                <div 
+                  className="w-24 h-24 md:w-32 md:h-32 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-105" 
+                  style={{ background: 'linear-gradient(to bottom right, #4b5563, #1f2937)' }}
+                >
+                  <Settings className="w-12 h-12 md:w-16 md:h-16 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-300">
-                  Painel Admin
-                </h3>
               </div>
-
-              {/* Add Profile (disabled) */}
-              <div className="text-center opacity-50">
-                <div className="relative mb-4">
-                  <div 
-                    className="w-32 h-32 bg-gray-800 border-2 border-gray-600 rounded-lg flex items-center justify-center" 
-                    style={{ borderStyle: 'dashed' }}
-                  >
-                    <Plus className="w-12 h-12 text-gray-600" />
-                  </div>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-500">
-                  Adicionar Perfil
-                </h3>
-              </div>
+              <h3 className="text-sm md:text-lg font-semibold text-gray-300">
+                Painel Admin
+              </h3>
             </div>
-          )}
+
+            {/* Add Profile (disabled) */}
+            <div className="text-center opacity-50">
+              <div className="relative mb-4">
+                <div 
+                  className="w-24 h-24 md:w-32 md:h-32 bg-gray-800 border-2 border-gray-600 rounded-lg flex items-center justify-center" 
+                  style={{ borderStyle: 'dashed' }}
+                >
+                  <Plus className="w-8 h-8 md:w-12 md:h-12 text-gray-600" />
+                </div>
+              </div>
+              <h3 className="text-sm md:text-lg font-semibold text-gray-500">
+                Adicionar Perfil
+              </h3>
+            </div>
+          </div>
         </div>
 
         {/* Instructions */}
