@@ -11,58 +11,30 @@ interface MovieModalProps {
   onClose: () => void;
 }
 
-// Casal-Aranha: Teia do Julgamento - Modal específico
-const CasalAranhaModal = ({ movie }: { movie: Movie }) => {
-  const casalAranhaPhotos = [
-    {
-      src: movie.specialPhotos?.[0] || '',
-      alt: 'Nosso reflexo perfeito',
-      caption: 'Nosso reflexo perfeito: dois corações, uma teia de amor'
-    },
-    {
-      src: movie.specialPhotos?.[1] || '',
-      alt: 'Selfie dos heróis',
-      caption: 'Selfie dos heróis do amor: sempre juntinhos salvando o dia'
-    },
-    {
-      src: movie.specialPhotos?.[2] || '',
-      alt: 'O beijo conecta',
-      caption: 'O beijo que conecta nossas almas através da teia do tempo'
-    }
-  ];
-  
-  return (
-    <SpecialPhotos 
-      title="Momentos Especiais do Casal-Aranha"
-      photos={casalAranhaPhotos}
-    />
-  );
-};
+// ============================================================================
+// TEMPLATE PURO - APENAS CONSUME DADOS DO MOVIES.TS
+// ============================================================================
 
-// Amor em Alta Velocidade - Modal específico
-const AmorEmAltaVelocidadeModal = ({ movie }: { movie: Movie }) => {
-  const amorAltaVelocidadePhotos = [
-    {
-      src: movie.specialPhotos?.[0] || '',
-      alt: 'Uma foto espontanea da minha princesa com seu principe assustado',
-      caption: 'Uma foto espontanea da minha princesa com seu principe assustado diretamente da Disney'
-    },
-    {
-      src: movie.specialPhotos?.[1] || '',
-      alt: 'Troca de olhares',
-      caption: 'Foi nessa troca de olhares que descobri que valia a pena me apaixonar por você'
-    },
-    {
-      src: movie.specialPhotos?.[2] || '',
-      alt: 'Momento do brinquedo freiar',
-      caption: 'Graças a Deus o brinquedo tava parando'
-    }
-  ];
+// Função para gerar fotos especiais baseada APENAS nos dados do filme
+const generateSpecialPhotos = (movie: Movie) => {
+  if (!movie.specialPhotos || movie.specialPhotos.length === 0) {
+    return null;
+  }
+
+  // Título simples baseado no título do filme
+  const title = `Momentos Especiais de ${movie.title}`;
   
+  // Legendas personalizadas do movies.ts ou fallback simples
+  const photos = movie.specialPhotos.map((src, index) => ({
+    src,
+    alt: `Momento especial ${index + 1} de ${movie.title}`,
+    caption: movie.specialPhotoCaptions?.[index] || `Momento especial ${index + 1} de ${movie.title}`
+  }));
+
   return (
     <SpecialPhotos 
-      title="Destaques"
-      photos={amorAltaVelocidadePhotos}
+      title={title}
+      photos={photos}
     />
   );
 };
@@ -74,18 +46,10 @@ const AmorEmAltaVelocidadeModal = ({ movie }: { movie: Movie }) => {
 export function MovieModal({ movie, onClose }: MovieModalProps) {
   const movieDetails = getMovieDetails(movie);
 
-  // Renderizar conteúdo específico baseado no ID do filme
+  // Renderizar conteúdo especial automaticamente
   const renderSpecialContent = () => {
-    switch (movie.id) {
-      case 2: // Casal-Aranha: Teia do Julgamento
-        return <CasalAranhaModal movie={movie} />;
-      
-      case 6: // Amor em Alta Velocidade
-        return <AmorEmAltaVelocidadeModal movie={movie} />;
-      
-      default:
-        return <DefaultSpecialContent />;
-    }
+    const specialPhotos = generateSpecialPhotos(movie);
+    return specialPhotos || <DefaultSpecialContent />;
   };
 
   // Handlers para as ações do modal

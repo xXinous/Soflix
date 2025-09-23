@@ -1,12 +1,18 @@
 import { Movie } from '@/types';
 
 import thePijamaDreamerPoster from '@/assets/the-pijama-dreamer/poster.png';
+import thePijamaDreamerPhoto1 from '@/assets/the-pijama-dreamer/photo1.jpg';
+import thePijamaDreamerPhoto2 from '@/assets/the-pijama-dreamer/photo2.jpg';
+import thePijamaDreamerPhoto3 from '@/assets/the-pijama-dreamer/photo3.jpg';
 import beijoEstreladoPoster from '@/assets/beijo-estrelado/poster.png';
 import casalAranhaPoster from '@/assets/casal-aranha-teia-do-julgamento/poster.png';
 import casalAranhaPhoto1 from '@/assets/casal-aranha-teia-do-julgamento/photo1.png';
 import casalAranhaPhoto2 from '@/assets/casal-aranha-teia-do-julgamento/photo2.png';
 import casalAranhaPhoto3 from '@/assets/casal-aranha-teia-do-julgamento/photo3.png';
 import trocaTrocaJuridicoPoster from '@/assets/troca-troca-juridico/poster.png';
+import trocaTrocaJuridicoPhoto1 from '@/assets/troca-troca-juridico/photo1.jpg';
+import trocaTrocaJuridicoPhoto2 from '@/assets/troca-troca-juridico/photo2.jpg';
+import trocaTrocaJuridicoPhoto3 from '@/assets/troca-troca-juridico/photo3.jpg';
 import roupaPretaCoracaoAzulPoster from '@/assets/roupa-preta-coracao-azul/poster.png';
 import dilemaDoAmorPoster from '@/assets/dilema-do-amor/poster.png';
 import amoremaltavelocidadePoster from '@/assets/amor-em-alta-velocidade/poster.png';
@@ -31,27 +37,36 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     title: "The Pijama Dreamer",
     image: thePijamaDreamerPoster,
     genre: "Romance, Animação, Fantasia",
-    romanticDescription: "Sofia embarca em uma jornada noturna pelo universo etéreo de seus próprios sonhos. Lá, em um reino de cores e maravilhas, os ecos de seu primeiro amor florescem, desafiando a dança sutil entre a pura alegria da paixão e as sombras sussurrantes da insegurança. Uma aventura visualmente deslumbrante pelo coração e mente de uma jovem garota, onde cada sonho é um passo para desvendar os mistérios do amor e do autoconhecimento.",
+    romanticDescription: "Nem nos meus mais profundos sonhos eu imaginaria que a garota que iria me fisgar era alguém que vive em um mundo tão diferente do meu, mas que se importa e se mostra empenhada para descobrir e conhecer sobre mim e meus gostos, se mostra presente e é a melhor companheira que eu poderia ter.",
     year: 2025,
     rating: "10★",
-    duration: 'Uma noite inteira de sonhos',
+    specialPhotos: [thePijamaDreamerPhoto1, thePijamaDreamerPhoto2, thePijamaDreamerPhoto3],
+    specialPhotoCaptions: [
+      'Primeira foto sua que me fez sonhar com a gente',
+      'Acada beijo que te dou, é um teste pra ver se não estou sonhando',
+      'Quero fazer você viver um sonho'
+    ],
+    duration: 'Uma noite inteira',
     classification: 'L - Livre para sonhar',
-    genres: ['Romance', 'Animação', 'Fantasia', 'Sonhos'],
-    tags: ['Romântico', 'Ethereal', 'Mágico', 'Inspirador'],
-    romanticQuote: 'Nos sonhos encontramos nossa verdade mais profunda, onde o amor floresce sem limites!'
+    tags: ['Uma lembraça de noites sonhando com você'],
+    romanticQuote: 'Se eu tiver sonhando com você, então eu quero dormir pra sempre.'
   },
   {
     id: 2,
     title: "Casal-Aranha: Teia do Julgamento",
     image: casalAranhaPoster,
     genre: "Ação, Romântica",
-    romanticDescription: "Como o herói desta história, você trouxe justiça ao meu coração caótico. Sua força me inspira, seu amor me protege, e juntos formamos a dupla perfeita. Você é minha parceira de vida, minha heroína, minha Sofia-Aranha que tece os fios do nosso destino conectado para sempre.",
+    romanticDescription: "Como a heroina desta história, você trouxe justiça ao meu coração caótico. Sua força me inspira, seu carinho me protege, seu sorriso ilumina e espanta todas as tempestades, sua teia concertou meu coração fez eu conseguir amar novamente.",
     year: 2025,
     rating: "∞★",
     specialPhotos: [casalAranhaPhoto1, casalAranhaPhoto2, casalAranhaPhoto3],
+    specialPhotoCaptions: [
+      'Nosso reflexo perfeito: dois corações, uma teia de amor',
+      'Selfie dos heróis do amor: sempre juntinhos salvando o dia',
+      'O beijo que conecta nossas almas através da teia do tempo'
+    ],
     duration: 'Para sempre conectados',
     classification: 'L - Livre para amar heroicamente',
-    genres: ['Ação', 'Romance', 'Super-herói', 'Justiça'],
     tags: ['Heroico', 'Corajoso', 'Protetor', 'Justo'],
     romanticQuote: 'Com grandes poderes vêm grandes responsabilidades... e com grande amor vem grande felicidade!'
   },
@@ -65,7 +80,6 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     rating: "10★",
     duration: 'Um jogo de coração',
     classification: 'L - Livre para jogar com amor',
-    genres: ['Romance', 'Drama', 'Esporte', 'Superação'],
     tags: ['Determinado', 'Forte', 'Líder', 'Vencedor'],
     romanticQuote: 'Mesmo com o coração em luto, ela lidera com amor e coragem!'
   },
@@ -79,7 +93,6 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     rating: "∞★",
     duration: 'Entre livros e beijos',
     classification: 'L - Livre para estudar o amor',
-    genres: ['Romance', 'Drama', 'Suspense', 'Academia'],
     tags: ['Inteligente', 'Misterioso', 'Intenso', 'Apaixonante'],
     romanticQuote: 'Entre livros e beijos, ela busca a sentença final do amor!'
   },
@@ -93,7 +106,6 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     rating: "10★",
     duration: 'Uma noite sob as estrelas',
     classification: 'L - Livre para beijar as estrelas',
-    genres: ['Romance', 'Drama', 'Nostalgia', 'Verão'],
     tags: ['Nostálgico', 'Romântico', 'Épico', 'Inesquecível'],
     romanticQuote: 'Sob as estrelas de 1986, duas almas se encontraram para sempre!'
   },
@@ -106,6 +118,11 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     year: 2025,
     rating: "10★",
     specialPhotos: [amoremaltavelocidadePhoto1, amoremaltavelocidadePhoto2, amoremaltavelocidadePhoto3],
+    specialPhotoCaptions: [
+      'Uma foto espontanea da minha princesa com seu principe assustado diretamente da Disney',
+      'Foi nessa troca de olhares que descobri que valia a pena me apaixonar por você',
+      'Graças a Deus o brinquedo tava parando'
+    ],
     duration: 'Velocidade do amor infinito',
     classification: 'L - Livre para amar em velocidade máxima',
     genres: ['Romance', 'Aventura', 'Praia', 'Conexão'],
@@ -120,9 +137,14 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     romanticDescription: "Uma briga inocente, uma troca de corpos e a corrida contra o tempo para fazer as pazes... antes que a vida de adulto e de criança virem de cabeça para baixo.",
     year: 2025,
     rating: "10★",
+    specialPhotos: [trocaTrocaJuridicoPhoto1, trocaTrocaJuridicoPhoto2, trocaTrocaJuridicoPhoto3],
+    specialPhotoCaptions: [
+      'Uma briga inocente que virou uma lição de amor',
+      'A troca que nos ensinou a ver o mundo pelos olhos do outro',
+      'O amor sempre encontra um jeito de fazer as pazes'
+    ],
     duration: 'Uma briga inocente, uma lição de amor',
     classification: 'L - Livre para fazer as pazes',
-    genres: ['Comédia', 'Família', 'Troca de Corpos', 'Paz'],
     tags: ['Divertido', 'Inocente', 'Familiar', 'Pacífico'],
     romanticQuote: 'Até nas brigas mais inocentes, o amor sempre encontra um jeito de fazer as pazes!'
   },
@@ -136,7 +158,6 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     rating: "10★",
     duration: 'Uma biografia musical do coração',
     classification: 'L - Livre para fazer música do amor',
-    genres: ['Biografia', 'Musical', 'Drama', 'Rock'],
     tags: ['Inspirador', 'Musical', 'Corajoso', 'Estrela'],
     romanticQuote: 'Com coragem, determinação e muito talento, Sofia superou todos os obstáculos para se tornar uma das maiores referências da música alternativa.'
   },
@@ -150,9 +171,29 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     rating: "10★",
     duration: 'Uma cascata infinita de amor',
     classification: 'L - Livre para amar em cascata',
-    genres: ['Comédia Romântica', 'Fantasia', 'Aventura', 'Destino'],
     tags: ['Hilário', 'Imprevisível', 'Mágico', 'Inquebrável'],
     romanticQuote: 'Almas gêmeas predestinadas... ou assim pensam. A cada semana, o universo parece ter um senso de humor peculiar!'
+  },
+  // EXEMPLO: Novo filme que será adicionado no futuro
+  // Este filme não tem configuração específica no MovieModal, mas funcionará automaticamente!
+  {
+    id: 10,
+    title: "Aventura Estelar",
+    image: amorEmCascataPoster, // Usando imagem existente como placeholder
+    genre: "Ação, Aventura, Romance",
+    romanticDescription: "Uma aventura épica pelo espaço onde dois corações se encontram entre as estrelas. Uma história de amor que transcende galáxias e desafia as leis do universo.",
+    year: 2025,
+    rating: "10★",
+    specialPhotos: [amoremaltavelocidadePhoto1, amoremaltavelocidadePhoto2, amoremaltavelocidadePhoto3], // Usando fotos existentes como exemplo
+    specialPhotoCaptions: [
+      'Nossa primeira aventura espacial juntos',
+      'Entre as estrelas, encontramos nosso amor',
+      'Uma jornada que transcende galáxias'
+    ],
+    duration: 'Uma jornada infinita pelo espaço',
+    classification: 'L - Livre para explorar o amor',
+    tags: ['Épico', 'Aventura', 'Romântico', 'Espacial'],
+    romanticQuote: 'Entre as estrelas, encontramos nosso amor infinito!'
   }
 ];
 
@@ -178,7 +219,8 @@ export const getMovieDetails = (movie: Movie): MovieWithDetails => {
     classification: movieData.classification || 'L - Livre para amar',
     genres: movieData.genres || movie.genre.split(', '),
     tags: movieData.tags || ['Romântico', 'Emocionante', 'Tocante'],
-    romanticQuote: movieData.romanticQuote || 'Com grandes poderes vêm grandes responsabilidades... e com grande amor vem grande felicidade!'
+    romanticQuote: movieData.romanticQuote || 'Com grandes poderes vêm grandes responsabilidades... e com grande amor vem grande felicidade!',
+    specialPhotoCaptions: movieData.specialPhotoCaptions || movie.specialPhotoCaptions
   };
 };
 
@@ -191,7 +233,8 @@ export const MOVIES: Movie[] = MOVIES_DATA.map(movie => ({
   romanticDescription: movie.romanticDescription,
   year: movie.year,
   rating: movie.rating,
-  ...(movie.specialPhotos && { specialPhotos: movie.specialPhotos })
+  ...(movie.specialPhotos && { specialPhotos: movie.specialPhotos }),
+  ...(movie.specialPhotoCaptions && { specialPhotoCaptions: movie.specialPhotoCaptions })
 }));
 
 // Filme especial (mantido separado como estava)

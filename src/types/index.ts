@@ -8,6 +8,7 @@ export interface Movie {
   year: number;
   rating: string;
   specialPhotos?: string[];
+  specialPhotoCaptions?: string[];
 }
 
 export interface TimeElapsed {
