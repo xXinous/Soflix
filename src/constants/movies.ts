@@ -1,71 +1,96 @@
 import { Movie } from '@/types';
-import judgmentWebPoster from '@/assets/3fab3ae223a99531b50728c19f476df9a525fc4b.png';
-import spiderCouplePhoto1 from '@/assets/49d8db25dd83d3f7e2007f4f01ce6255e232b294.png';
-import spiderCouplePhoto2 from '@/assets/4623a5f88ef9e78cd269223ddb4febaaea9d0692.png';
-import spiderCouplePhoto3 from '@/assets/93cffdfe55c87ce65943e49b21d2ba8a3ca1de87.png';
-import amorEmCascataPoster from '@/assets/fbb4fc8b5d8f5491d8cac4858b367fe46a198acb.png';
+
+// Imports dos filmes organizados por pasta
+import thePijamaDreamerPoster from '@/assets/the-pijama-dreamer/poster.png';
+import beijoEstreladoPoster from '@/assets/beijo-estrelado/poster.png';
+import casalAranhaPoster from '@/assets/casal-aranha-teia-do-julgamento/poster.png';
+import casalAranhaPhoto1 from '@/assets/casal-aranha-teia-do-julgamento/photo1.png';
+import casalAranhaPhoto2 from '@/assets/casal-aranha-teia-do-julgamento/photo2.png';
+import casalAranhaPhoto3 from '@/assets/casal-aranha-teia-do-julgamento/photo3.png';
+import trocaTrocaJuridicoPoster from '@/assets/troca-troca-juridico/poster.png';
+import roupaPretaCoracaoAzulPoster from '@/assets/roupa-preta-coracao-azul/poster.png';
+import dilemaDoAmorPoster from '@/assets/dilema-do-amor/poster.png';
+import amoremaltavelocidadePoster from '@/assets/amor-em-alta-velocidade/poster.png';
+import amorEmCascataPoster from '@/assets/amor-em-cascata/poster.png';
+import motimEstelarPoster from '@/assets/motim-estelar/poster.png';
 
 export const MOVIES: Movie[] = [
   {
     id: 1,
-    title: "Nosso Primeiro Encontro",
-    image: "https://images.unsplash.com/photo-1658851866325-49fb8b7fbcb2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb21hbnRpYyUyMGNvdXBsZSUyMHN1bnNldHxlbnwxfHx8fDE3NTg0ODgxNTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    genre: "Romance",
-    romanticDescription: "Aquele dia mudou tudo para sempre. Quando nossos olhares se cruzaram pela primeira vez, soube que encontrei a pessoa com quem quero passar o resto da minha vida. Cada momento ao seu lado é como viver num filme romântico perfeito.",
+    title: "The Pijama Dreamer",
+    image: thePijamaDreamerPoster,
+    genre: "Romance, Animação, Fantasia",
+    romanticDescription: "Sofia embarca em uma jornada noturna pelo universo etéreo de seus próprios sonhos. Lá, em um reino de cores e maravilhas, os ecos de seu primeiro amor florescem, desafiando a dança sutil entre a pura alegria da paixão e as sombras sussurrantes da insegurança. Uma aventura visualmente deslumbrante pelo coração e mente de uma jovem garota, onde cada sonho é um passo para desvendar os mistérios do amor e do autoconhecimento.",
     year: 2025,
     rating: "10★"
   },
   {
     id: 2,
     title: "Casal-Aranha: Teia do Julgamento",
-    image: judgmentWebPoster,
+    image: casalAranhaPoster,
     genre: "Ação, Romântica",
     romanticDescription: "Como o herói desta história, você trouxe justiça ao meu coração caótico. Sua força me inspira, seu amor me protege, e juntos formamos a dupla perfeita. Você é minha parceira de vida, minha heroína, minha Sofia-Aranha que tece os fios do nosso destino conectado para sempre.",
     year: 2025,
     rating: "∞★",
-    specialPhotos: [spiderCouplePhoto1, spiderCouplePhoto2, spiderCouplePhoto3]
+    specialPhotos: [casalAranhaPhoto1, casalAranhaPhoto2, casalAranhaPhoto3]
   },
   {
     id: 3,
-    title: "Jantares Românticos",
-    image: "https://images.unsplash.com/photo-1564636242997-77953084df48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb21hbnRpYyUyMGRpbm5lciUyMGRhdGV8ZW58MXx8fHwxNzU4NTY1MDEwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    title: "Roupa Preta Coracao Azul",
+    image: roupaPretaCoracaoAzulPoster,
     genre: "Romance",
-    romanticDescription: "Cada jantar ao seu lado é uma celebração do nosso amor. Não importa se é um restaurante sofisticado ou uma pizza em casa, com você qualquer refeição se torna uma ocasião especial. Você tempera minha vida com alegria!",
+    romanticDescription: "Com o coração em luto e um boné na cabeça, ela lidera um time em campo para honrar um amor e reescrever a história.",
     year: 2025,
     rating: "10★"
   },
   {
     id: 4,
-    title: "Você é Meu Coração",
-    image: "https://images.unsplash.com/photo-1506014299253-3725319c0f69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VwbGUlMjBob2xkaW5nJTIwaGFuZHN8ZW58MXx8fHwxNzU4NTcwMjA3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    genre: "Romance",
-    romanticDescription: "Você não é apenas o amor da minha vida, você É minha vida. Meu coração bate no ritmo do seu nome, e cada flor que vejo me lembra da beleza que você trouxe para o meu mundo. Te amo mais que palavras podem expressar!",
+    title: "Dilema do Amor",
+    image: dilemaDoAmorPoster,
+    genre: "Terror, Suspense",
+    romanticDescription: "Entre livros e beijos, ela busca a sentença final. Mas o relógio da vida dupla pode estar quebrado.",
     year: 2025,
     rating: "∞★"
   },
   {
     id: 5,
-    title: "De Mãos Dadas Para Sempre",
-    image: "https://images.unsplash.com/photo-1596806906801-d328b0c8bcc6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxyb21hbnRpYyUyMHBpY25pYyUyMG5hdHVyZXxlbnwxfHx8fDE3NTg1NzAyMTB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    genre: "Romance",
-    romanticDescription: "Sua mão na minha é onde encontro paz e força. Juntos, podemos enfrentar qualquer tempestade e celebrar cada conquista. Prometo estar sempre ao seu lado, de mãos dadas, caminhando em direção ao nosso futuro repleto de amor.",
+    title: "Beijo Estrelado",
+    image: beijoEstreladoPoster,
+    genre: "Drama, Romance",
+    romanticDescription: "Em um verão inesquecível de 1986, sob as luzes neon de uma cidade vibrante e as estrelas que prometem segredos, duas almas se encontram por acaso. Uma noite. Um olhar. Uma conexão que desafia o tempo. ",
     year: 2025,
     rating: "10★"
   },
   {
     id: 6,
-    title: "Caminhadas na Praia",
-    image: "https://images.unsplash.com/photo-1719559981587-040e4614b4dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VwbGUlMjB3YWxraW5nJTIwYmVhY2h8ZW58MXx8fHwxNzU4NTYyMDQ4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    genre: "Romance",
+    title: "Amor em Alta Velocidade",
+    image: amoremaltavelocidadePoster,
+    genre: "Romance, Animação",
     romanticDescription: "Na praia encontramos nossa conexão mais pura. Cada caminhada na areia, cada pôr do sol contemplado ao seu lado me lembra como somos sortudos por termos encontrado um ao outro neste universo imenso.",
+    year: 2025,
+    rating: "10★"
+  },
+  {
+    id: 7,
+    title: "Troca Troca Juridico",
+    image: trocaTrocaJuridicoPoster,
+    genre: "Comédia, Família",
+    romanticDescription: "Uma briga inocente, uma troca de corpos e a corrida contra o tempo para fazer as pazes... antes que a vida de adulto e de criança virem de cabeça para baixo.",
+    year: 2025,
+    rating: "10★"
+  },
+  {
+    id: 8,
+    title: "Motim Estelar",
+    image: motimEstelarPoster,
+    genre: "Drama Musical, Biografia",
+    romanticDescription: "A inspiradora jornada de Sofia, uma jovem apaixonada por música que transformou seus sonhos em realidade. Desde as primeiras notas em uma guitarra emprestada até os palcos mais famosos do mundo, 'Motim Estelar' conta a emocionante biografia de uma estrela do rock emo que nunca desistiu de seus ideais. Com coragem, determinação e muito talento, Sofia superou todos os obstáculos para se tornar uma das maiores referências da música alternativa. Uma história de paixão, luta e triunfo que prova que os sonhos podem se tornar realidade quando você tem a coragem de lutar por eles.",
     year: 2025,
     rating: "10★"
   }
 ];
-
-// Filme especial "Amor em Cascata" - aparece apenas em locais específicos
 export const AMOR_EM_CASCATA_MOVIE: Movie = {
-  id: 7,
+  id: 9,
   title: "Amor em Cascata",
   image: amorEmCascataPoster,
   genre: "Comédia Romântica",

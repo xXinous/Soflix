@@ -83,6 +83,8 @@ export default function App() {
         onBannedGenres={handleBannedGenres}
         onToggleMobileMenu={toggleMobileMenu}
         showMobileMenu={showMobileMenu}
+        onUserChange={handleUserChange}
+        currentUser={currentUser}
       />
 
       <HeroSection

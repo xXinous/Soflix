@@ -12,6 +12,7 @@ module.exports = {
         'netflix-gray': '#333333',
       },
       fontFamily: {
+        'sans': ['Netflix Sans', 'Helvetica Neue', 'Segoe UI', 'Roboto', 'Ubuntu', 'sans-serif'],
         'netflix': ['Netflix Sans', 'Helvetica Neue', 'Segoe UI', 'Roboto', 'Ubuntu', 'sans-serif'],
       },
       animation: {

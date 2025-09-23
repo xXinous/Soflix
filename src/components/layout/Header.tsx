@@ -1,6 +1,7 @@
 import React from 'react';
 import { Search, Bell, Heart, ChevronDown } from 'lucide-react';
 import { PageType, UserType } from '@/types';
+import { ProfileDropdown } from './ProfileDropdown';
 
 interface HeaderProps {
   currentPage: PageType;
@@ -8,6 +9,8 @@ interface HeaderProps {
   onBannedGenres: () => void;
   onToggleMobileMenu: () => void;
   showMobileMenu: boolean;
+  onUserChange: () => void;
+  currentUser: UserType;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -16,6 +19,8 @@ export const Header: React.FC<HeaderProps> = ({
   onBannedGenres,
   onToggleMobileMenu,
   showMobileMenu,
+  onUserChange,
+  currentUser,
 }) => {
   return (
     <header className="flex items-center justify-between p-3 sm:p-4 bg-gradient-to-b from-black/80 to-transparent relative z-50">
@@ -82,8 +87,11 @@ export const Header: React.FC<HeaderProps> = ({
         >
           <Heart className="w-3 h-3 sm:w-4 sm:h-4" />
         </button>
-        <div className="hidden md:flex w-6 h-6 sm:w-8 sm:h-8 bg-red-500 rounded-full items-center justify-center">
-          <Heart className="w-3 h-3 sm:w-4 sm:h-4" />
+        <div className="hidden md:flex">
+          <ProfileDropdown 
+            onUserChange={onUserChange}
+            currentUser={currentUser as 'sofia' | 'admin'}
+          />
         </div>
       </div>
     </header>

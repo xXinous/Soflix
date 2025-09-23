@@ -1,7 +1,7 @@
 import React from 'react';
 import { Play, Plus } from 'lucide-react';
 import { TimeElapsed, Movie } from '@/types';
-import amorEmCascataPoster from '@/assets/fbb4fc8b5d8f5491d8cac4858b367fe46a198acb.png';
+import amorEmCascataPoster from '@/assets/amor-em-cascata/poster.png';
 
 interface HeroSectionProps {
   timeElapsed: TimeElapsed;
