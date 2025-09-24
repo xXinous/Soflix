@@ -1,6 +1,5 @@
 import { Movie } from '@/types';
 import { MovieSectionsUI } from '@/components/ui/movie-sections-ui';
-import { PROGRESS_VALUES } from '@/constants';
 
 interface MovieSectionsProps {
   movies: Movie[];
@@ -11,9 +10,6 @@ export const MovieSections = ({
   movies,
   onMovieClick,
 }: MovieSectionsProps) => {
-  // Lógica para preparar dados das seções
-  const continueWatchingMovies = movies.slice(0, 3);
-  const progressValues = PROGRESS_VALUES;
 
   // Handler para eventos de teclado
   const handleKeyDown = (e: React.KeyboardEvent, movie: Movie) => {
@@ -24,8 +20,6 @@ export const MovieSections = ({
 
   return (
     <MovieSectionsUI
-      continueWatchingMovies={continueWatchingMovies}
-      progressValues={progressValues}
       allMovies={movies}
       onMovieClick={onMovieClick}
       onKeyDown={handleKeyDown}

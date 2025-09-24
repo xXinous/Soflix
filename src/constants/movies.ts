@@ -33,7 +33,7 @@ export interface MovieWithDetails extends Movie {
 // FONTE ÚNICA DE VERDADE - Edite apenas aqui!
 const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
   {
-    id: 1,
+    id: "the-pijama-dreamer",
     title: "The Pijama Dreamer",
     image: thePijamaDreamerPoster,
     genre: "Romance, Animação, Fantasia",
@@ -52,7 +52,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     romanticQuote: 'Se eu tiver sonhando com você, então eu quero dormir pra sempre.'
   },
   {
-    id: 2,
+    id: "casal-aranha-teia-do-julgamento",
     title: "Casal-Aranha: Teia do Julgamento",
     image: casalAranhaPoster,
     genre: "Ação, Romântica",
@@ -71,7 +71,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     romanticQuote: 'Com grandes poderes vêm grandes responsabilidades... e com grande amor vem grande felicidade!'
   },
   {
-    id: 3,
+    id: "roupa-preta-coracao-azul",
     title: "Roupa Preta Coracao Azul",
     image: roupaPretaCoracaoAzulPoster,
     genre: "Romance",
@@ -84,7 +84,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     romanticQuote: 'Mesmo com o coração em luto, ela lidera com amor e coragem!'
   },
   {
-    id: 4,
+    id: "dilema-do-amor",
     title: "Dilema do Amor",
     image: dilemaDoAmorPoster,
     genre: "Terror, Suspense",
@@ -97,7 +97,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     romanticQuote: 'Entre livros e beijos, ela busca a sentença final do amor!'
   },
   {
-    id: 5,
+    id: "beijo-estrelado",
     title: "Beijo Estrelado",
     image: beijoEstreladoPoster,
     genre: "Drama, Romance",
@@ -110,7 +110,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     romanticQuote: 'Sob as estrelas de 1986, duas almas se encontraram para sempre!'
   },
   {
-    id: 6,
+    id: "amor-em-alta-velocidade",
     title: "Amor em Alta Velocidade",
     image: amoremaltavelocidadePoster,
     genre: "Romance, Animação",
@@ -130,7 +130,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     romanticQuote: 'Na praia encontramos nossa conexão mais pura. Cada caminhada na areia, cada pôr do sol contemplado ao seu lado me lembra como somos sortudos por termos encontrado um ao outro neste universo imenso.'
   },
   {
-    id: 7,
+    id: "troca-troca-juridico",
     title: "Troca Troca Juridico",
     image: trocaTrocaJuridicoPoster,
     genre: "Comédia, Família",
@@ -149,7 +149,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     romanticQuote: 'Até nas brigas mais inocentes, o amor sempre encontra um jeito de fazer as pazes!'
   },
   {
-    id: 8,
+    id: "motim-estelar",
     title: "Motim Estelar",
     image: motimEstelarPoster,
     genre: "Drama Musical, Biografia",
@@ -162,7 +162,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     romanticQuote: 'Com coragem, determinação e muito talento, Sofia superou todos os obstáculos para se tornar uma das maiores referências da música alternativa.'
   },
   {
-    id: 9,
+    id: "amor-em-cascata",
     title: "Amor em Cascata",
     image: amorEmCascataPoster,
     genre: "Comédia Romântica",
@@ -177,7 +177,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
   // EXEMPLO: Novo filme que será adicionado no futuro
   // Este filme não tem configuração específica no MovieModal, mas funcionará automaticamente!
   {
-    id: 10,
+    id: "aventura-estelar",
     title: "Aventura Estelar",
     image: amorEmCascataPoster, // Usando imagem existente como placeholder
     genre: "Ação, Aventura, Romance",
@@ -239,7 +239,7 @@ export const MOVIES: Movie[] = MOVIES_DATA.map(movie => ({
 
 // Filme especial (mantido separado como estava)
 export const AMOR_EM_CASCATA_MOVIE: Movie = {
-  id: 9,
+  id: "amor-em-cascata",
   title: "Amor em Cascata",
   image: amorEmCascataPoster,
   genre: "Comédia Romântica",

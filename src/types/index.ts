@@ -1,6 +1,6 @@
 // Tipos principais da aplicação
 export interface Movie {
-  id: number;
+  id: string;
   title: string;
   image: string;
   genre: string;
@@ -22,6 +22,19 @@ export interface TimeElapsed {
 }
 
 export type PageType = 'home' | 'series' | 'movies' | 'mylist';
+
+export interface MovieCategory {
+  id: string;
+  title: string;
+  description?: string;
+  movieIds: string[];
+  displayOrder: number;
+  isActive: boolean;
+}
+
+export interface CategoryConfig {
+  categories: MovieCategory[];
+}
 export type UserType = 'sofia' | 'admin' | null;
 
 export interface AppState {

@@ -5,7 +5,6 @@ import {
   MobileMenu, 
   BannedGenresModal,
   MovieSections,
-  NetflixCategories,
   MovieModal,
   AdminDashboard,
   MyList,
@@ -93,11 +92,6 @@ function App() {
       <MovieSections
         movies={MOVIES}
         onMovieClick={setSelectedMovie}
-      />
-
-      <NetflixCategories 
-        movies={MOVIES} 
-        onMovieClick={setSelectedMovie} 
       />
 
       <MobileMenu

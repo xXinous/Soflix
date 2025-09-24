@@ -4,7 +4,7 @@ import { ImageWithFallback } from '@/components/common/figma/ImageWithFallback';
 
 // Tipos para informações detalhadas dos filmes
 export interface MovieDetails {
-  id: number;
+  id: string;
   title: string;
   image: string;
   genre: string;

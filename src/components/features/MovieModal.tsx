@@ -11,10 +11,6 @@ interface MovieModalProps {
   onClose: () => void;
 }
 
-// ============================================================================
-// TEMPLATE PURO - APENAS CONSUME DADOS DO MOVIES.TS
-// ============================================================================
-
 // Função para gerar fotos especiais baseada APENAS nos dados do filme
 const generateSpecialPhotos = (movie: Movie) => {
   if (!movie.specialPhotos || movie.specialPhotos.length === 0) {
@@ -90,7 +86,7 @@ export function MovieModal({ movie, onClose }: MovieModalProps) {
 
   return (
     <MovieModalUI
-      movieDetails={movieDetails}
+      movieDetails={movieDetails as any}
       specialContent={renderSpecialContent()}
       onClose={onClose}
       onPlay={handlePlay}

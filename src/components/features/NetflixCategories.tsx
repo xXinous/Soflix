@@ -1,15 +1,10 @@
-import { AMOR_EM_CASCATA_MOVIE } from '@/constants/movies';
-import { NetflixCategoriesUI } from '@/components/ui/netflix-categories-ui';
+// DEPRECATED: Este componente não é mais usado
+// Todo o gerenciamento de seções agora está centralizado em movie-sections-ui.tsx
+// 
+// Para gerenciar seções/categorias, edite o arquivo:
+// src/components/ui/movie-sections-ui.tsx
 
-interface Movie {
-  id: number;
-  title: string;
-  image: string;
-  genre: string;
-  romanticDescription: string;
-  year: number;
-  rating: string;
-}
+import { Movie } from '@/types';
 
 interface NetflixCategoriesProps {
   movies: Movie[];
@@ -17,18 +12,15 @@ interface NetflixCategoriesProps {
 }
 
 export function NetflixCategories({ movies, onMovieClick }: NetflixCategoriesProps) {
-  // Lógica para criar categorias
-  const categories = [
-    {
-      title: "Baseado em uma história real: A nossa",
-      movies: [AMOR_EM_CASCATA_MOVIE, ...movies.slice(3, 6)]
-    }
-  ];
-
+  // Componente desabilitado - use MovieSections em vez disso
   return (
-    <NetflixCategoriesUI
-      categories={categories}
-      onMovieClick={onMovieClick}
-    />
+    <div className="p-8 text-center">
+      <h2 className="text-xl text-gray-400 mb-4">
+        Seções movidas para o sistema centralizado
+      </h2>
+      <p className="text-gray-500">
+        Todas as seções agora são gerenciadas em <code className="bg-gray-800 px-2 py-1 rounded">movie-sections-ui.tsx</code>
+      </p>
+    </div>
   );
 }

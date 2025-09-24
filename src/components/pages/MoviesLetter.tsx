@@ -1,4 +1,3 @@
-import React from 'react';
 import { ArrowLeft, Heart, Play } from 'lucide-react';
 
 interface MoviesLetterProps {
