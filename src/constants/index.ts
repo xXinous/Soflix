@@ -33,12 +33,3 @@ export const BREAKPOINTS = {
   XL: 1280,
 } as const;
 
-// Exportações das categorias de filmes
-export { 
-  MOVIE_CATEGORIES, 
-  getMoviesFromCategory, 
-  getActiveCategories, 
-  getCategoryById, 
-  isMovieInCategory, 
-  getCategoriesForMovie 
-} from './categories';
