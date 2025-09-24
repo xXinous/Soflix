@@ -20,7 +20,7 @@ const MOVIE_SECTIONS: MovieSection[] = [
   {
     id: 'continuar-assistindo',
     title: 'Continue assistindo nossa história',
-    movieIds: ["the-pijama-dreamer", "casal-aranha-teia-do-julgamento", "roupa-preta-coracao-azul"],
+    movieIds: ["amor-em-cascata"],
     gridLayout: 'continue', // ÚNICO layout horizontal (aspect-video)
     maxItems: 3
   },

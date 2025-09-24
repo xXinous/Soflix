@@ -60,10 +60,6 @@ export interface AdminDashboardProps {
   onBack: () => void;
 }
 
-export interface NetflixCategoriesProps {
-  movies: Movie[];
-  onMovieClick: (movie: Movie) => void;
-}
 
 // Props para páginas
 export interface PageProps {
