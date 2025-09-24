@@ -20,7 +20,7 @@ const MOVIE_SECTIONS: MovieSection[] = [
   {
     id: 'continuar-assistindo',
     title: 'Continue assistindo nossa história',
-    movieIds: ["amor-em-cascata"],
+    movieIds: ["amor-em-cascata", "flip-fever"],
     gridLayout: 'continue', // ÚNICO layout horizontal (aspect-video)
     maxItems: 3
   },
@@ -227,7 +227,7 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
       <section>
         <h3 className="text-lg sm:text-xl mb-3 sm:mb-4">Baseado em uma história real: A nossa</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-          {getMoviesFromSection('baseado-em-historia-real', allMovies).map((movie, index) => (
+          {getMoviesFromSection('baseado-em-historia-real', allMovies).map((movie) => (
             <div
               key={`real-${movie.id}`}
               className="group cursor-pointer transform hover:scale-105 transition-all duration-300"
@@ -261,7 +261,7 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
       <section>
         <h3 className="text-lg sm:text-xl mb-3 sm:mb-4">Romances emocionantes</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-          {getMoviesFromSection('romances-emocionantes', allMovies).map((movie, index) => (
+          {getMoviesFromSection('romances-emocionantes', allMovies).map((movie) => (
             <div
               key={`romance-${movie.id}`}
               className="group cursor-pointer transform hover:scale-105 transition-all duration-300"

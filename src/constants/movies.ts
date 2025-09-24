@@ -5,6 +5,7 @@ import thePijamaDreamerPhoto1 from '@/assets/the-pijama-dreamer/photo1.jpg';
 import thePijamaDreamerPhoto2 from '@/assets/the-pijama-dreamer/photo2.jpg';
 import thePijamaDreamerPhoto3 from '@/assets/the-pijama-dreamer/photo3.jpg';
 import beijoEstreladoPoster from '@/assets/beijo-estrelado/poster.png';
+import flipFeverPoster from '@/assets/flip-fever/poster.png';
 import casalAranhaPoster from '@/assets/casal-aranha-teia-do-julgamento/poster.png';
 import casalAranhaPhoto1 from '@/assets/casal-aranha-teia-do-julgamento/photo1.png';
 import casalAranhaPhoto2 from '@/assets/casal-aranha-teia-do-julgamento/photo2.png';
@@ -174,8 +175,19 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     tags: ['Hilário', 'Imprevisível', 'Mágico', 'Inquebrável'],
     romanticQuote: 'Almas gêmeas predestinadas... ou assim pensam. A cada semana, o universo parece ter um senso de humor peculiar!'
   },
-  // EXEMPLO: Novo filme que será adicionado no futuro
-  // Este filme não tem configuração específica no MovieModal, mas funcionará automaticamente!
+  {
+    id: "flip-fever",
+    title: "Flip Fever",
+    image: flipFeverPoster,
+    genre: "Comédia Romântica",
+    romanticDescription: "Almas gêmeas predestinadas... ou assim pensam. A cada semana, o universo parece ter um senso de humor peculiar, jogando desafios cômicos e completamente imprevisíveis em seu caminho. De desastres culinários envolvendo polvos gigantes a encontros românticos interrompidos por viagens no tempo e armaduras medievais em pleno metrô, nada é 'normal' para este casal. Mas, apesar de meteoros, filhotes adoráveis com poderes magnéticos e unicórnios, o amor de Mia e Leo é tão inquebrável quanto hilário. Será que eles conseguirão superar o próximo obstáculo impossível e, finalmente, ter um momento de paz... ou o universo sempre terá uma nova surpresa na manga? Uma comédia romântica que prova que, quando o amor é verdadeiro, nem um apocalipse zumbi (quase!) pode atrapalhar.",
+    year: 2025,
+    rating: "10★",
+    duration: 'Uma cascata infinita de amor',
+    classification: 'L - Livre para amar em cascata',
+    tags: ['Hilário', 'Imprevisível', 'Mágico', 'Inquebrável'],
+    romanticQuote: 'Almas gêmeas predestinadas... ou assim pensam. A cada semana, o universo parece ter um senso de humor peculiar!'
+  },
   {
     id: "aventura-estelar",
     title: "Aventura Estelar",
