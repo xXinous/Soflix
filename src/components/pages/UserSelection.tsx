@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { UserSelectionUI } from '@/components/ui/user-selection-ui';
 import { getDeviceInfo, getUserIP, generateSessionId } from '@/utils/deviceInfo';
+import { verifyAdminPassword } from '@/utils/auth';
 
 interface UserSelectionProps {
   onUserSelect: (userType: 'sofia' | 'admin') => void;
@@ -12,30 +13,37 @@ export function UserSelection({ onUserSelect }: UserSelectionProps) {
   const [error, setError] = useState('');
 
   const handleAdminLogin = async () => {
-    if (adminPassword === '179598') {
-      // Salvar acesso do admin
-      const deviceInfo = getDeviceInfo();
-      const userIP = await getUserIP();
-      const sessionId = generateSessionId();
-      
-      const currentTime = new Date().toISOString();
-      const adminVisits = JSON.parse(localStorage.getItem('soflix_admin_visits') || '[]');
-      
-      adminVisits.push({
-        sessionId,
-        timestamp: currentTime,
-        type: 'admin_access',
-        userIP,
-        deviceInfo,
-        userAgent: navigator.userAgent,
-        location: window.location.href
-      });
-      
-      localStorage.setItem('soflix_admin_visits', JSON.stringify(adminVisits));
-      
-      onUserSelect('admin');
-    } else {
-      setError('Senha incorreta');
+    try {
+      // Verificar senha usando hash seguro
+      if (verifyAdminPassword(adminPassword)) {
+        // Salvar acesso do admin
+        const deviceInfo = getDeviceInfo();
+        const userIP = await getUserIP();
+        const sessionId = generateSessionId();
+        
+        const currentTime = new Date().toISOString();
+        const adminVisits = JSON.parse(localStorage.getItem('soflix_admin_visits') || '[]');
+        
+        adminVisits.push({
+          sessionId,
+          timestamp: currentTime,
+          type: 'admin_access',
+          userIP,
+          deviceInfo,
+          userAgent: navigator.userAgent,
+          location: window.location.href
+        });
+        
+        localStorage.setItem('soflix_admin_visits', JSON.stringify(adminVisits));
+        
+        onUserSelect('admin');
+      } else {
+        setError('Senha incorreta');
+        setTimeout(() => setError(''), 3000);
+      }
+    } catch (error) {
+      console.error('Erro na autenticação:', error);
+      setError('Erro interno. Tente novamente.');
       setTimeout(() => setError(''), 3000);
     }
   };

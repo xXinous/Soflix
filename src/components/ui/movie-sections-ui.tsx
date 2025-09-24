@@ -20,7 +20,7 @@ const MOVIE_SECTIONS: MovieSection[] = [
   {
     id: 'continuar-assistindo',
     title: 'Continue assistindo nossa história',
-    movieIds: ["amor-em-cascata", "flip-fever"],
+    movieIds: ["amor-em-cascata", "flip-fever", "o-segredo-da-arvore-magica"],
     gridLayout: 'continue', // ÚNICO layout horizontal (aspect-video)
     maxItems: 3
   },

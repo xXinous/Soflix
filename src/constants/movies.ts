@@ -4,8 +4,18 @@ import thePijamaDreamerPoster from '@/assets/the-pijama-dreamer/poster.png';
 import thePijamaDreamerPhoto1 from '@/assets/the-pijama-dreamer/photo1.jpg';
 import thePijamaDreamerPhoto2 from '@/assets/the-pijama-dreamer/photo2.jpg';
 import thePijamaDreamerPhoto3 from '@/assets/the-pijama-dreamer/photo3.jpg';
+import oSegredoDaArvoreMagicaPoster from '@/assets/o-segredo-da-arvore-magica/poster.png';
+import oSegredoDaArvoreMagicaPhoto1 from '@/assets/o-segredo-da-arvore-magica/photo1.jpg';
+import oSegredoDaArvoreMagicaPhoto2 from '@/assets/o-segredo-da-arvore-magica/photo2.jpg';
+import oSegredoDaArvoreMagicaPhoto3 from '@/assets/o-segredo-da-arvore-magica/photo3.jpg';
 import beijoEstreladoPoster from '@/assets/beijo-estrelado/poster.png';
+import beijoEstreladoPhoto1 from '@/assets/beijo-estrelado/photo1.jpg';
+import beijoEstreladoPhoto2 from '@/assets/beijo-estrelado/photo2.jpg';
+import beijoEstreladoPhoto3 from '@/assets/beijo-estrelado/photo3.jpg';
 import flipFeverPoster from '@/assets/flip-fever/poster.png';
+import flipFeverPhoto1 from '@/assets/flip-fever/photo1.jpg';
+import flipFeverPhoto2 from '@/assets/flip-fever/photo2.jpg';
+import flipFeverPhoto3 from '@/assets/flip-fever/photo3.jpg';
 import casalAranhaPoster from '@/assets/casal-aranha-teia-do-julgamento/poster.png';
 import casalAranhaPhoto1 from '@/assets/casal-aranha-teia-do-julgamento/photo1.png';
 import casalAranhaPhoto2 from '@/assets/casal-aranha-teia-do-julgamento/photo2.png';
@@ -105,6 +115,12 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     romanticDescription: "Em um verão inesquecível de 1986, sob as luzes neon de uma cidade vibrante e as estrelas que prometem segredos, duas almas se encontram por acaso. Uma noite. Um olhar. Uma conexão que desafia o tempo.",
     year: 2025,
     rating: "10★",
+    specialPhotos: [beijoEstreladoPhoto1, beijoEstreladoPhoto2, beijoEstreladoPhoto3],
+    specialPhotoCaptions: [
+      'A gente não estava nada sobrio, mas eu queria muito te beijar',
+      'Você me deu o cargo de Segurança do Banheiro',
+      'Ao menos o beijo me fez me sentir nas estrelas'
+    ],
     duration: 'Uma noite sob as estrelas',
     classification: 'L - Livre para beijar as estrelas',
     tags: ['Nostálgico', 'Romântico', 'Épico', 'Inesquecível'],
@@ -179,24 +195,30 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     id: "flip-fever",
     title: "Flip Fever",
     image: flipFeverPoster,
-    genre: "Comédia Romântica",
-    romanticDescription: "Almas gêmeas predestinadas... ou assim pensam. A cada semana, o universo parece ter um senso de humor peculiar, jogando desafios cômicos e completamente imprevisíveis em seu caminho. De desastres culinários envolvendo polvos gigantes a encontros românticos interrompidos por viagens no tempo e armaduras medievais em pleno metrô, nada é 'normal' para este casal. Mas, apesar de meteoros, filhotes adoráveis com poderes magnéticos e unicórnios, o amor de Mia e Leo é tão inquebrável quanto hilário. Será que eles conseguirão superar o próximo obstáculo impossível e, finalmente, ter um momento de paz... ou o universo sempre terá uma nova surpresa na manga? Uma comédia romântica que prova que, quando o amor é verdadeiro, nem um apocalipse zumbi (quase!) pode atrapalhar.",
-    year: 2025,
+    genre: "Aventura, Comédia, Romance",
+    romanticDescription: "Depois de um date acabando mais cedo no parque, foi muito divertido a ida na HotZone, alem de jogarmos e nos divertimos bastante, compramos roupas novas que ficaram muito bem em mim, graças a você me ajudando, alem do meu primeiro site sendo feito pra ti, um presente que levei algumas semanas pra fazer e entregar pra voce encheu meu coração, você ficou com os olhos cheios de lagrimas emocionada e sem saber o que falar me enchei de beijos, eu consegui entender exatamente o que você estava queria dizer com cada um deles ",
     rating: "10★",
-    duration: 'Uma cascata infinita de amor',
-    classification: 'L - Livre para amar em cascata',
+    year: 2025,
+    specialPhotos: [flipFeverPhoto1, flipFeverPhoto2, flipFeverPhoto3],
+    specialPhotoCaptions: [
+      'Nosso dia no flip foi incrivel, não sabia das suas habilidades no pinball',
+      'Conseguimos varios pontos e finalizamos com um sushi',
+      'Mas a maior pontuação foi quando você viu meu presente no celular e ficou com os olhos cheios de lagrimas emocionada '
+    ],
+    duration: 'Para sempre',
+    classification: 'L - Livre para amar',
     tags: ['Hilário', 'Imprevisível', 'Mágico', 'Inquebrável'],
-    romanticQuote: 'Almas gêmeas predestinadas... ou assim pensam. A cada semana, o universo parece ter um senso de humor peculiar!'
+    romanticQuote: 'Nenhum dos premios é melhor do que estar nos seus braços'
   },
   {
-    id: "aventura-estelar",
-    title: "Aventura Estelar",
-    image: amorEmCascataPoster, // Usando imagem existente como placeholder
+    id: "o-segredo-da-arvore-magica",
+    title: "O Segredo da Árvore Mágica",
+    image: oSegredoDaArvoreMagicaPoster, 
     genre: "Ação, Aventura, Romance",
     romanticDescription: "Uma aventura épica pelo espaço onde dois corações se encontram entre as estrelas. Uma história de amor que transcende galáxias e desafia as leis do universo.",
     year: 2025,
     rating: "10★",
-    specialPhotos: [amoremaltavelocidadePhoto1, amoremaltavelocidadePhoto2, amoremaltavelocidadePhoto3], // Usando fotos existentes como exemplo
+    specialPhotos: [oSegredoDaArvoreMagicaPhoto1, oSegredoDaArvoreMagicaPhoto2, oSegredoDaArvoreMagicaPhoto3], // Usando fotos existentes como exemplo
     specialPhotoCaptions: [
       'Nossa primeira aventura espacial juntos',
       'Entre as estrelas, encontramos nosso amor',
