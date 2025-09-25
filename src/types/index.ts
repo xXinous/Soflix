@@ -21,7 +21,7 @@ export interface TimeElapsed {
   seconds: number;
 }
 
-export type PageType = 'home' | 'series' | 'movies' | 'mylist';
+export type PageType = 'home' | 'series' | 'movies' | 'mylist' | 'game';
 
 export interface MovieCategory {
   id: string;

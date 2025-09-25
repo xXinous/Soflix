@@ -11,6 +11,7 @@ import {
   MoviesLetter,
   SeriesLetter,
   UserSelection,
+  GamePage,
   Footer
 } from '@/components';
 import { useTimer, useMobileMenu } from '@/hooks';
@@ -70,6 +71,10 @@ function App() {
 
   if (currentPage === 'mylist') {
     return <MyList onBack={() => setCurrentPage('home')} />;
+  }
+
+  if (currentPage === 'game') {
+    return <GamePage onBack={() => setCurrentPage('home')} />;
   }
 
   return (

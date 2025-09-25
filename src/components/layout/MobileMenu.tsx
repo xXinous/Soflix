@@ -74,6 +74,14 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
           </button>
           
           <button 
+            onClick={() => onPageNavigation('game')}
+            className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors ${currentPage === 'game' ? 'text-white bg-gray-800' : 'text-gray-300'}`}
+            type="button"
+          >
+            <span>🎮 GAME!</span>
+          </button>
+          
+          <button 
             onClick={onBannedGenres}
             className="w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors text-gray-300"
             type="button"

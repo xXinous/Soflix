@@ -66,6 +66,13 @@ export const HeaderUI: React.FC<HeaderUIProps> = ({
             Minha Lista
           </button>
           <button 
+            onClick={() => onPageNavigation('game')}
+            className={`hover:text-gray-300 transition-colors text-sm lg:text-base ${currentPage === 'game' ? 'text-white' : 'text-gray-400'}`}
+            type="button"
+          >
+            🎮 GAME!
+          </button>
+          <button 
             onClick={onBannedGenres}
             className="hover:text-gray-300 flex items-center space-x-1 text-gray-400 text-sm lg:text-base"
             type="button"
