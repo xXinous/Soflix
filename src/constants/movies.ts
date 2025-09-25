@@ -26,12 +26,19 @@ import trocaTrocaJuridicoPhoto2 from '@/assets/troca-troca-juridico/photo2.jpg';
 import trocaTrocaJuridicoPhoto3 from '@/assets/troca-troca-juridico/photo3.jpg';
 import roupaPretaCoracaoAzulPoster from '@/assets/roupa-preta-coracao-azul/poster.png';
 import dilemaDoAmorPoster from '@/assets/dilema-do-amor/poster.png';
+import pressagioPoster from '@/assets/pressagio/poster.png';  
+import pressagioPhoto1 from '@/assets/pressagio/photo1.jpg';
+import pressagioPhoto2 from '@/assets/pressagio/photo2.jpg';
+import pressagioPhoto3 from '@/assets/pressagio/photo3.jpg';
 import amoremaltavelocidadePoster from '@/assets/amor-em-alta-velocidade/poster.png';
 import amoremaltavelocidadePhoto1 from '@/assets/amor-em-alta-velocidade/photo1.png';
 import amoremaltavelocidadePhoto2 from '@/assets/amor-em-alta-velocidade/photo2.jpg';
 import amoremaltavelocidadePhoto3 from '@/assets/amor-em-alta-velocidade/photo3.png';
 import amorEmCascataPoster from '@/assets/amor-em-cascata/poster.png';
 import motimEstelarPoster from '@/assets/motim-estelar/poster.png';
+import motimEstelarPhoto1 from '@/assets/motim-estelar/photo1.jpg';
+import motimEstelarPhoto2 from '@/assets/motim-estelar/photo2.jpg';
+import motimEstelarPhoto3 from '@/assets/motim-estelar/photo3.jpg';
 
 export interface MovieWithDetails extends Movie {
   duration: string;
@@ -170,13 +177,19 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     title: "Motim Estelar",
     image: motimEstelarPoster,
     genre: "Drama Musical, Biografia",
-    romanticDescription: "A inspiradora jornada de Sofia, uma jovem apaixonada por música que transformou seus sonhos em realidade. Desde as primeiras notas em uma guitarra emprestada até os palcos mais famosos do mundo, 'Motim Estelar' conta a emocionante biografia de uma estrela do rock emo que nunca desistiu de seus ideais. Com coragem, determinação e muito talento, Sofia superou todos os obstáculos para se tornar uma das maiores referências da música alternativa. Uma história de paixão, luta e triunfo que prova que os sonhos podem se tornar realidade quando você tem a coragem de lutar por eles.",
+    romanticDescription: "Como uma gata preta, seu lado emo rockeira quase não aparece por mais que tenha todo o espirito de uma rockstar. A rebeldia, a raiva, a vontade de reclamar e a rotina noturna, são os detalhes em ti que te fazem ser a lider de uma banda de rock, entao deixe esse seu lado explosivo e rebelde se manifestar, seja essa explosão de garota que tem dentro de ti e não deixe os sentimentos ficarem dentro de ti.",
     year: 2025,
     rating: "10★",
+    specialPhotos: [motimEstelarPhoto1, motimEstelarPhoto2, motimEstelarPhoto3],
+    specialPhotoCaptions: [
+      'A gata preta que te faz ser a lider de uma banda de rock',
+      'A gata preta que te faz ser a lider de uma banda de rock',
+      'A gata preta que te faz ser a lider de uma banda de rock'
+    ],
     duration: 'Uma biografia musical do coração',
     classification: 'L - Livre para fazer música do amor',
     tags: ['Inspirador', 'Musical', 'Corajoso', 'Estrela'],
-    romanticQuote: 'Com coragem, determinação e muito talento, Sofia superou todos os obstáculos para se tornar uma das maiores referências da música alternativa.'
+    romanticQuote: 'Minha Arabella.'
   },
   {
     id: "amor-em-cascata",
@@ -209,6 +222,25 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     classification: 'L - Livre para amar',
     tags: ['Hilário', 'Imprevisível', 'Mágico', 'Inquebrável'],
     romanticQuote: 'Nenhum dos premios é melhor do que estar nos seus braços'
+  },
+  {
+    id: "pressagio",
+    title: "Pressagio",
+    image: pressagioPoster,
+    genre: "Terror, Suspense",
+    romanticDescription: "Uma história de amor que transcende galáxias e desafia as leis do universo.",
+    year: 2025,
+    rating: "10★",
+    specialPhotos: [pressagioPhoto1, pressagioPhoto2, pressagioPhoto3],
+    specialPhotoCaptions: [
+      'Nossa primeira aventura espacial juntos',
+      'Entre as estrelas, encontramos nosso amor',
+      'Uma jornada que transcende galáxias'
+    ],
+    duration: 'Uma jornada infinita pelo espaço',
+    classification: 'L - Livre para explorar o amor',
+    tags: ['Épico', 'Aventura', 'Romântico', 'Espacial'],
+    romanticQuote: 'Entre as estrelas, encontramos nosso amor infinito!'
   },
   {
     id: "o-segredo-da-arvore-magica",

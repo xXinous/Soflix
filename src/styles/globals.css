@@ -292,3 +292,59 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-gray-500);
 }
+
+/* Utilitário para esconder scrollbar */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Esconder scrollbar vertical globalmente */
+::-webkit-scrollbar:vertical {
+  display: none;
+}
+
+/* Manter scrollbar horizontal visível apenas quando necessário */
+::-webkit-scrollbar:horizontal {
+  height: 4px;
+}
+
+::-webkit-scrollbar-track:horizontal {
+  background: var(--color-gray-800);
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background: var(--color-gray-600);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:horizontal:hover {
+  background: var(--color-gray-500);
+}
+
+/* Estilos específicos para carrossel */
+.carousel-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gray-600) var(--color-gray-800);
+}
+
+.carousel-container::-webkit-scrollbar {
+  height: 4px;
+}
+
+.carousel-container::-webkit-scrollbar-track {
+  background: var(--color-gray-800);
+}
+
+.carousel-container::-webkit-scrollbar-thumb {
+  background: var(--color-gray-600);
+  border-radius: 2px;
+}
+
+.carousel-container::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-500);
+}
