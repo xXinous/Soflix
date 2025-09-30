@@ -17,20 +17,30 @@ import {
 import { useTimer, useMobileMenu } from '@/hooks';
 import { MOVIES, AMOR_EM_CASCATA_MOVIE } from '@/constants/movies';
 import { PageType, UserType, Movie } from '@/types';
+import { useToast, ToastContainer } from '@/components/ui/toast';
+import { LoadingOverlay } from '@/components/ui/loading-spinner';
 
 function App() {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [showBannedGenres, setShowBannedGenres] = useState(false);
   const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [currentUser, setCurrentUser] = useState<UserType>(null);
+  const [isLoading, setIsLoading] = useState(false);
   
   const timeElapsed = useTimer();
   const { showMobileMenu, closeMobileMenu, toggleMobileMenu } = useMobileMenu();
+  const { toasts, removeToast, showSuccess, showError } = useToast();
 
   // Handler para navegação das páginas
   const handlePageNavigation = useCallback((page: PageType) => {
+    setIsLoading(true);
     setCurrentPage(page);
     closeMobileMenu();
+    
+    // Simular loading sem mostrar toast
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
   }, [closeMobileMenu]);
 
   // Handler para trocar usuário
@@ -79,48 +89,59 @@ function App() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      <Header
-        currentPage={currentPage}
-        onPageNavigation={handlePageNavigation}
-        onBannedGenres={handleBannedGenres}
-        onToggleMobileMenu={toggleMobileMenu}
-        showMobileMenu={showMobileMenu}
-        onUserChange={handleUserChange}
-        currentUser={currentUser}
-      />
-
-      <HeroSection
-        timeElapsed={timeElapsed}
-        onWatchAmorEmCascata={handleWatchAmorEmCascata}
-      />
-
-      <MovieSections
-        movies={MOVIES}
-        onMovieClick={setSelectedMovie}
-      />
-
-      <MobileMenu
-        showMobileMenu={showMobileMenu}
-        currentPage={currentPage}
-        onPageNavigation={handlePageNavigation}
-        onBannedGenres={handleBannedGenres}
-        onUserChange={handleUserChange}
-        onClose={closeMobileMenu}
-      />
-
-      <BannedGenresModal
-        show={showBannedGenres}
-        onClose={() => setShowBannedGenres(false)}
-      />
-
-      {selectedMovie && (
-        <MovieModal
-          movie={selectedMovie}
-          onClose={() => setSelectedMovie(null)}
+      <LoadingOverlay isLoading={isLoading} text="Carregando...">
+        <Header
+          currentPage={currentPage}
+          onPageNavigation={handlePageNavigation}
+          onBannedGenres={handleBannedGenres}
+          onToggleMobileMenu={toggleMobileMenu}
+          showMobileMenu={showMobileMenu}
+          onUserChange={handleUserChange}
+          currentUser={currentUser}
+          movies={MOVIES}
+          onMovieClick={setSelectedMovie}
         />
-      )}
 
-      <Footer />
+        <HeroSection
+          timeElapsed={timeElapsed}
+          onWatchAmorEmCascata={handleWatchAmorEmCascata}
+        />
+
+        <MovieSections
+          movies={MOVIES}
+          onMovieClick={setSelectedMovie}
+        />
+
+        <MobileMenu
+          showMobileMenu={showMobileMenu}
+          currentPage={currentPage}
+          onPageNavigation={handlePageNavigation}
+          onBannedGenres={handleBannedGenres}
+          onUserChange={handleUserChange}
+          onClose={closeMobileMenu}
+        />
+
+        <BannedGenresModal
+          show={showBannedGenres}
+          onClose={() => setShowBannedGenres(false)}
+        />
+
+        {selectedMovie && (
+          <MovieModal
+            movie={selectedMovie}
+            onClose={() => setSelectedMovie(null)}
+          />
+        )}
+
+        <Footer />
+      </LoadingOverlay>
+      
+      {/* Sistema de notificações toast */}
+      <ToastContainer
+        toasts={toasts}
+        onRemoveToast={removeToast}
+        position="top-right"
+      />
     </div>
   );
 }

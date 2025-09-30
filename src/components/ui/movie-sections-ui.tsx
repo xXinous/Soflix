@@ -100,11 +100,12 @@ const MovieItem: React.FC<MovieItemProps> = ({
   
   return (
     <div
-      className="group cursor-pointer transition-all duration-300"
+      className="group cursor-pointer transition-all duration-300 hover-lift focus-ring rounded-lg"
       onClick={() => onMovieClick(movie)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => onKeyDown(e, movie)}
+      aria-label={`Assistir ${movie.title}`}
     >
       <div className={`relative rounded-lg overflow-hidden bg-gray-800 ${aspectRatio} mb-2`}>
         <ImageWithFallback
@@ -173,24 +174,35 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
 }) => {
   // Obter filmes de cada seção usando a configuração centralizada
   const continueWatchingMovies = getMoviesFromSection('continuar-assistindo', allMovies);
-  const progressValues = [75, 45, 65]; // Valores de progresso para "Continue assistindo"
+  
+  // Função para gerar valores de progresso baseados no ID do filme
+  const getProgressValue = (movieId: string): number => {
+    const progressMap: Record<string, number> = {
+      "amor-em-cascata": 75,
+      "flip-fever": 45,
+      "o-segredo-da-arvore-magica": 65,
+      "pressagio": 30,
+    };
+    return progressMap[movieId] || 0;
+  };
   return (
     <div className="px-3 sm:px-4 py-4 sm:py-8 space-y-4 sm:space-y-12 relative z-10">
       {/* Continue assistindo */}
       <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Continue assistindo nossa história</h3>
         <Carousel 
           className="w-full"
           itemClassName="w-2/3 sm:w-1/3 min-w-0"
+          title="Continue assistindo nossa história"
+          showProgress={true}
         >
-          {continueWatchingMovies.map((movie, index) => (
+          {continueWatchingMovies.map((movie) => (
             <MovieItem
               key={`continue-${movie.id}`}
               movie={movie}
               onMovieClick={onMovieClick}
               onKeyDown={onKeyDown}
               variant="continue"
-              progressValue={progressValues[index]}
+              progressValue={getProgressValue(movie.id)}
             />
           ))}
         </Carousel>
@@ -198,10 +210,10 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
 
       {/* Por que você se apaixonou */}
       <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Por que você se apaixonou por: Sofia</h3>
         <Carousel 
           className="w-full"
           itemClassName="w-1/3 sm:w-1/5 min-w-0"
+          title="Por que você se apaixonou por: Sofia"
         >
           {getMoviesFromSection('porque-se-apaixonou-por-sofia', allMovies).map((movie) => (
             <MovieItem
@@ -217,10 +229,10 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
 
       {/* Talvez você goste */}
       <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Talvez você goste</h3>
         <Carousel 
           className="w-full"
           itemClassName="w-1/3 sm:w-1/5 min-w-0"
+          title="Talvez você goste"
         >
           {getMoviesFromSection('talvez-voce-goste', allMovies).map((movie) => (
             <MovieItem
@@ -236,10 +248,10 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
 
       {/* Top 10 do Marcelo */}
       <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Top 10 do Marcelo</h3>
         <Carousel 
           className="w-full"
           itemClassName="w-1/3 sm:w-1/5 min-w-0"
+          title="Top 10 do Marcelo"
         >
           {getMoviesFromSection('top-10-do-marcelo', allMovies).map((movie, index) => (
             <MovieItem
@@ -257,10 +269,10 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
 
       {/* Baseado em uma história real */}
       <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Baseado em uma história real: A nossa</h3>
         <Carousel 
           className="w-full"
           itemClassName="w-1/3 sm:w-1/5 min-w-0"
+          title="Baseado em uma história real: A nossa"
         >
           {getMoviesFromSection('baseado-em-historia-real', allMovies).map((movie) => (
             <MovieItem
@@ -279,10 +291,10 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
 
       {/* Romances emocionantes */}
       <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Romances emocionantes</h3>
         <Carousel 
           className="w-full"
           itemClassName="w-1/3 sm:w-1/5 min-w-0"
+          title="Romances emocionantes"
         >
           {getMoviesFromSection('romances-emocionantes', allMovies).map((movie) => (
             <MovieItem

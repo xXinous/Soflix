@@ -1,5 +1,9 @@
 import { PageType, UserType } from '@/types';
 import { HeaderUI } from '@/components/ui/header-ui';
+import { SearchModal } from '@/components/ui/search-modal';
+import { NotificationsPanel } from '@/components/ui/notifications-panel';
+import { useState } from 'react';
+import { Movie } from '@/types';
 
 interface HeaderProps {
   currentPage: PageType;
@@ -9,6 +13,8 @@ interface HeaderProps {
   showMobileMenu: boolean;
   onUserChange: () => void;
   currentUser: UserType;
+  movies: Movie[];
+  onMovieClick: (movie: Movie) => void;
 }
 
 export const Header = ({
@@ -19,29 +25,46 @@ export const Header = ({
   showMobileMenu,
   onUserChange,
   currentUser,
+  movies,
+  onMovieClick,
 }: HeaderProps) => {
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+
   // Handlers para as ações do header
   const handleSearch = () => {
-    console.log('Buscar');
-    // TODO: Implementar lógica de busca
+    setShowSearchModal(true);
   };
 
   const handleNotifications = () => {
-    console.log('Notificações');
-    // TODO: Implementar lógica de notificações
+    setShowNotifications(true);
   };
 
   return (
-    <HeaderUI
-      currentPage={currentPage}
-      onPageNavigation={onPageNavigation}
-      onBannedGenres={onBannedGenres}
-      onToggleMobileMenu={onToggleMobileMenu}
-      showMobileMenu={showMobileMenu}
-      onUserChange={onUserChange}
-      currentUser={currentUser}
-      onSearch={handleSearch}
-      onNotifications={handleNotifications}
-    />
+    <>
+      <HeaderUI
+        currentPage={currentPage}
+        onPageNavigation={onPageNavigation}
+        onBannedGenres={onBannedGenres}
+        onToggleMobileMenu={onToggleMobileMenu}
+        showMobileMenu={showMobileMenu}
+        onUserChange={onUserChange}
+        currentUser={currentUser}
+        onSearch={handleSearch}
+        onNotifications={handleNotifications}
+      />
+      
+      <SearchModal
+        isOpen={showSearchModal}
+        onClose={() => setShowSearchModal(false)}
+        movies={movies}
+        onMovieClick={onMovieClick}
+      />
+      
+      <NotificationsPanel
+        isOpen={showNotifications}
+        onClose={() => setShowNotifications(false)}
+      />
+    </>
   );
 };

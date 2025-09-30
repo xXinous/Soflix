@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { UserSelectionUI } from '@/components/ui/user-selection-ui';
-import { getDeviceInfo, getUserIP, generateSessionId } from '@/utils/deviceInfo';
+import { getDeviceInfoAsync, getUserIP, generateSessionId } from '@/utils/deviceInfo';
 import { verifyAdminPassword } from '@/utils/auth';
 
 interface UserSelectionProps {
@@ -17,7 +17,7 @@ export function UserSelection({ onUserSelect }: UserSelectionProps) {
       // Verificar senha usando hash seguro
       if (verifyAdminPassword(adminPassword)) {
         // Salvar acesso do admin
-        const deviceInfo = getDeviceInfo();
+        const deviceInfo = await getDeviceInfoAsync();
         const userIP = await getUserIP();
         const sessionId = generateSessionId();
         
@@ -50,7 +50,7 @@ export function UserSelection({ onUserSelect }: UserSelectionProps) {
 
   const handleSofiaSelect = async () => {
     // Salvar acesso da Sofia
-    const deviceInfo = getDeviceInfo();
+    const deviceInfo = await getDeviceInfoAsync();
     const userIP = await getUserIP();
     const sessionId = generateSessionId();
     

@@ -19,6 +19,7 @@ interface Visit {
 interface UserStats {
   ip: string;
   deviceName: string;
+  realDeviceName?: string;
   totalAccesses: number;
   firstAccess: string;
   lastAccess: string;
@@ -60,6 +61,7 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
         userMap.set(key, {
           ip: visit.userIP,
           deviceName: visit.deviceInfo?.deviceName || 'Dispositivo Desconhecido',
+          realDeviceName: visit.deviceInfo?.realDeviceName,
           totalAccesses: 0,
           firstAccess: visit.timestamp,
           lastAccess: visit.timestamp,
@@ -275,7 +277,12 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                       {getDeviceIcon(user.visits[0]?.deviceInfo?.deviceType || 'desktop')}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium truncate">{user.deviceName}</p>
+                      <p className="text-sm font-medium truncate">
+                        {user.realDeviceName || user.deviceName}
+                      </p>
+                      {user.realDeviceName && user.realDeviceName !== user.deviceName && (
+                        <p className="text-xs text-gray-500 truncate">{user.deviceName}</p>
+                      )}
                       <div className="flex items-center space-x-2 text-xs text-gray-400">
                         <MapPin className="w-3 h-3" />
                         <span className="truncate">{user.ip}</span>
@@ -330,9 +337,16 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center space-x-2">
                         {getDeviceIcon(visit.deviceInfo?.deviceType || 'desktop')}
-                        <span className="text-sm font-medium truncate">
-                          {visit.deviceInfo?.deviceName || 'Dispositivo Desconhecido'}
-                        </span>
+                        <div className="min-w-0 flex-1">
+                          <span className="text-sm font-medium truncate block">
+                            {visit.deviceInfo?.realDeviceName || visit.deviceInfo?.deviceName || 'Dispositivo Desconhecido'}
+                          </span>
+                          {visit.deviceInfo?.realDeviceName && visit.deviceInfo?.realDeviceName !== visit.deviceInfo?.deviceName && (
+                            <span className="text-xs text-gray-500 truncate block">
+                              {visit.deviceInfo?.deviceName}
+                            </span>
+                          )}
+                        </div>
                         {visit.type === 'sofia_access' && <Heart className="w-3 h-3 text-pink-400" />}
                       </div>
                       <div className="flex items-center space-x-2 text-xs text-gray-400">
@@ -384,7 +398,12 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                   {getDeviceIcon(selectedUser.visits[0]?.deviceInfo?.deviceType || 'desktop')}
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold">{selectedUser.deviceName}</h2>
+                  <h2 className="text-xl font-bold">
+                    {selectedUser.realDeviceName || selectedUser.deviceName}
+                  </h2>
+                  {selectedUser.realDeviceName && selectedUser.realDeviceName !== selectedUser.deviceName && (
+                    <p className="text-sm text-gray-500">{selectedUser.deviceName}</p>
+                  )}
                   <p className="text-gray-400 flex items-center space-x-1">
                     <MapPin className="w-4 h-4" />
                     <span>{selectedUser.ip}</span>
@@ -429,6 +448,12 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                 <h3 className="text-lg font-bold mb-4">Informações do Dispositivo</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Nome do Dispositivo:</span>
+                      <span className="font-medium">
+                        {selectedUser.visits[0].deviceInfo.realDeviceName || 'Não detectado'}
+                      </span>
+                    </div>
                     <div className="flex justify-between">
                       <span className="text-gray-400">Sistema Operacional:</span>
                       <span className="font-medium">{selectedUser.visits[0].deviceInfo.os}</span>

@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ProgressBar } from './progress-bar';
 
 interface CarouselProps {
   children: React.ReactNode;
@@ -8,6 +9,8 @@ interface CarouselProps {
   showArrows?: boolean;
   autoScroll?: boolean;
   scrollStep?: number;
+  showProgress?: boolean;
+  title?: string;
 }
 
 export const Carousel: React.FC<CarouselProps> = ({
@@ -16,7 +19,9 @@ export const Carousel: React.FC<CarouselProps> = ({
   itemClassName = '',
   showArrows = true,
   autoScroll = false,
-  scrollStep = 300
+  scrollStep = 300,
+  showProgress = false,
+  title
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -24,8 +29,9 @@ export const Carousel: React.FC<CarouselProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Verificar se pode rolar para os lados
+  // Verificar se pode rolar para os lados e calcular progresso
   const checkScrollability = () => {
     if (!scrollContainerRef.current) return;
     
@@ -35,6 +41,13 @@ export const Carousel: React.FC<CarouselProps> = ({
     
     setCanScrollLeft(canScrollLeftValue);
     setCanScrollRight(canScrollRightValue);
+    
+    // Calcular progresso do scroll
+    if (showProgress) {
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      const progress = maxScroll > 0 ? (container.scrollLeft / maxScroll) * 100 : 0;
+      setScrollProgress(progress);
+    }
   };
 
   // Scroll para a esquerda
@@ -147,6 +160,12 @@ export const Carousel: React.FC<CarouselProps> = ({
 
   return (
     <div className={`relative group ${className}`} style={{ height: 'auto', minHeight: '200px' }}>
+      {/* Título da seção */}
+      {title && (
+        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4 text-white font-semibold">
+          {title}
+        </h3>
+      )}
       {/* Seta esquerda */}
       {showArrows && canScrollLeft && (
         <button
@@ -201,6 +220,18 @@ export const Carousel: React.FC<CarouselProps> = ({
         >
           <ChevronRight className="w-5 h-5" />
         </button>
+      )}
+      
+      {/* Barra de progresso do scroll */}
+      {showProgress && (
+        <div className="mt-2">
+          <ProgressBar
+            value={scrollProgress}
+            size="sm"
+            color="red"
+            className="w-full"
+          />
+        </div>
       )}
     </div>
   );
