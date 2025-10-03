@@ -27,8 +27,8 @@ export const UserSelectionUI: React.FC<UserSelectionUIProps> = ({
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="max-w-md mx-auto p-8">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-red-500 mb-4">ADMIN LOGIN</h1>
-            <p className="text-gray-300">Digite a senha de administrador</p>
+            <h1 className="text-4xl font-bold text-red-500 mb-4">MARCELO LOGIN</h1>
+            <p className="text-gray-300">Digite a senha</p>
           </div>
           
           <div className="space-y-4">
@@ -110,7 +110,7 @@ export const UserSelectionUI: React.FC<UserSelectionUIProps> = ({
                 </div>
               </div>
               <h3 className="text-sm md:text-lg font-semibold text-gray-300">
-                Admin
+                Marcelo
               </h3>
             </div>
           </div>

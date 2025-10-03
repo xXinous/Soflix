@@ -8,7 +8,6 @@ interface HeaderUIProps {
   onPageNavigation: (page: PageType) => void;
   onBannedGenres: () => void;
   onToggleMobileMenu: () => void;
-  showMobileMenu: boolean;
   onUserChange: () => void;
   currentUser: UserType;
   onSearch: () => void;
@@ -20,7 +19,6 @@ export const HeaderUI: React.FC<HeaderUIProps> = ({
   onPageNavigation,
   onBannedGenres,
   onToggleMobileMenu,
-  showMobileMenu,
   onUserChange,
   currentUser,
   onSearch,
@@ -104,7 +102,7 @@ export const HeaderUI: React.FC<HeaderUIProps> = ({
         <div className="hidden md:flex">
           <ProfileDropdown 
             onUserChange={onUserChange}
-            currentUser={currentUser as 'sofia' | 'admin'}
+            currentUser={currentUser}
           />
         </div>
       </div>

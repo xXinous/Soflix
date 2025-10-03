@@ -92,7 +92,7 @@ export function MoviesLetter({ onBack }: MoviesLetterProps) {
         {/* Footer romântico */}
         <div className="text-center mt-8 p-6 bg-gradient-to-r from-purple-600/10 to-pink-600/10 rounded-lg border border-pink-500/20">
           <p className="text-gray-300 italic">
-            "Cada filme que assistimos juntos é mais uma memória preciosa guardada no meu coração"
+            "Te ter do meu lado é como viver em um filme perfeito."
           </p>
         </div>
       </div>

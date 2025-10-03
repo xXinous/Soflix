@@ -1,5 +1,5 @@
 import { BANNED_GENRES } from '@/constants';
-import { BannedGenresModalUI } from '@/components/ui/banned-genres-modal-ui';
+import { BannedGenresModalUI } from '@/assets/banned-genres-modal-ui';
 
 interface BannedGenresModalProps {
   show: boolean;

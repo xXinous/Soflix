@@ -21,7 +21,7 @@ const MOVIE_SECTIONS: MovieSection[] = [
   {
     id: 'continuar-assistindo',
     title: 'Continue assistindo nossa história',
-    movieIds: ["amor-em-cascata", "flip-fever", "o-segredo-da-arvore-magica", "pressagio"],
+    movieIds: [ "flip-fever", "o-segredo-da-arvore-magica", "pressagio"],
     gridLayout: 'continue', // ÚNICO layout horizontal (aspect-video)
   },
   {
@@ -38,8 +38,8 @@ const MOVIE_SECTIONS: MovieSection[] = [
   },
   {
     id: 'top-10-do-marcelo',
-    title: 'Top 10 do Marcelo',
-    movieIds: ["the-pijama-dreamer", "motim-estelar", "amor-em-cascata", "beijo-estrelado", "dilema-do-amor"],
+    title: 'Top 5 do Marcelo',
+    movieIds: ["amor-em-alta-velocidade", "casal-aranha-teia-do-julgamento","the-pijama-dreamer", "amor-em-cascata", "beijo-estrelado", ],
     gridLayout: 'poster', // Layout retrato (aspect-[2/3])
   },
   {
@@ -61,7 +61,10 @@ const getMoviesFromSection = (sectionId: string, allMovies: Movie[]): Movie[] =>
   const section = MOVIE_SECTIONS.find(s => s.id === sectionId);
   if (!section) return [];
   
-  return allMovies.filter(movie => section.movieIds.includes(movie.id));
+  // Preservar a ordem definida no movieIds - facilita manutenção
+  return section.movieIds
+    .map(movieId => allMovies.find(movie => movie.id === movieId))
+    .filter((movie): movie is Movie => movie !== undefined);
 };
 
 interface MovieSectionsUIProps {
@@ -236,7 +239,7 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
 
       {/* Top 10 do Marcelo */}
       <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Top 10 do Marcelo</h3>
+        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Top 5 do Marcelo</h3>
         <Carousel 
           className="w-full"
           itemClassName="w-1/3 sm:w-1/5 min-w-0"

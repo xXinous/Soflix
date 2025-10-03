@@ -1,4 +1,3 @@
-import React from 'react';
 import { ArrowLeft, Heart, Play } from 'lucide-react';
 
 interface SeriesLetterProps {
@@ -93,7 +92,7 @@ export function SeriesLetter({ onBack }: SeriesLetterProps) {
         {/* Footer romântico */}
         <div className="text-center mt-8 p-6 bg-gradient-to-r from-red-600/10 to-pink-600/10 rounded-lg border border-red-500/20">
           <p className="text-gray-300 italic">
-            "Cada série que assistimos juntos é mais um capítulo da nossa história de amor"
+            "Ainda estamso na primeira temporada da nossa história."
           </p>
         </div>
       </div>

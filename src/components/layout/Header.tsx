@@ -37,7 +37,6 @@ export const Header = ({
       onPageNavigation={onPageNavigation}
       onBannedGenres={onBannedGenres}
       onToggleMobileMenu={onToggleMobileMenu}
-      showMobileMenu={showMobileMenu}
       onUserChange={onUserChange}
       currentUser={currentUser}
       onSearch={handleSearch}

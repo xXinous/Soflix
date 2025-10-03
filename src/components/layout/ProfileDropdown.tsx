@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { User, ChevronDown } from 'lucide-react';
+import { UserType } from '@/types';
 
 interface ProfileDropdownProps {
   onUserChange: () => void;
-  currentUser: 'sofia' | 'admin';
+  currentUser: UserType;
 }
 
 export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
@@ -33,11 +34,29 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   };
 
   const getUserDisplayName = () => {
-    return currentUser === 'sofia' ? 'Sofia' : 'Admin';
+    switch (currentUser) {
+      case 'sofia':
+        return 'Sofia';
+      case 'marcelo':
+        return 'Marcelo';
+      case 'admin':
+        return 'Admin';
+      default:
+        return 'Usuário';
+    }
   };
 
   const getUserInitial = () => {
-    return currentUser === 'sofia' ? 'S' : 'A';
+    switch (currentUser) {
+      case 'sofia':
+        return 'S';
+      case 'marcelo':
+        return 'M';
+      case 'admin':
+        return 'A';
+      default:
+        return 'U';
+    }
   };
 
   return (

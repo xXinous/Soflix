@@ -19,7 +19,7 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'esnext',
+    target: 'es2015',
     outDir: 'dist',
     sourcemap: 'hidden',
     rollupOptions: {
@@ -39,5 +39,8 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'lucide-react'],
+  },
+  esbuild: {
+    target: 'es2015',
   },
 });

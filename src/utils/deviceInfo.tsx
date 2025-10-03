@@ -1,4 +1,6 @@
-// Utilitário para detectar informações do dispositivo e navegador
+// Utilitário para detectar informações do dispositivo e navegador com validação de segurança
+
+import { sanitizeInput, validateDeviceInfo } from './encryption';
 
 export interface DeviceInfo {
   deviceType: 'mobile' | 'tablet' | 'desktop';
@@ -91,26 +93,70 @@ export function getDeviceInfo(): DeviceInfo {
     return 'Sistema Desconhecido';
   })();
 
-  return {
+  const deviceInfo: DeviceInfo = {
     deviceType,
-    deviceName,
-    browserName: browserInfo.name,
-    browserVersion: browserInfo.version,
-    os,
-    screenResolution: `${screen.width}x${screen.height}`,
-    language: navigator.language || 'pt-BR',
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    deviceName: sanitizeInput(deviceName),
+    browserName: sanitizeInput(browserInfo.name),
+    browserVersion: sanitizeInput(browserInfo.version),
+    os: sanitizeInput(os),
+    screenResolution: sanitizeInput(`${screen.width}x${screen.height}`),
+    language: sanitizeInput(navigator.language || 'pt-BR'),
+    timezone: sanitizeInput(Intl.DateTimeFormat().resolvedOptions().timeZone)
   };
+
+  // Validar dados antes de retornar
+  if (!validateDeviceInfo(deviceInfo)) {
+    console.warn('Dados de dispositivo inválidos detectados');
+    // Retornar dados seguros padrão
+    return {
+      deviceType: 'desktop',
+      deviceName: 'Dispositivo Desconhecido',
+      browserName: 'Navegador Desconhecido',
+      browserVersion: 'Unknown',
+      os: 'Sistema Desconhecido',
+      screenResolution: 'Unknown',
+      language: 'pt-BR',
+      timezone: 'UTC'
+    };
+  }
+
+  return deviceInfo;
 }
 
-// Função para obter IP (limitada no frontend, mas vamos tentar)
+// Função para obter IP com validação de segurança
 export async function getUserIP(): Promise<string> {
   try {
     // Usando um serviço gratuito para obter IP
-    const response = await fetch('https://api.ipify.org?format=json');
+    const response = await fetch('https://api.ipify.org?format=json', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      },
+      // Timeout de 5 segundos
+      signal: AbortSignal.timeout(5000)
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    
     const data = await response.json();
-    return data.ip || 'IP não detectado';
+    const ip = data.ip || 'IP não detectado';
+    
+    // Sanitizar e validar IP
+    const sanitizedIP = sanitizeInput(ip);
+    
+    // Verificar se é um IP válido
+    const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    const ipv6Regex = /^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
+    
+    if (ipv4Regex.test(sanitizedIP) || ipv6Regex.test(sanitizedIP)) {
+      return sanitizedIP;
+    }
+    
+    return 'IP inválido';
   } catch (error) {
+    console.warn('Erro ao obter IP:', error);
     // Fallback para quando não conseguir obter o IP
     return 'IP não detectado';
   }

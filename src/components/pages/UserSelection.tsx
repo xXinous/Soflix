@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { UserSelectionUI } from '@/components/ui/user-selection-ui';
 import { getDeviceInfo, getUserIP, generateSessionId } from '@/utils/deviceInfo';
-import { verifyAdminPassword } from '@/utils/auth';
-
-interface UserSelectionProps {
-  onUserSelect: (userType: 'sofia' | 'admin') => void;
-}
+import { verifyAdminPassword, createAdminSession, logLoginAttempt } from '@/utils/auth';
+import { storeVisit } from '@/utils/secureStorage';
+import { UserSelectionProps } from '@/types';
 
 export function UserSelection({ onUserSelect }: UserSelectionProps) {
   const [showAdminLogin, setShowAdminLogin] = useState(false);
@@ -14,27 +12,32 @@ export function UserSelection({ onUserSelect }: UserSelectionProps) {
 
   const handleAdminLogin = async () => {
     try {
+      const deviceInfo = getDeviceInfo();
+      const userIP = await getUserIP();
+      const userAgent = navigator.userAgent;
+      const timestamp = new Date().toISOString();
+      
       // Verificar senha usando hash seguro
-      if (verifyAdminPassword(adminPassword)) {
-        // Salvar acesso do admin
-        const deviceInfo = getDeviceInfo();
-        const userIP = await getUserIP();
+      const isValidPassword = await verifyAdminPassword(adminPassword);
+      
+      // Registrar tentativa de login
+      await logLoginAttempt(isValidPassword, userIP, userAgent, timestamp);
+      
+      if (isValidPassword) {
+        // Criar sessão segura
+        createAdminSession(userIP, userAgent);
+        
+        // Salvar acesso do admin de forma segura
         const sessionId = generateSessionId();
-        
-        const currentTime = new Date().toISOString();
-        const adminVisits = JSON.parse(localStorage.getItem('soflix_admin_visits') || '[]');
-        
-        adminVisits.push({
+        await storeVisit({
           sessionId,
-          timestamp: currentTime,
+          timestamp,
           type: 'admin_access',
           userIP,
           deviceInfo,
-          userAgent: navigator.userAgent,
+          userAgent,
           location: window.location.href
         });
-        
-        localStorage.setItem('soflix_admin_visits', JSON.stringify(adminVisits));
         
         onUserSelect('admin');
       } else {
@@ -49,27 +52,29 @@ export function UserSelection({ onUserSelect }: UserSelectionProps) {
   };
 
   const handleSofiaSelect = async () => {
-    // Salvar acesso da Sofia
-    const deviceInfo = getDeviceInfo();
-    const userIP = await getUserIP();
-    const sessionId = generateSessionId();
-    
-    const currentTime = new Date().toISOString();
-    const sofiaVisits = JSON.parse(localStorage.getItem('soflix_sofia_visits') || '[]');
-    
-    sofiaVisits.push({
-      sessionId,
-      timestamp: currentTime,
-      type: 'sofia_access',
-      userIP,
-      deviceInfo,
-      userAgent: navigator.userAgent,
-      location: window.location.href
-    });
-    
-    localStorage.setItem('soflix_sofia_visits', JSON.stringify(sofiaVisits));
-    
-    onUserSelect('sofia');
+    try {
+      // Salvar acesso da Sofia de forma segura
+      const deviceInfo = getDeviceInfo();
+      const userIP = await getUserIP();
+      const sessionId = generateSessionId();
+      const timestamp = new Date().toISOString();
+      
+      await storeVisit({
+        sessionId,
+        timestamp,
+        type: 'sofia_access',
+        userIP,
+        deviceInfo,
+        userAgent: navigator.userAgent,
+        location: window.location.href
+      });
+      
+      onUserSelect('sofia');
+    } catch (error) {
+      console.error('Erro ao salvar acesso da Sofia:', error);
+      // Continuar mesmo com erro para não bloquear o usuário
+      onUserSelect('sofia');
+    }
   };
 
   return (

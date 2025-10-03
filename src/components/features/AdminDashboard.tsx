@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Users, Eye, Calendar, Heart, TrendingUp, Clock, Globe, Smartphone, Monitor, Tablet, MapPin, Info, X } from 'lucide-react';
-import { DeviceInfo } from '../utils/deviceInfo';
+import { useState, useEffect } from 'react';
+import { ArrowLeft, Users, Eye, Calendar, Heart, TrendingUp, Clock, Globe, Smartphone, Monitor, Tablet, MapPin, Info, X, Shield, AlertTriangle, Lock } from 'lucide-react';
+import { DeviceInfo } from '@/utils/deviceInfo';
+import { loadVisits, processUserStats, clearAllData, migrateLegacyData, verifyDataIntegrity } from '@/utils/secureStorage';
+import { verifyAdminSession, clearAdminSession, getSecurityLogs } from '@/utils/auth';
 
 interface AdminDashboardProps {
   onBack: () => void;
@@ -30,6 +32,9 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
   const [adminVisits, setAdminVisits] = useState<Visit[]>([]);
   const [userStats, setUserStats] = useState<UserStats[]>([]);
   const [selectedUser, setSelectedUser] = useState<UserStats | null>(null);
+  const [securityLogs, setSecurityLogs] = useState<any[]>([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [dataIntegrity, setDataIntegrity] = useState<boolean | null>(null);
   const [stats, setStats] = useState({
     totalVisits: 0,
     sofiaVisits: 0,
@@ -42,74 +47,75 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
   });
 
   useEffect(() => {
-    // Carregar dados do localStorage
-    const sofia = JSON.parse(localStorage.getItem('soflix_sofia_visits') || '[]');
-    const admin = JSON.parse(localStorage.getItem('soflix_admin_visits') || '[]');
-    
-    setSofiaVisits(sofia);
-    setAdminVisits(admin);
+    const initializeDashboard = async () => {
+      try {
+        // Verificar autenticação
+        const authenticated = verifyAdminSession();
+        setIsAuthenticated(authenticated);
+        
+        if (!authenticated) {
+          console.warn('Sessão de administrador inválida');
+          return;
+        }
 
-    // Processar estatísticas de usuários únicos
-    const allVisits = [...sofia, ...admin];
-    const userMap = new Map<string, UserStats>();
+        // Migrar dados legados se necessário
+        await migrateLegacyData();
 
-    allVisits.forEach(visit => {
-      const key = `${visit.userIP}-${visit.deviceInfo?.deviceName || 'Unknown'}`;
-      
-      if (!userMap.has(key)) {
-        userMap.set(key, {
-          ip: visit.userIP,
-          deviceName: visit.deviceInfo?.deviceName || 'Dispositivo Desconhecido',
-          totalAccesses: 0,
-          firstAccess: visit.timestamp,
-          lastAccess: visit.timestamp,
-          visits: []
+        // Verificar integridade dos dados
+        const integrity = await verifyDataIntegrity();
+        setDataIntegrity(integrity);
+
+        // Carregar dados de forma segura
+        const sofia = await loadVisits('sofia_access');
+        const admin = await loadVisits('admin_access');
+        
+        setSofiaVisits(sofia);
+        setAdminVisits(admin);
+
+        // Processar estatísticas de usuários únicos
+        const userStatsArray = await processUserStats();
+        setUserStats(userStatsArray);
+
+        // Carregar logs de segurança
+        const logs = getSecurityLogs();
+        setSecurityLogs(logs);
+
+        // Calcular estatísticas
+        const allVisits = [...sofia, ...admin];
+        const today = new Date().toDateString();
+        const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        
+        const todayCount = allVisits.filter(visit => 
+          new Date(visit.timestamp).toDateString() === today
+        ).length;
+
+        const weekCount = allVisits.filter(visit => 
+          new Date(visit.timestamp) >= weekAgo
+        ).length;
+
+        const totalDays = allVisits.length > 0 ? 
+          Math.max(1, Math.ceil((Date.now() - new Date(allVisits[0]?.timestamp || Date.now()).getTime()) / (1000 * 60 * 60 * 24))) : 1;
+
+        const uniqueIPs = new Set(allVisits.map(v => v.userIP)).size;
+        const uniqueDevices = new Set(allVisits.map(v => v.deviceInfo?.deviceName)).size;
+
+        setStats({
+          totalVisits: allVisits.length,
+          sofiaVisits: sofia.length,
+          adminVisits: admin.length,
+          todayVisits: todayCount,
+          thisWeekVisits: weekCount,
+          averagePerDay: Math.round(allVisits.length / totalDays * 10) / 10,
+          uniqueDevices,
+          uniqueIPs
         });
+      } catch (error) {
+        console.error('Erro ao inicializar dashboard:', error);
+        setDataIntegrity(false);
       }
+    };
 
-      const user = userMap.get(key)!;
-      user.totalAccesses++;
-      user.visits.push(visit);
-      
-      if (new Date(visit.timestamp) < new Date(user.firstAccess)) {
-        user.firstAccess = visit.timestamp;
-      }
-      if (new Date(visit.timestamp) > new Date(user.lastAccess)) {
-        user.lastAccess = visit.timestamp;
-      }
-    });
-
-    const userStatsArray = Array.from(userMap.values()).sort((a, b) => b.totalAccesses - a.totalAccesses);
-    setUserStats(userStatsArray);
-
-    // Calcular estatísticas
-    const today = new Date().toDateString();
-    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-    
-    const todayCount = allVisits.filter(visit => 
-      new Date(visit.timestamp).toDateString() === today
-    ).length;
-
-    const weekCount = allVisits.filter(visit => 
-      new Date(visit.timestamp) >= weekAgo
-    ).length;
-
-    const totalDays = allVisits.length > 0 ? 
-      Math.max(1, Math.ceil((Date.now() - new Date(allVisits[0]?.timestamp || Date.now()).getTime()) / (1000 * 60 * 60 * 24))) : 1;
-
-    const uniqueIPs = new Set(allVisits.map(v => v.userIP)).size;
-    const uniqueDevices = new Set(allVisits.map(v => v.deviceInfo?.deviceName)).size;
-
-    setStats({
-      totalVisits: allVisits.length,
-      sofiaVisits: sofia.length,
-      adminVisits: admin.length,
-      todayVisits: todayCount,
-      thisWeekVisits: weekCount,
-      averagePerDay: Math.round(allVisits.length / totalDays * 10) / 10,
-      uniqueDevices,
-      uniqueIPs
-    });
+    initializeDashboard();
   }, []);
 
   const getDeviceIcon = (deviceType: string) => {
@@ -139,22 +145,56 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
     return 'Agora mesmo';
   };
 
-  const clearData = () => {
-    if (confirm('Tem certeza que deseja limpar todos os dados de acesso?')) {
-      localStorage.removeItem('soflix_sofia_visits');
-      localStorage.removeItem('soflix_admin_visits');
-      setSofiaVisits([]);
-      setAdminVisits([]);
-      setStats({
-        totalVisits: 0,
-        sofiaVisits: 0,
-        adminVisits: 0,
-        todayVisits: 0,
-        thisWeekVisits: 0,
-        averagePerDay: 0
-      });
+  const clearData = async () => {
+    if (confirm('Tem certeza que deseja limpar todos os dados de acesso? Esta ação não pode ser desfeita.')) {
+      try {
+        await clearAllData();
+        setSofiaVisits([]);
+        setAdminVisits([]);
+        setUserStats([]);
+        setStats({
+          totalVisits: 0,
+          sofiaVisits: 0,
+          adminVisits: 0,
+          todayVisits: 0,
+          thisWeekVisits: 0,
+          averagePerDay: 0,
+          uniqueDevices: 0,
+          uniqueIPs: 0
+        });
+        alert('Dados limpos com sucesso!');
+      } catch (error) {
+        console.error('Erro ao limpar dados:', error);
+        alert('Erro ao limpar dados. Tente novamente.');
+      }
     }
   };
+
+  const handleLogout = () => {
+    if (confirm('Tem certeza que deseja sair do painel administrativo?')) {
+      clearAdminSession();
+      onBack();
+    }
+  };
+
+  // Se não estiver autenticado, mostrar tela de erro
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <Lock className="w-16 h-16 text-red-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold mb-2">Acesso Negado</h2>
+          <p className="text-gray-400 mb-4">Sessão de administrador inválida ou expirada</p>
+          <button
+            onClick={onBack}
+            className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+          >
+          
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -169,11 +209,34 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
             <span>Voltar</span>
           </button>
         </div>
-        <h1 className="text-2xl font-bold text-red-500">SOFLIX ADMIN</h1>
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
-            <Users className="w-4 h-4" />
+        <div className="flex items-center space-x-4">
+          <h1 className="text-2xl font-bold text-red-500">SOFLIX ADMIN</h1>
+          <div className="flex items-center space-x-2">
+            <Shield className="w-5 h-5 text-green-400" />
+            <span className="text-sm text-green-400">Seguro</span>
           </div>
+        </div>
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            {dataIntegrity === true && (
+              <div className="flex items-center space-x-1 text-green-400">
+                <Shield className="w-4 h-4" />
+                <span className="text-xs">Dados íntegros</span>
+              </div>
+            )}
+            {dataIntegrity === false && (
+              <div className="flex items-center space-x-1 text-red-400">
+                <AlertTriangle className="w-4 h-4" />
+                <span className="text-xs">Dados corrompidos</span>
+              </div>
+            )}
+          </div>
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-600/20 border border-red-500/30 text-red-400 rounded-lg hover:bg-red-600/30 transition-colors text-sm"
+          >
+            Sair
+          </button>
         </div>
       </header>
 
@@ -351,25 +414,86 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
           </div>
         </div>
 
+        {/* Security Logs */}
+        {securityLogs.length > 0 && (
+          <div className="mt-8 bg-gray-900/50 border border-gray-800 rounded-lg p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold flex items-center space-x-2">
+                <Shield className="w-5 h-5 text-yellow-400" />
+                <span>Logs de Segurança</span>
+              </h3>
+              <span className="text-sm text-gray-400">{securityLogs.length} eventos</span>
+            </div>
+
+            <div className="space-y-3 max-h-60 overflow-y-auto">
+              {securityLogs
+                .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+                .slice(0, 20)
+                .map((log, index) => (
+                <div key={index} className={`flex items-center justify-between p-3 rounded-lg border ${
+                  log.success 
+                    ? 'bg-green-900/20 border-green-500/30' 
+                    : 'bg-red-900/20 border-red-500/30'
+                }`}>
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-2 h-2 rounded-full ${
+                      log.success ? 'bg-green-400' : 'bg-red-400'
+                    }`}></div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium">
+                        {log.success ? 'Login bem-sucedido' : 'Tentativa de login falhada'}
+                      </p>
+                      <div className="flex items-center space-x-2 text-xs text-gray-400">
+                        <span>{new Date(log.timestamp).toLocaleString('pt-BR')}</span>
+                        <span>•</span>
+                        <span>{log.ipAddress}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-xs text-gray-400">
+                    {getTimeAgo(log.timestamp)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Actions */}
-        <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex justify-center space-x-4">
           <button
             onClick={clearData}
             className="px-6 py-3 bg-red-600/20 border border-red-500/30 text-red-400 rounded-lg hover:bg-red-600/30 transition-colors"
           >
             Limpar Dados de Acesso
           </button>
+          <button
+            onClick={handleLogout}
+            className="px-6 py-3 bg-gray-600/20 border border-gray-500/30 text-gray-400 rounded-lg hover:bg-gray-600/30 transition-colors"
+          >
+            Sair do Painel
+          </button>
         </div>
 
         {/* Footer Info */}
         <div className="mt-12 text-center p-6 bg-gradient-to-r from-red-600/10 to-pink-600/10 rounded-lg border border-red-500/20">
-          <h3 className="text-lg font-bold mb-2">SoFlix Analytics</h3>
+          <h3 className="text-lg font-bold mb-2 flex items-center justify-center space-x-2">
+            <Shield className="w-5 h-5 text-green-400" />
+            <span>SoFlix Analytics Seguro</span>
+          </h3>
           <p className="text-gray-300 text-sm">
-            Sistema de monitoramento criado com amor para acompanhar os acessos ao nosso site especial
+            Sistema de monitoramento seguro com criptografia AES-256-GCM
           </p>
           <p className="text-xs text-gray-400 mt-2">
-            Dados armazenados localmente no navegador
+            Dados sensíveis criptografados e armazenados localmente
           </p>
+          <div className="mt-3 flex items-center justify-center space-x-4 text-xs text-gray-500">
+            <span>🔒 Criptografia AES-256</span>
+            <span>•</span>
+            <span>🛡️ Validação de integridade</span>
+            <span>•</span>
+            <span>🔐 Controle de sessão</span>
+          </div>
         </div>
       </div>
 

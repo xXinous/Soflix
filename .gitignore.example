@@ -1,6 +1,8 @@
 # ===========================================
-# SOFLIX - Git Ignore Configuration
+# SOFLIX - Git Ignore Example Configuration
 # ===========================================
+# Este arquivo serve como exemplo das configurações do .gitignore
+# Copie este arquivo para .gitignore e ajuste conforme necessário
 
 # Dependencies
 node_modules/
@@ -214,3 +216,13 @@ src/types/assets.d.ts
 *.spec.*
 test-*.html
 debug-*.html
+
+# ===========================================
+# NOTAS IMPORTANTES:
+# ===========================================
+# 1. NUNCA commite arquivos .env - eles contêm informações sensíveis
+# 2. Arquivos de build (dist/, build/) devem ser ignorados
+# 3. Arquivos de dependências (node_modules/) devem ser ignorados
+# 4. Arquivos de configuração local (wrangler.toml) devem ser ignorados
+# 5. Sempre mantenha .env.example como template
+# ===========================================
