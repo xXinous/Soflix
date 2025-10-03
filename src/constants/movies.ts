@@ -1,45 +1,79 @@
 import { Movie } from '@/types';
-
+//PIJAMA DREAMER
 import thePijamaDreamerPoster from '@/assets/the-pijama-dreamer/poster.png';
 import thePijamaDreamerPhoto1 from '@/assets/the-pijama-dreamer/photo1.jpg';
 import thePijamaDreamerPhoto2 from '@/assets/the-pijama-dreamer/photo2.jpg';
 import thePijamaDreamerPhoto3 from '@/assets/the-pijama-dreamer/photo3.jpg';
+//O SEGREDO DA ÁRVORE MÁGICA
 import oSegredoDaArvoreMagicaPoster from '@/assets/o-segredo-da-arvore-magica/poster.png';
 import oSegredoDaArvoreMagicaPhoto1 from '@/assets/o-segredo-da-arvore-magica/photo1.jpg';
 import oSegredoDaArvoreMagicaPhoto2 from '@/assets/o-segredo-da-arvore-magica/photo2.jpg';
 import oSegredoDaArvoreMagicaPhoto3 from '@/assets/o-segredo-da-arvore-magica/photo3.jpg';
+//BEIJO ESTRRELADO
 import beijoEstreladoPoster from '@/assets/beijo-estrelado/poster.png';
 import beijoEstreladoPhoto1 from '@/assets/beijo-estrelado/photo1.jpg';
 import beijoEstreladoPhoto2 from '@/assets/beijo-estrelado/photo2.jpg';
 import beijoEstreladoPhoto3 from '@/assets/beijo-estrelado/photo3.jpg';
+//FLIP FEVER
 import flipFeverPoster from '@/assets/flip-fever/poster.png';
 import flipFeverPhoto1 from '@/assets/flip-fever/photo1.jpg';
 import flipFeverPhoto2 from '@/assets/flip-fever/photo2.jpg';
 import flipFeverPhoto3 from '@/assets/flip-fever/photo3.jpg';
+//CASAL-ARANHA: TEIA DO JULGAMENTO
 import casalAranhaPoster from '@/assets/casal-aranha-teia-do-julgamento/poster.png';
 import casalAranhaPhoto1 from '@/assets/casal-aranha-teia-do-julgamento/photo1.png';
 import casalAranhaPhoto2 from '@/assets/casal-aranha-teia-do-julgamento/photo2.png';
 import casalAranhaPhoto3 from '@/assets/casal-aranha-teia-do-julgamento/photo3.png';
+//TROCA TROCA JURÍDICO
 import trocaTrocaJuridicoPoster from '@/assets/troca-troca-juridico/poster.png';
 import trocaTrocaJuridicoPhoto1 from '@/assets/troca-troca-juridico/photo1.jpg';
 import trocaTrocaJuridicoPhoto2 from '@/assets/troca-troca-juridico/photo2.jpg';
 import trocaTrocaJuridicoPhoto3 from '@/assets/troca-troca-juridico/photo3.jpg';
+//ROUPA PRETA CORAÇO AZUL
 import roupaPretaCoracaoAzulPoster from '@/assets/roupa-preta-coracao-azul/poster.png';
+import roupaPretaCoracaoAzulPhoto1 from '@/assets/roupa-preta-coracao-azul/photo1.jpg';
+import roupaPretaCoracaoAzulPhoto2 from '@/assets/roupa-preta-coracao-azul/photo2.jpg';
+import roupaPretaCoracaoAzulPhoto3 from '@/assets/roupa-preta-coracao-azul/photo3.jpg';
+//DILÉMA DO AMOR
 import dilemaDoAmorPoster from '@/assets/dilema-do-amor/poster.png';
+import dilemaDoAmorPhoto1 from '@/assets/dilema-do-amor/photo1.jpg';
+import dilemaDoAmorPhoto2 from '@/assets/dilema-do-amor/photo2.jpg';
+import dilemaDoAmorPhoto3 from '@/assets/dilema-do-amor/photo3.jpg';
+//PRESSAGIO
 import pressagioPoster from '@/assets/pressagio/poster.png';  
 import pressagioPhoto1 from '@/assets/pressagio/photo1.jpg';
 import pressagioPhoto2 from '@/assets/pressagio/photo2.jpg';
 import pressagioPhoto3 from '@/assets/pressagio/photo3.jpg';
+//AMOR EM ALTA VELOCIDADE
 import amoremaltavelocidadePoster from '@/assets/amor-em-alta-velocidade/poster.png';
 import amoremaltavelocidadePhoto1 from '@/assets/amor-em-alta-velocidade/photo1.png';
 import amoremaltavelocidadePhoto2 from '@/assets/amor-em-alta-velocidade/photo2.jpg';
 import amoremaltavelocidadePhoto3 from '@/assets/amor-em-alta-velocidade/photo3.png';
+//AMOR EM CASCATA
 import amorEmCascataPoster from '@/assets/amor-em-cascata/poster.png';
+import amorEmCascataPhoto1 from '@/assets/amor-em-cascata/photo1.jpg';
+import amorEmCascataPhoto2 from '@/assets/amor-em-cascata/photo2.jpg';
+import amorEmCascataPhoto3 from '@/assets/amor-em-cascata/photo3.jpg';
+//MOTIM ESTELAR
 import motimEstelarPoster from '@/assets/motim-estelar/poster.png';
 import motimEstelarPhoto1 from '@/assets/motim-estelar/photo1.jpg';
 import motimEstelarPhoto2 from '@/assets/motim-estelar/photo2.jpg';
 import motimEstelarPhoto3 from '@/assets/motim-estelar/photo3.jpg';
-
+//EU ACREDITO
+import euAcreditoPoster from '@/assets/eu-acredito/poster.png';
+import euAcreditoPhoto1 from '@/assets/eu-acredito/photo1.jpg';
+import euAcreditoPhoto2 from '@/assets/eu-acredito/photo2.jpg';
+import euAcreditoPhoto3 from '@/assets/eu-acredito/photo3.jpg';
+//FADE RUNNER 2099
+import fadeRunner2099Poster from '@/assets/fade-runner-2099/poster.png';
+import fadeRunner2099Photo1 from '@/assets/fade-runner-2099/photo1.jpg';
+import fadeRunner2099Photo2 from '@/assets/fade-runner-2099/photo2.jpg';
+import fadeRunner2099Photo3 from '@/assets/fade-runner-2099/photo3.jpg';
+//UAU DESORDEN  
+import uauDesordemPoster from '@/assets/uau-desordem/poster.png';
+import uauDesordemPhoto1 from '@/assets/uau-desordem/photo1.jpg';
+import uauDesordemPhoto2 from '@/assets/uau-desordem/photo2.jpg';
+import uauDesordemPhoto3 from '@/assets/uau-desordem/photo3.jpg';
 export interface MovieWithDetails extends Movie {
   duration: string;
   classification: string;

@@ -15,7 +15,6 @@ export const Carousel: React.FC<CarouselProps> = ({
   className = '',
   itemClassName = '',
   showArrows = true,
-  autoScroll = false,
   scrollStep = 300
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
