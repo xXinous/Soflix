@@ -67,6 +67,13 @@
             "dev": "vite",
             "build": "node scripts/check-imports.js && vite build",
             "check-imports": "node scripts/check-imports.js",
-            "prebuild": "node scripts/check-imports.js"
+            "prebuild": "node scripts/check-imports.js",
+            "preview": "vite preview",
+            "deploy:cloudflare": "./scripts/deploy-cloudflare.sh --both",
+            "deploy:cloudflare:preview": "./scripts/deploy-cloudflare.sh --preview",
+            "deploy:cloudflare:prod": "./scripts/deploy-cloudflare.sh --production",
+            "deploy:vercel": "./scripts/deploy-vercel.sh --both",
+            "deploy:vercel:preview": "./scripts/deploy-vercel.sh --preview",
+            "deploy:vercel:prod": "./scripts/deploy-vercel.sh --production"
       }
 }

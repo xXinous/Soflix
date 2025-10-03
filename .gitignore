@@ -214,3 +214,7 @@ src/types/assets.d.ts
 *.spec.*
 test-*.html
 debug-*.html
+
+# Documentation files (except README.md)
+*.md
+!README.md
