@@ -35,7 +35,7 @@ export interface MovieCategory {
 export interface CategoryConfig {
   categories: MovieCategory[];
 }
-export type UserType = 'sofia' | 'marcelo' | 'admin' | null;
+export type UserType = 'sofia' | 'marcelo' | null;
 
 export interface AppState {
   selectedMovie: Movie | null;

@@ -38,6 +38,7 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [dataIntegrity, setDataIntegrity] = useState<boolean | null>(null);
   const [globalStats, setGlobalStats] = useState<any>(null);
+  const [globalAccesses, setGlobalAccesses] = useState<any[]>([]);
   const [stats, setStats] = useState({
     totalVisits: 0,
     sofiaVisits: 0,
@@ -71,16 +72,25 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
         const integrity = await verifyDataIntegrity();
         setDataIntegrity(integrity);
 
-        // Carregar dados de forma segura
+        // Carregar dados de forma segura - TODOS os usuários
         const sofia = await loadVisits('sofia_access');
         const admin = await loadVisits('admin_access');
         
         setSofiaVisits(sofia);
         setAdminVisits(admin);
 
-        // Processar estatísticas de usuários únicos
+        // Processar estatísticas de usuários únicos - TODOS os dispositivos
         const userStatsArray = await processUserStats();
         setUserStats(userStatsArray);
+
+        // Carregar dados globais para visão completa
+        const globalAccessesData = await import('@/utils/globalTracking').then(m => m.getGlobalAccesses());
+        setGlobalAccesses(globalAccessesData);
+        console.log('📊 Dados globais carregados:', {
+          totalAccesses: globalAccessesData.length,
+          uniqueIPs: new Set(globalAccessesData.map(a => a.userIP)).size,
+          devices: new Set(globalAccessesData.map(a => a.deviceInfo?.deviceName)).size
+        });
 
         // Carregar logs de segurança
         const logs = getSecurityLogs();
@@ -421,6 +431,91 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
             </div>
           </div>
         )}
+
+        {/* Global Access Data - TODOS os usuários */}
+        <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-bold flex items-center space-x-2">
+              <Globe className="w-5 h-5 text-purple-400" />
+              <span>Dados Globais - Todos os Usuários</span>
+            </h3>
+            <span className="text-sm text-gray-400">{globalAccesses.length} acessos totais</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-gray-300 mb-2">Usuários Únicos</h4>
+              <div className="text-2xl font-bold text-purple-400">
+                {new Set(globalAccesses.map(a => a.userIP)).size}
+              </div>
+              <p className="text-xs text-gray-400 mt-1">IPs diferentes</p>
+            </div>
+
+            <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-gray-300 mb-2">Dispositivos Únicos</h4>
+              <div className="text-2xl font-bold text-blue-400">
+                {new Set(globalAccesses.map(a => a.deviceInfo?.deviceName)).size}
+              </div>
+              <p className="text-xs text-gray-400 mt-1">Nomes de dispositivos</p>
+            </div>
+
+            <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+              <h4 className="text-sm font-semibold text-gray-300 mb-2">Tipos de Usuário</h4>
+              <div className="space-y-1">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">Visitantes:</span>
+                  <span className="font-bold text-cyan-400">
+                    {globalAccesses.filter(a => a.userType === 'visitor').length}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">Sofia:</span>
+                  <span className="font-bold text-green-400">
+                    {globalAccesses.filter(a => a.userType === 'sofia').length}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">Admin:</span>
+                  <span className="font-bold text-red-400">
+                    {globalAccesses.filter(a => a.userType === 'admin').length}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-800/30 border border-gray-700 rounded-lg p-4">
+            <h4 className="text-sm font-semibold text-gray-300 mb-3">Acessos Recentes de TODOS os Usuários</h4>
+            <div className="space-y-2 max-h-60 overflow-y-auto">
+              {globalAccesses
+                .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+                .slice(0, 15)
+                .map((access, index) => (
+                  <div key={index} className="flex items-center justify-between p-2 bg-gray-700/30 rounded">
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-2 h-2 rounded-full ${
+                        access.userType === 'visitor' ? 'bg-cyan-400' :
+                        access.userType === 'sofia' ? 'bg-green-400' : 'bg-red-400'
+                      }`}></div>
+                      <div>
+                        <p className="text-sm font-medium">
+                          {access.deviceInfo?.deviceName || 'Dispositivo Desconhecido'}
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          {access.userIP.substring(0, 15)}... • {access.userType}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-gray-400">
+                        {new Date(access.timestamp).toLocaleString('pt-BR')}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
 
         {/* User Analytics */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

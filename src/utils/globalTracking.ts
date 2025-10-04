@@ -272,14 +272,47 @@ export function cleanupOldGlobalData(): void {
  */
 export async function initializeGlobalTracking(): Promise<void> {
   try {
-    // Registrar acesso de visitante inicial
+    // Registrar acesso de visitante inicial IMEDIATAMENTE
     await trackGlobalAccess('visitor');
+    
+    // Registrar acesso básico no sistema legado para compatibilidade
+    await trackBasicAccess();
     
     // Limpar dados antigos
     cleanupOldGlobalData();
     
-    console.log('🌍 Rastreamento global inicializado');
+    console.log('🌍 Rastreamento global inicializado - TODOS os acessos serão registrados');
   } catch (error) {
     console.error('Erro ao inicializar rastreamento global:', error);
+  }
+}
+
+/**
+ * Registra acesso básico no sistema legado para compatibilidade com admin dashboard
+ */
+async function trackBasicAccess(): Promise<void> {
+  try {
+    const deviceInfo = await import('./deviceInfo').then(m => m.getDeviceInfo());
+    const userIP = await import('./deviceInfo').then(m => m.getUserIP());
+    const { generateSessionId } = await import('./encryption');
+    const { storeVisit } = await import('./secureStorage');
+    
+    const sessionId = generateSessionId();
+    const timestamp = new Date().toISOString();
+    
+    // Registrar como acesso de visitante no sistema legado
+    await storeVisit({
+      sessionId,
+      timestamp,
+      type: 'sofia_access', // Usar sofia_access para visitantes normais
+      userIP,
+      deviceInfo,
+      userAgent: navigator.userAgent,
+      location: window.location.href
+    });
+    
+    console.log('✅ Acesso básico registrado para compatibilidade');
+  } catch (error) {
+    console.error('Erro ao registrar acesso básico:', error);
   }
 }

@@ -16,10 +16,11 @@ import {
   MoviePage,
   Footer
 } from '@/components';
+import { AnalyticsDashboard } from '@/components/pages/AnalyticsDashboard';
 import { useTimer, useMobileMenu, useNavigation } from '@/hooks';
 import { MOVIES, AMOR_EM_CASCATA_MOVIE } from '@/constants/movies';
 import { PageType, Movie } from '@/types';
-import { initializeGlobalTracking, trackGlobalAccess } from '@/utils/globalTracking';
+import { initializeAnalytics, updateUserType } from '@/utils/cloudflareAnalytics';
 
 // Componente interno para gerenciar as rotas
 function AppRoutes() {
@@ -33,15 +34,15 @@ function AppRoutes() {
   const { goBack } = useNavigation();
   const location = useLocation();
 
-  // Inicializar rastreamento global
+  // Inicializar analytics IMEDIATAMENTE ao carregar o site
   useEffect(() => {
-    initializeGlobalTracking();
+    initializeAnalytics();
   }, []);
 
-  // Rastrear mudanças de usuário
+  // Atualizar tipo de usuário nos analytics
   useEffect(() => {
     if (currentUser) {
-      trackGlobalAccess(currentUser === 'admin' ? 'admin' : 'sofia');
+      updateUserType(currentUser);
     }
   }, [currentUser]);
 
@@ -113,15 +114,20 @@ function AppRoutes() {
 
   // Renderização condicional das páginas (só para Sofia)
   if (urlPage === 'series') {
-    return <SeriesLetter onBack={goBack} />;
+    return <SeriesLetter />;
   }
 
   if (urlPage === 'movies') {
-    return <MoviesLetter onBack={goBack} />;
+    return <MoviesLetter />;
   }
 
   if (urlPage === 'mylist') {
     return <MyList onBack={goBack} />;
+  }
+
+  // Rota secreta para analytics (acessível apenas digitando /analytics na URL)
+  if (location.pathname === '/analytics') {
+    return <AnalyticsDashboard onBack={goBack} />;
   }
 
   return (

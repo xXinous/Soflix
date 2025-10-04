@@ -1,96 +1,82 @@
-import { useState } from 'react';
-import { UserSelectionUI } from '@/components/ui/user-selection-ui';
-import { getDeviceInfo, getUserIP, generateSessionId } from '@/utils/deviceInfo';
-import { verifyAdminPassword, createAdminSession, logLoginAttempt } from '@/utils/auth';
-import { storeVisit } from '@/utils/secureStorage';
+import { updateUserType } from '@/utils/cloudflareAnalytics';
 import { UserSelectionProps } from '@/types';
 
 export function UserSelection({ onUserSelect }: UserSelectionProps) {
-  const [showAdminLogin, setShowAdminLogin] = useState(false);
-  const [adminPassword, setAdminPassword] = useState('');
-  const [error, setError] = useState('');
-
-  const handleAdminLogin = async () => {
-    try {
-      const deviceInfo = getDeviceInfo();
-      const userIP = await getUserIP();
-      const userAgent = navigator.userAgent;
-      const timestamp = new Date().toISOString();
-      
-      // Verificar senha usando hash seguro
-      const isValidPassword = await verifyAdminPassword(adminPassword);
-      
-      // Registrar tentativa de login
-      await logLoginAttempt(isValidPassword, userIP, userAgent, timestamp);
-      
-      if (isValidPassword) {
-        // Criar sessão segura
-        createAdminSession(userIP, userAgent);
-        
-        // Salvar acesso do admin de forma segura
-        const sessionId = generateSessionId();
-        await storeVisit({
-          sessionId,
-          timestamp,
-          type: 'admin_access',
-          userIP,
-          deviceInfo,
-          userAgent,
-          location: window.location.href
-        });
-        
-        onUserSelect('admin');
-      } else {
-        setError('Senha incorreta');
-        setTimeout(() => setError(''), 3000);
-      }
-    } catch (error) {
-      console.error('Erro na autenticação:', error);
-      setError('Erro interno. Tente novamente.');
-      setTimeout(() => setError(''), 3000);
-    }
-  };
-
   const handleSofiaSelect = async () => {
     try {
-      // Salvar acesso da Sofia de forma segura
-      const deviceInfo = getDeviceInfo();
-      const userIP = await getUserIP();
-      const sessionId = generateSessionId();
-      const timestamp = new Date().toISOString();
-      
-      await storeVisit({
-        sessionId,
-        timestamp,
-        type: 'sofia_access',
-        userIP,
-        deviceInfo,
-        userAgent: navigator.userAgent,
-        location: window.location.href
-      });
-      
+      // Atualizar analytics
+      await updateUserType('sofia');
       onUserSelect('sofia');
     } catch (error) {
-      console.error('Erro ao salvar acesso da Sofia:', error);
+      console.error('Erro ao registrar acesso da Sofia:', error);
       // Continuar mesmo com erro para não bloquear o usuário
       onUserSelect('sofia');
     }
   };
 
+  const handleMarceloSelect = async () => {
+    try {
+      // Atualizar analytics
+      await updateUserType('marcelo');
+      onUserSelect('marcelo');
+    } catch (error) {
+      console.error('Erro ao registrar acesso do Marcelo:', error);
+      // Continuar mesmo com erro para não bloquear o usuário
+      onUserSelect('marcelo');
+    }
+  };
+
   return (
-    <UserSelectionUI
-      showAdminLogin={showAdminLogin}
-      adminPassword={adminPassword}
-      error={error}
-      onSofiaSelect={handleSofiaSelect}
-      onAdminClick={() => setShowAdminLogin(true)}
-      onAdminPasswordChange={setAdminPassword}
-      onAdminLogin={handleAdminLogin}
-      onBackToProfiles={() => {
-        setShowAdminLogin(false);
-        setAdminPassword('');
-        setError('');
-      }}
-    />
+    <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="max-w-md w-full mx-4">
+        {/* Logo */}
+        <div className="text-center mb-12">
+          <h1 className="text-6xl font-bold text-red-600 mb-2">SoFlix</h1>
+          <p className="text-gray-400">Quem está assistindo?</p>
+        </div>
+
+        {/* Perfis */}
+        <div className="space-y-6">
+          {/* Perfil Sofia */}
+          <button
+            onClick={handleSofiaSelect}
+            className="w-full bg-gray-800 hover:bg-gray-700 rounded-lg p-6 transition-colors group"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg flex items-center justify-center text-2xl font-bold">
+                S
+              </div>
+              <div className="text-left">
+                <h3 className="text-xl font-semibold group-hover:text-white">Sofia</h3>
+                <p className="text-gray-400 text-sm">Perfil principal</p>
+              </div>
+            </div>
+          </button>
+
+          {/* Perfil Marcelo */}
+          <button
+            onClick={handleMarceloSelect}
+            className="w-full bg-gray-800 hover:bg-gray-700 rounded-lg p-6 transition-colors group"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg flex items-center justify-center text-2xl font-bold">
+                M
+              </div>
+              <div className="text-left">
+                <h3 className="text-xl font-semibold group-hover:text-white">Marcelo</h3>
+                <p className="text-gray-400 text-sm">Perfil secundário</p>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-12">
+          <p className="text-gray-500 text-sm">
+            Ambos os perfis levam para a mesma experiência
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
