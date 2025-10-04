@@ -98,8 +98,8 @@ export function addToNavigationHistory(path: string): void {
       
       sessionStorage.setItem('soflix_navigation_history', JSON.stringify(history));
     }
-  } catch (error) {
-    console.error('Erro ao salvar histórico de navegação:', error);
+  } catch {
+    // Falha silenciosa para não interromper a experiência do usuário
   }
 }
 
@@ -121,8 +121,8 @@ export function removeCurrentFromHistory(): void {
       history.pop();
       sessionStorage.setItem('soflix_navigation_history', JSON.stringify(history));
     }
-  } catch (error) {
-    console.error('Erro ao remover página do histórico:', error);
+  } catch {
+    // Falha silenciosa para não interromper a experiência do usuário
   }
 }
 
@@ -132,7 +132,7 @@ export function removeCurrentFromHistory(): void {
 export function clearNavigationHistory(): void {
   try {
     sessionStorage.removeItem('soflix_navigation_history');
-  } catch (error) {
-    console.error('Erro ao limpar histórico de navegação:', error);
+  } catch {
+    // Falha silenciosa para não interromper a experiência do usuário
   }
 }

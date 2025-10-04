@@ -97,20 +97,15 @@ function AppRoutes() {
     return <UserSelectionPage />;
   }
 
-  // Renderização condicional do dashboard admin - agora gerenciado pelo Router
-  // if (currentUser === 'admin') {
-  //   return <AdminDashboard onBack={() => setCurrentUser(null)} />;
-  // }
 
-  // Detectar página baseada na URL
-  const getCurrentPageFromUrl = () => {
-    if (location.pathname === '/series') return 'series';
-    if (location.pathname === '/movies') return 'movies';
-    if (location.pathname === '/mylist') return 'mylist';
-    return 'home';
+  // Detectar página baseada na URL usando mapeamento
+  const pathToPageMap: Record<string, PageType> = {
+    '/series': 'series',
+    '/movies': 'movies',
+    '/mylist': 'mylist'
   };
 
-  const urlPage = getCurrentPageFromUrl();
+  const urlPage = pathToPageMap[location.pathname] || 'home';
 
   // Renderização condicional das páginas (só para Sofia)
   if (urlPage === 'series') {

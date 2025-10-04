@@ -6,7 +6,6 @@ interface CarouselProps {
   className?: string;
   itemClassName?: string;
   showArrows?: boolean;
-  autoScroll?: boolean;
   scrollStep?: number;
 }
 
@@ -145,7 +144,7 @@ export const Carousel: React.FC<CarouselProps> = ({
   }, [children]);
 
   return (
-    <div className={`relative group ${className}`} style={{ height: 'auto', minHeight: '200px' }}>
+    <div className={`relative group ${className}`}>
       {/* Seta esquerda */}
       {showArrows && canScrollLeft && (
         <button
@@ -160,13 +159,9 @@ export const Carousel: React.FC<CarouselProps> = ({
       {/* Container do carrossel */}
       <div
         ref={scrollContainerRef}
-        className="flex overflow-x-auto overflow-y-visible gap-2 sm:gap-4 scroll-smooth items-start carousel-container"
+        className="flex overflow-x-auto overflow-y-visible gap-2 sm:gap-4 scroll-smooth items-start carousel-container py-1"
         style={{ 
-          height: 'auto', 
-          minHeight: 'auto',
-          cursor: isDragging ? 'grabbing' : 'grab',
-          paddingTop: '5px',
-          paddingBottom: '5px'
+          cursor: isDragging ? 'grabbing' : 'grab'
         }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
