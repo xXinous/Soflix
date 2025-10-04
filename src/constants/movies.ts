@@ -30,7 +30,7 @@ import trocaTrocaJuridicoPhoto1 from '@/assets/troca-troca-juridico/photo1.jpg';
 import trocaTrocaJuridicoPhoto2 from '@/assets/troca-troca-juridico/photo2.jpg';
 import trocaTrocaJuridicoPhoto3 from '@/assets/troca-troca-juridico/photo3.jpg';
 //ROUPA PRETA CORAÇO AZUL
-import roupaPretaCoracaoAzulPoster from '@/assets/roupa-preta-coracao-azul/poster.png';
+import roupaPretaCoracaoAzulPoster from '@/assets/roupa-preta-coracao-azul/poster.png';     
 import roupaPretaCoracaoAzulPhoto1 from '@/assets/roupa-preta-coracao-azul/photo1.jpg';
 import roupaPretaCoracaoAzulPhoto2 from '@/assets/roupa-preta-coracao-azul/photo2.jpg';
 import roupaPretaCoracaoAzulPhoto3 from '@/assets/roupa-preta-coracao-azul/photo3.jpg';
@@ -61,11 +61,11 @@ import motimEstelarPhoto2 from '@/assets/motim-estelar/photo2.jpg';
 import motimEstelarPhoto3 from '@/assets/motim-estelar/photo3.jpg';
 //EU ACREDITO
 import euAcreditoPoster from '@/assets/eu-acredito/poster.png';
-import euAcreditoPhoto1 from '@/assets/eu-acredito/photo1.jpg';
+import euAcreditoPhoto1 from '@/assets/eu-acredito/photo1.png';
 import euAcreditoPhoto2 from '@/assets/eu-acredito/photo2.jpg';
 import euAcreditoPhoto3 from '@/assets/eu-acredito/photo3.jpg';
 //FADE RUNNER 2099
-import fadeRunner2099Poster from '@/assets/fade-runner-2099/poster.png';
+import fadeRunner2099Poster from '@/assets/fade-runner-2099/poster.png';    
 import fadeRunner2099Photo1 from '@/assets/fade-runner-2099/photo1.jpg';
 import fadeRunner2099Photo2 from '@/assets/fade-runner-2099/photo2.jpg';
 import fadeRunner2099Photo3 from '@/assets/fade-runner-2099/photo3.jpg';
@@ -78,7 +78,6 @@ export interface MovieWithDetails extends Movie {
   duration: string;
   classification: string;
   genres: string[];
-  tags: string[];
   romanticQuote: string;
 }
 
@@ -100,7 +99,6 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Uma noite inteira',
     classification: 'L - Livre para sonhar',
-    tags: ['Uma lembraça de noites sonhando com você'],
     romanticQuote: 'Se eu tiver sonhando com você, então eu quero dormir pra sempre.'
   },
   {
@@ -119,7 +117,6 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Para sempre conectados',
     classification: 'L - Livre para amar heroicamente',
-    tags: ['Heroico', 'Corajoso', 'Protetor', 'Justo'],
     romanticQuote: 'Com grandes poderes vêm grandes responsabilidades... e com grande amor vem grande felicidade!'
   },
   {
@@ -127,12 +124,17 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     title: "Roupa Preta Coracao Azul",
     image: roupaPretaCoracaoAzulPoster,
     genre: "Romance",
-    romanticDescription: "Com o coração em luto e um boné na cabeça, ela lidera um time em campo para honrar um amor e reescrever a história.",
+    romanticDescription: "Você se se esforça tanto para entrar no meu mundo, que um até um simples boné se tornou o seu símbolo desse esforço. Esse boné mostra que por mais que você seja essa gata preta, tem um interior mole e acok Quero muito conhecer mais do seu mundo e se encaixar mais na sua realidade, assim como voce faz comigo.",
     year: 2025,
     rating: "10★",
+    specialPhotos: [roupaPretaCoracaoAzulPhoto1, roupaPretaCoracaoAzulPhoto2, roupaPretaCoracaoAzulPhoto3],
+    specialPhotoCaptions: [
+      'Vcê sempre complertará o meu coração',
+      'Você sempre está com a melhor roupa',
+      'você fala que eu te elogio mesmo quando nao da para te ver, mas olha essa mulher que maravilhosa!',
+    ],
     duration: 'Um jogo de coração',
     classification: 'L - Livre para jogar com amor',
-    tags: ['Determinado', 'Forte', 'Líder', 'Vencedor'],
     romanticQuote: 'Mesmo com o coração em luto, ela lidera com amor e coragem!'
   },
   {
@@ -140,12 +142,17 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     title: "Dilema do Amor",
     image: dilemaDoAmorPoster,
     genre: "Terror, Suspense",
-    romanticDescription: "Entre livros e beijos, ela busca a sentença final. Mas o relógio da vida dupla pode estar quebrado.",
+    romanticDescription: "O seu esforço no trabalho e na faculdade é uma das coisas mais lindas e mais incriveis que você tem, sempre me mostrou que é capaz de fazer qualquer e ainda consegue achar um tempo no seu calendario para gente, isso me ganha muito. e o maior filme de terror é quando voce some para estudar ou trabalhar",
     year: 2025,
     rating: "∞★",
+    specialPhotos: [dilemaDoAmorPhoto1, dilemaDoAmorPhoto2, dilemaDoAmorPhoto3],
+    specialPhotoCaptions: [
+      'Eu gosto muito das suas fotos no escuro',
+      'Sera q essa gatinha não quer vir me assombrar toda noite?',
+      'Até em choque você conseguiu tirar uma foto e ficar bem nela'
+    ],
     duration: 'Entre livros e beijos',
     classification: 'L - Livre para estudar o amor',
-    tags: ['Inteligente', 'Misterioso', 'Intenso', 'Apaixonante'],
     romanticQuote: 'Entre livros e beijos, ela busca a sentença final do amor!'
   },
   {
@@ -162,9 +169,8 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
       'Você me deu o cargo de Segurança do Banheiro',
       'Ao menos o beijo me fez me sentir nas estrelas'
     ],
-    duration: 'Uma noite sob as estrelas',
+    duration: 'Uma noite sob as estreslas',
     classification: 'L - Livre para beijar as estrelas',
-    tags: ['Nostálgico', 'Romântico', 'Épico', 'Inesquecível'],
     romanticQuote: 'Sob as estrelas de 1986, duas almas se encontraram para sempre!'
   },
   {
@@ -184,7 +190,6 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     duration: 'Velocidade do amor infinito',
     classification: 'L - Livre para amar em velocidade máxima',
     genres: ['Romance', 'Aventura', 'Praia', 'Conexão'],
-    tags: ['Dinâmico', 'Conectado', 'Praiano', 'Vibrante'],
     romanticQuote: 'Na praia encontramos nossa conexão mais pura. Cada caminhada na areia, cada pôr do sol contemplado ao seu lado me lembra como somos sortudos por termos encontrado um ao outro neste universo imenso.'
   },
   {
@@ -192,7 +197,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     title: "Troca Troca Juridico",
     image: trocaTrocaJuridicoPoster,
     genre: "Comédia, Família",
-    romanticDescription: "Uma briga inocente, uma troca de corpos e a corrida contra o tempo para fazer as pazes... antes que a vida de adulto e de criança virem de cabeça para baixo.",
+    romanticDescription: "A sua dinamica com seu sobrinho é muito divertida, tirando a sua armadura e mostrando o seu interior mole quando ta com ele, gosto muito de ouvir as historias de vocês brincando, sinto que é um dos momentos que você mais relaxa durante o seu dia.",
     year: 2025,
     rating: "10★",
     specialPhotos: [trocaTrocaJuridicoPhoto1, trocaTrocaJuridicoPhoto2, trocaTrocaJuridicoPhoto3],
@@ -203,7 +208,6 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Uma briga inocente, uma lição de amor',
     classification: 'L - Livre para fazer as pazes',
-    tags: ['Divertido', 'Inocente', 'Familiar', 'Pacífico'],
     romanticQuote: 'Até nas brigas mais inocentes, o amor sempre encontra um jeito de fazer as pazes!'
   },
   {
@@ -216,13 +220,12 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     rating: "10★",
     specialPhotos: [motimEstelarPhoto1, motimEstelarPhoto2, motimEstelarPhoto3],
     specialPhotoCaptions: [
+      'ROCKSTAR',
       'A gata preta que te faz ser a lider de uma banda de rock',
-      'A gata preta que te faz ser a lider de uma banda de rock',
-      'A gata preta que te faz ser a lider de uma banda de rock'
+      'Essa é nossa foto que eu MAIS gosto, tirada no dia que assistimos o filme que desperta seu lado rock interior'
     ],
     duration: 'Uma biografia musical do coração',
     classification: 'L - Livre para fazer música do amor',
-    tags: ['Inspirador', 'Musical', 'Corajoso', 'Estrela'],
     romanticQuote: 'Minha Arabella.'
   },
   {
@@ -230,13 +233,18 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     title: "Amor em Cascata",
     image: amorEmCascataPoster,
     genre: "Comédia Romântica",
-    romanticDescription: "Almas gêmeas predestinadas... ou assim pensam. A cada semana, o universo parece ter um senso de humor peculiar, jogando desafios cômicos e completamente imprevisíveis em seu caminho. De desastres culinários envolvendo polvos gigantes a encontros românticos interrompidos por viagens no tempo e armaduras medievais em pleno metrô, nada é 'normal' para este casal. Mas, apesar de meteoros, filhotes adoráveis com poderes magnéticos e unicórnios, o amor de Mia e Leo é tão inquebrável quanto hilário. Será que eles conseguirão superar o próximo obstáculo impossível e, finalmente, ter um momento de paz... ou o universo sempre terá uma nova surpresa na manga? Uma comédia romântica que prova que, quando o amor é verdadeiro, nem um apocalipse zumbi (quase!) pode atrapalhar.",
+    romanticDescription: "Eu não sei você, mas eu sinto que o universo queria juntar a gente, e quando juntou ele colocou algumas dificuldades para gente evoluir e solidificar construirmos uma boa base para nossa historia. São rotinas, mundos, traumas e experiencias ruins no passado e imprevistos do presenteque fazem a gente crescer e nos tornar melhores. Tentando ser alguem melhor a cada dia, mostrando que pode cair um alienigina do céu mas isso não vai ser motivo para dificultar o que nos sentimos.",
     year: 2025,
     rating: "10★",
+    specialPhotos: [amorEmCascataPhoto1, amorEmCascataPhoto2, amorEmCascataPhoto3],
+    specialPhotoCaptions: [
+      'O dia que considero o mais importante até agora, onde colocamos muitas fraquezas nossas a mostra e tivemos um momento ó nosso (e da menina chorando, tadinha)',
+      'Aqui tivemos nosso primeiro papo mais intimo, foi bom ver que você estava sempre me ouvindo atentamente',
+      'Eu estava muito nervoso para te apresentar aos meus amigos esse dia, mas foi incrivel ver vocês todos juntos'
+    ],
     duration: 'Uma cascata infinita de amor',
     classification: 'L - Livre para amar em cascata',
-    tags: ['Hilário', 'Imprevisível', 'Mágico', 'Inquebrável'],
-    romanticQuote: 'Almas gêmeas predestinadas... ou assim pensam. A cada semana, o universo parece ter um senso de humor peculiar!'
+    romanticQuote: 'O universo juntou e agora ta nos testando, que teste mais!!!!'
   },
   {
     id: "flip-fever",
@@ -254,7 +262,6 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Para sempre',
     classification: 'L - Livre para amar',
-    tags: ['Hilário', 'Imprevisível', 'Mágico', 'Inquebrável'],
     romanticQuote: 'Nenhum dos premios é melhor do que estar nos seus braços'
   },
   {
@@ -262,29 +269,61 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     title: "Pressagio",
     image: pressagioPoster,
     genre: "Terror, Suspense",
-    romanticDescription: "Uma história de amor que transcende galáxias e desafia as leis do universo.",
+    romanticDescription: "É, tava predestinado a gente se encontrar, foram varias oportunidades e varias chances que foi aparecendo, e finalmente aconteceu e agora tem sido a melhor coisa da minha vida.",
     year: 2025,
     rating: "10★",
     specialPhotos: [pressagioPhoto1, pressagioPhoto2, pressagioPhoto3],
     specialPhotoCaptions: [
-      'Nossa primeira aventura espacial juntos',
-      'Entre as estrelas, encontramos nosso amor',
-      'Uma jornada que transcende galáxias'
+      'Metade do rosto pra mostrar que é misteriosa',
+      'Se eu soubesse que essa boquinha me faz muito feliz, eu teria feito uma tatuagem dela em mim',
+      'A foto só não ta escura por que você ilumina tudo com o seu brilho'
     ],
-    duration: 'Uma jornada infinita pelo espaço',
+    duration: 'Simplesmente predestinado',
     classification: 'L - Livre para explorar o amor',
-    tags: ['Épico', 'Aventura', 'Romântico', 'Espacial'],
-    romanticQuote: 'Entre as estrelas, encontramos nosso amor infinito!'
+    romanticQuote: 'Sonho com você todos os dias, não me mata por favor!!!'
   },
-  {
-    id: "o-segredo-da-arvore-magica",
-    title: "O Segredo da Árvore Mágica",
-    image: oSegredoDaArvoreMagicaPoster, 
-    genre: "Ação, Aventura, Romance",
-    romanticDescription: "Uma aventura épica pelo espaço onde dois corações se encontram entre as estrelas. Uma história de amor que transcende galáxias e desafia as leis do universo.",
+  {id: "eu-acredito",
+    title: "Eu Acredito",
+    image: euAcreditoPoster,
+    genre: "Romance",
+    romanticDescription: "Você me fez acreditar, me fez voltar a querer me esforçar, me faz querer me entregar e fazer dar certo. Foram anos com esse sentimento tendo morto dentro de mim, mas você desenterrou ele, e agora EU ACREDITO NO AMOR.",
     year: 2025,
     rating: "10★",
-    specialPhotos: [oSegredoDaArvoreMagicaPhoto1, oSegredoDaArvoreMagicaPhoto2, oSegredoDaArvoreMagicaPhoto3], // Usando fotos existentes como exemplo
+    specialPhotos: [euAcreditoPhoto1, euAcreditoPhoto2, euAcreditoPhoto3],
+    specialPhotoCaptions: [
+      'A segunda foto que mais gosto da gente',
+      'Essa é a minha favorita e usarei em tudo',
+      'EU adoro essas fotos nossa no parque, espero q você também goste'
+    ],
+    duration: 'IM BELIVER',
+    classification: 'L - Livre para amar',
+    romanticQuote: 'Assim que eu vi seu rosto, passei a acreditar'
+  },
+  {id: "o-segredo-da-arvore-magica",
+    title: "O Segredo da Árvore Mágica",
+    image: oSegredoDaArvoreMagicaPoster,
+    genre: "Ação, Aventura, Romance",
+    romanticDescription: "O dia que eu conheci o seu bairro, fomos no tao falado COBRA e pegamos mais um tubarão para você (depois de você perder de forma bem feia na sinuca, 2 vezes), criamos assim uma familia de tubas em seu quarto. ",
+    year: 2025,
+    rating: "10★",
+    specialPhotos: [oSegredoDaArvoreMagicaPhoto1, oSegredoDaArvoreMagicaPhoto2, oSegredoDaArvoreMagicaPhoto3],
+    specialPhotoCaptions: [
+      'Nessa foto parecemos que somos bem mais velho do que realmente somos, mas ainda somos o casal mais bonito do ambiente',
+      'Depois de me dar uma bronca por que você queria tirar foto da arvore e eu falando para ficarmos contra a luz dela kk mas saiu uma otima foto',
+      'EU SOU O CARA MAIS FELIZ DO MUNDO'
+    ],
+    duration: 'O mesmo periodo de vida de uma arvore',
+    classification: 'L - Livre para amar',
+    romanticQuote: 'Não é segredo pra ninguém que você é tudo que eu sempre quis.'
+  },
+  {id: "uau-desordem",
+    title: "Uau Desordem",
+    image: uauDesordemPoster,
+    genre: "Ação, Aventura, Romance",
+    romanticDescription: "Seu lado juridico, criminalista e invertigadora, que gosta de conteudos mais densos e pesados, me mostram",
+    year: 2025,
+    rating: "10★",
+    specialPhotos: [uauDesordemPhoto1, uauDesordemPhoto2, uauDesordemPhoto3],
     specialPhotoCaptions: [
       'Nossa primeira aventura espacial juntos',
       'Entre as estrelas, encontramos nosso amor',
@@ -292,8 +331,24 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Uma jornada infinita pelo espaço',
     classification: 'L - Livre para explorar o amor',
-    tags: ['Épico', 'Aventura', 'Romântico', 'Espacial'],
     romanticQuote: 'Entre as estrelas, encontramos nosso amor infinito!'
+  },
+  {id: "fade-runner-2099",
+    title: "Fade Runner 2099",
+    image: fadeRunner2099Poster,
+    genre: "Ação, Aventura, Romance",
+    romanticDescription: "Como em um universo paralelo ou um futuro distopico, quando estamos juntos parece que fomamos nossas proprias leis da fisica, o tempo não funciona igual, a pressão não existe e tudo que importa é você",
+    year: 2025,
+    rating: "10★",
+    specialPhotos: [fadeRunner2099Photo1, fadeRunner2099Photo2, fadeRunner2099Photo3],
+    specialPhotoCaptions: [
+      'As fotos que tiramos esse dia são as mais incriveis, foi um otimo ensaio fotografico',
+      'RECEBA MEO AMOOOR!',
+      'Fica ai fazendo biquinho pra ver o que acontece'
+    ],
+    duration: 'Uma jornada infinita pelo espaço',
+    classification: 'L - Livre para explorar o amor',
+    romanticQuote: 'Sei que nao vai ser um filme facil de fazer, mas eu acredito que conseguiremos'
   }
 ];
 
@@ -308,7 +363,6 @@ export const getMovieDetails = (movie: Movie): MovieWithDetails => {
       genres: movie.genre.split(', '),
       duration: 'Para sempre ∞',
       classification: 'L - Livre para amar',
-      tags: ['Romântico', 'Emocionante', 'Tocante'],
       romanticQuote: 'Com grandes poderes vêm grandes responsabilidades... e com grande amor vem grande felicidade!'
     };
   }
@@ -318,7 +372,6 @@ export const getMovieDetails = (movie: Movie): MovieWithDetails => {
     duration: movieData.duration || 'Para sempre ∞',
     classification: movieData.classification || 'L - Livre para amar',
     genres: movieData.genres || movie.genre.split(', '),
-    tags: movieData.tags || ['Romântico', 'Emocionante', 'Tocante'],
     romanticQuote: movieData.romanticQuote || 'Com grandes poderes vêm grandes responsabilidades... e com grande amor vem grande felicidade!',
     specialPhotoCaptions: movieData.specialPhotoCaptions || movie.specialPhotoCaptions
   };
@@ -337,13 +390,5 @@ export const MOVIES: Movie[] = MOVIES_DATA.map(movie => ({
   ...(movie.specialPhotoCaptions && { specialPhotoCaptions: movie.specialPhotoCaptions })
 }));
 
-// Filme especial (mantido separado como estava)
-export const AMOR_EM_CASCATA_MOVIE: Movie = {
-  id: "amor-em-cascata",
-  title: "Amor em Cascata",
-  image: amorEmCascataPoster,
-  genre: "Comédia Romântica",
-  romanticDescription: "Almas gêmeas predestinadas... ou assim pensam. A cada semana, o universo parece ter um senso de humor peculiar, jogando desafios cômicos e completamente imprevisíveis em seu caminho. De desastres culinários envolvendo polvos gigantes a encontros românticos interrompidos por viagens no tempo e armaduras medievais em pleno metrô, nada é 'normal' para este casal. Mas, apesar de meteoros, filhotes adoráveis com poderes magnéticos e unicórnios, o amor de Mia e Leo é tão inquebrável quanto hilário. Será que eles conseguirão superar o próximo obstáculo impossível e, finalmente, ter um momento de paz... ou o universo sempre terá uma nova surpresa na manga? Uma comédia romântica que prova que, quando o amor é verdadeiro, nem um apocalipse zumbi (quase!) pode atrapalhar.",
-  year: 2025,
-  rating: "10★"
-};
+// Export específico para o filme "Amor em Cascata"
+export const AMOR_EM_CASCATA_MOVIE: Movie = MOVIES.find(movie => movie.id === 'amor-em-cascata')!;

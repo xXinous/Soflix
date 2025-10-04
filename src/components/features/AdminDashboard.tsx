@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, Users, Eye, Calendar, Heart, TrendingUp, Clock, Globe, Smartphone, Monitor, Tablet, MapPin, Info, X, Shield, AlertTriangle, Lock } from 'lucide-react';
 import { DeviceInfo } from '@/utils/deviceInfo';
-import { loadVisits, processUserStats, clearAllData, migrateLegacyData, verifyDataIntegrity } from '@/utils/secureStorage';
+import { loadVisits, processUserStats, clearAllData, migrateLegacyData, verifyDataIntegrity, saveAdminStats, syncWithSupabase } from '@/utils/secureStorage';
 import { verifyAdminSession, clearAdminSession, getSecurityLogs } from '@/utils/auth';
+import { DataSyncStatus } from '@/components/ui/DataSyncStatus';
 
 interface AdminDashboardProps {
   onBack: () => void;
@@ -58,6 +59,9 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
           return;
         }
 
+        // Sincronizar com Supabase se disponível
+        await syncWithSupabase();
+
         // Migrar dados legados se necessário
         await migrateLegacyData();
 
@@ -99,7 +103,7 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
         const uniqueIPs = new Set(allVisits.map(v => v.userIP)).size;
         const uniqueDevices = new Set(allVisits.map(v => v.deviceInfo?.deviceName)).size;
 
-        setStats({
+        const newStats = {
           totalVisits: allVisits.length,
           sofiaVisits: sofia.length,
           adminVisits: admin.length,
@@ -108,7 +112,12 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
           averagePerDay: Math.round(allVisits.length / totalDays * 10) / 10,
           uniqueDevices,
           uniqueIPs
-        });
+        };
+
+        setStats(newStats);
+
+        // Salvar estatísticas calculadas
+        await saveAdminStats(newStats);
       } catch (error) {
         console.error('Erro ao inicializar dashboard:', error);
         setDataIntegrity(false);
@@ -217,6 +226,7 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
           </div>
         </div>
         <div className="flex items-center space-x-4">
+          <DataSyncStatus />
           <div className="flex items-center space-x-2">
             {dataIntegrity === true && (
               <div className="flex items-center space-x-1 text-green-400">

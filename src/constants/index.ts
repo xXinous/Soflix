@@ -33,3 +33,10 @@ export const BREAKPOINTS = {
   XL: 1280,
 } as const;
 
+export const STORAGE_CONFIG = {
+  USE_SUPABASE: !!(import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY),
+  SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL,
+  SUPABASE_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY,
+  ENCRYPTION_KEY: import.meta.env.VITE_ENCRYPTION_KEY,
+} as const;
+

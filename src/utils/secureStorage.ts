@@ -1,9 +1,20 @@
 /**
  * Armazenamento seguro para dados sensíveis
  * Implementa criptografia e validação de dados
+ * Usa Supabase para dados compartilhados quando disponível
  */
 
 import { encryptData, decryptData, sanitizeInput, validateDeviceInfo, validateIP } from './encryption';
+import { STORAGE_CONFIG } from '@/constants';
+import { 
+  storeVisitSupabase, 
+  loadVisitsSupabase, 
+  processUserStatsSupabase,
+  saveAdminStatsSupabase,
+  loadAdminStatsSupabase,
+  shouldUseSupabase,
+  syncDataWithSupabase
+} from './supabaseStorage';
 
 interface SecureVisit {
   sessionId: string;
@@ -26,6 +37,7 @@ interface SecureUserStats {
 
 /**
  * Armazena dados de visita de forma segura
+ * Usa Supabase quando disponível para dados compartilhados
  */
 export async function storeVisit(visit: SecureVisit): Promise<void> {
   try {
@@ -61,7 +73,13 @@ export async function storeVisit(visit: SecureVisit): Promise<void> {
       location: visit.location ? sanitizeInput(visit.location) : undefined
     };
 
-    // Carregar dados existentes
+    // Usar Supabase se disponível
+    if (shouldUseSupabase()) {
+      await storeVisitSupabase(sanitizedVisit);
+      return;
+    }
+
+    // Fallback para localStorage
     const existingData = await loadVisits(visit.type);
     const updatedData = [...existingData, sanitizedVisit];
 
@@ -78,9 +96,16 @@ export async function storeVisit(visit: SecureVisit): Promise<void> {
 
 /**
  * Carrega dados de visitas de forma segura
+ * Usa Supabase quando disponível para dados compartilhados
  */
 export async function loadVisits(type: 'sofia_access' | 'admin_access'): Promise<SecureVisit[]> {
   try {
+    // Usar Supabase se disponível
+    if (shouldUseSupabase()) {
+      return await loadVisitsSupabase(type);
+    }
+
+    // Fallback para localStorage
     const storageKey = type === 'sofia_access' ? 'soflix_sofia_visits_secure' : 'soflix_admin_visits_secure';
     const encryptedData = localStorage.getItem(storageKey);
     
@@ -119,9 +144,16 @@ function loadLegacyVisits(type: 'sofia_access' | 'admin_access'): SecureVisit[] 
 
 /**
  * Processa estatísticas de usuários de forma segura
+ * Usa Supabase quando disponível para dados compartilhados
  */
 export async function processUserStats(): Promise<SecureUserStats[]> {
   try {
+    // Usar Supabase se disponível
+    if (shouldUseSupabase()) {
+      return await processUserStatsSupabase();
+    }
+
+    // Fallback para localStorage
     const sofiaVisits = await loadVisits('sofia_access');
     const adminVisits = await loadVisits('admin_access');
     const allVisits = [...sofiaVisits, ...adminVisits];
@@ -162,17 +194,72 @@ export async function processUserStats(): Promise<SecureUserStats[]> {
 }
 
 /**
+ * Salva estatísticas calculadas
+ */
+export async function saveAdminStats(stats: any): Promise<void> {
+  try {
+    if (shouldUseSupabase()) {
+      await saveAdminStatsSupabase(stats);
+    } else {
+      // Fallback para localStorage se necessário
+      localStorage.setItem('soflix_admin_stats', JSON.stringify(stats));
+    }
+  } catch (error) {
+    console.error('Erro ao salvar estatísticas:', error);
+    throw new Error('Falha ao salvar estatísticas');
+  }
+}
+
+/**
+ * Carrega estatísticas calculadas
+ */
+export async function loadAdminStats(): Promise<any | null> {
+  try {
+    if (shouldUseSupabase()) {
+      return await loadAdminStatsSupabase();
+    } else {
+      // Fallback para localStorage se necessário
+      const stats = localStorage.getItem('soflix_admin_stats');
+      return stats ? JSON.parse(stats) : null;
+    }
+  } catch (error) {
+    console.error('Erro ao carregar estatísticas:', error);
+    return null;
+  }
+}
+
+/**
+ * Sincroniza dados com Supabase
+ */
+export async function syncWithSupabase(): Promise<void> {
+  try {
+    if (shouldUseSupabase()) {
+      await syncDataWithSupabase();
+    }
+  } catch (error) {
+    console.error('Erro na sincronização:', error);
+    throw new Error('Falha na sincronização de dados');
+  }
+}
+
+/**
  * Limpa todos os dados de forma segura
  */
 export async function clearAllData(): Promise<void> {
   try {
-    // Limpar dados criptografados
-    localStorage.removeItem('soflix_sofia_visits_secure');
-    localStorage.removeItem('soflix_admin_visits_secure');
-    
-    // Limpar dados legados
-    localStorage.removeItem('soflix_sofia_visits');
-    localStorage.removeItem('soflix_admin_visits');
+    if (shouldUseSupabase()) {
+      const { clearSupabaseData } = await import('./supabaseStorage');
+      await clearSupabaseData();
+    } else {
+      // Limpar dados criptografados
+      localStorage.removeItem('soflix_sofia_visits_secure');
+      localStorage.removeItem('soflix_admin_visits_secure');
+      
+      // Limpar dados legados
+      localStorage.removeItem('soflix_sofia_visits');
+      localStorage.removeItem('soflix_admin_visits');
+      localStorage.removeItem('soflix_admin_stats');
+    }
   } catch (error) {
     console.error('Erro ao limpar dados:', error);
     throw new Error('Falha ao limpar dados');

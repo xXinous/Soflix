@@ -17,7 +17,6 @@ export interface MovieDetails {
   duration: string;
   classification: string;
   genres: string[];
-  tags: string[];
   romanticQuote: string;
 }
 
@@ -98,8 +97,7 @@ export const MovieModalUI: React.FC<MovieModalUIProps> = ({
   onShare,
   onHeart,
 }) => {
-  return (
-    <div className="fixed inset-0 bg-black/80 z-50 flex items-start sm:items-center justify-center p-3 sm:p-4">
+  return (  
       <div className="bg-gray-900 rounded-lg max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
         {/* Header Image */}
         <div className="relative h-48 sm:h-56 md:h-64 lg:h-80">
@@ -202,11 +200,6 @@ export const MovieModalUI: React.FC<MovieModalUIProps> = ({
               <div className="text-sm sm:text-base">
                 <span className="text-gray-400">Gênero: </span>
                 <span>{movieDetails.genres.join(', ')}</span>
-              </div>
-              <div className="text-sm sm:text-base">
-                <span className="text-gray-400">Este filme é: </span>
-                <span>{movieDetails.tags.join(', ')}</span>
-              </div>
             </div>
             <div className="space-y-2 sm:space-y-3">
               <div className="text-sm sm:text-base">
