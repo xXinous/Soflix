@@ -5,6 +5,7 @@
 
 import { createClient } from '@jsr/supabase__supabase-js';
 import { STORAGE_CONFIG } from '@/constants';
+import { isNetworkError, isOnline, withRetry, logNetworkError } from './networkUtils';
 
 // Configurações do Supabase
 const supabaseUrl = STORAGE_CONFIG.SUPABASE_URL;
@@ -48,34 +49,69 @@ interface AdminStats {
 }
 
 /**
- * Armazena dados de visita no Supabase
+ * Armazena dados de visita no Supabase com fallback para localStorage
  */
 export async function storeVisitSupabase(visit: SecureVisit): Promise<void> {
   try {
-    const { error } = await supabase
-      .from('admin_data')
-      .insert({
-        data_type: 'visit',
-        visit_type: visit.type,
-        data: visit,
-        created_at: new Date().toISOString()
-      });
-
-    if (error) {
-      console.error('Erro ao armazenar visita no Supabase:', error);
-      throw new Error('Falha ao armazenar dados no servidor');
+    // Verificar se Supabase está disponível
+    if (!shouldUseSupabase()) {
+      console.warn('Supabase não configurado, usando localStorage como fallback');
+      await storeVisitInLocalStorage(visit);
+      return;
     }
-  } catch (error) {
-    console.error('Erro ao armazenar visita:', error);
-    throw new Error('Falha ao armazenar dados de visita');
+
+    // Verificar conectividade antes de fazer a requisição
+    if (!isOnline()) {
+      console.warn('Sem conexão com internet, usando localStorage como fallback');
+      await storeVisitInLocalStorage(visit);
+      return;
+    }
+
+    // Tentar armazenar no Supabase com retry automático
+    await withRetry(async () => {
+      const { error } = await supabase
+        .from('admin_data')
+        .insert({
+          data_type: 'visit',
+          visit_type: visit.type,
+          data: visit,
+          created_at: new Date().toISOString()
+        });
+
+      if (error) {
+        throw error;
+      }
+    });
+
+    console.log('✅ Visita armazenada com sucesso no Supabase');
+  } catch (error: any) {
+    logNetworkError('storeVisitSupabase', error);
+    
+    // Se for erro de rede, usar localStorage como fallback
+    if (isNetworkError(error)) {
+      console.warn('Erro de rede/CORS detectado, usando localStorage como fallback');
+    }
+    
+    try {
+      await storeVisitInLocalStorage(visit);
+    } catch (localError) {
+      console.error('Erro ao armazenar visita no localStorage:', localError);
+      throw new Error('Falha ao armazenar dados de visita');
+    }
   }
 }
 
 /**
- * Carrega visitas do Supabase
+ * Carrega visitas do Supabase com fallback para localStorage
  */
 export async function loadVisitsSupabase(type: 'sofia_access' | 'admin_access'): Promise<SecureVisit[]> {
   try {
+    // Verificar se Supabase está disponível
+    if (!shouldUseSupabase()) {
+      console.warn('Supabase não configurado, usando localStorage como fallback');
+      return await loadVisitsFromLocalStorage(type);
+    }
+
     const { data, error } = await supabase
       .from('admin_data')
       .select('data')
@@ -84,34 +120,46 @@ export async function loadVisitsSupabase(type: 'sofia_access' | 'admin_access'):
       .order('created_at', { ascending: true });
 
     if (error) {
-      console.error('Erro ao carregar visitas do Supabase:', error);
-      return [];
+      console.warn('Erro ao carregar visitas do Supabase, usando localStorage:', error);
+      return await loadVisitsFromLocalStorage(type);
     }
 
     return data?.map(item => item.data) || [];
   } catch (error) {
-    console.error('Erro ao carregar visitas:', error);
-    return [];
+    console.warn('Erro ao carregar visitas do Supabase, usando localStorage:', error);
+    return await loadVisitsFromLocalStorage(type);
   }
 }
 
 /**
- * Processa estatísticas de usuários do Supabase
+ * Processa estatísticas de usuários do Supabase com fallback para localStorage
  */
 export async function processUserStatsSupabase(): Promise<SecureUserStats[]> {
   try {
-    const { data, error } = await supabase
-      .from('admin_data')
-      .select('data')
-      .eq('data_type', 'visit')
-      .order('created_at', { ascending: true });
+    let allVisits: SecureVisit[] = [];
 
-    if (error) {
-      console.error('Erro ao carregar dados para estatísticas:', error);
-      return [];
+    // Tentar carregar do Supabase primeiro
+    if (shouldUseSupabase()) {
+      const { data, error } = await supabase
+        .from('admin_data')
+        .select('data')
+        .eq('data_type', 'visit')
+        .order('created_at', { ascending: true });
+
+      if (!error && data) {
+        allVisits = data.map(item => item.data);
+      } else {
+        console.warn('Erro ao carregar dados do Supabase, usando localStorage:', error);
+      }
     }
 
-    const allVisits = data?.map(item => item.data) || [];
+    // Se não há dados do Supabase, usar localStorage
+    if (allVisits.length === 0) {
+      const sofiaVisits = await loadVisitsFromLocalStorage('sofia_access');
+      const adminVisits = await loadVisitsFromLocalStorage('admin_access');
+      allVisits = [...sofiaVisits, ...adminVisits];
+    }
+
     const userMap = new Map<string, SecureUserStats>();
 
     allVisits.forEach((visit: SecureVisit) => {
@@ -225,7 +273,30 @@ export async function migrateToSupabase(): Promise<void> {
 }
 
 /**
- * Carrega visitas do localStorage (função auxiliar para migração)
+ * Armazena visita no localStorage (função auxiliar para fallback)
+ */
+async function storeVisitInLocalStorage(visit: SecureVisit): Promise<void> {
+  try {
+    const storageKey = visit.type === 'sofia_access' ? 'soflix_sofia_visits_secure' : 'soflix_admin_visits_secure';
+    
+    // Carregar dados existentes
+    const existingVisits = await loadVisitsFromLocalStorage(visit.type);
+    
+    // Adicionar nova visita
+    existingVisits.push(visit);
+    
+    // Criptografar e salvar
+    const { encryptData } = await import('./encryption');
+    const encryptedData = await encryptData(existingVisits);
+    localStorage.setItem(storageKey, encryptedData);
+  } catch (error) {
+    console.error('Erro ao armazenar visita no localStorage:', error);
+    throw error;
+  }
+}
+
+/**
+ * Carrega visitas do localStorage (função auxiliar para migração e fallback)
  */
 async function loadVisitsFromLocalStorage(type: 'sofia_access' | 'admin_access'): Promise<SecureVisit[]> {
   try {
@@ -270,7 +341,26 @@ export async function clearSupabaseData(): Promise<void> {
  * Verifica se deve usar Supabase ou localStorage
  */
 export function shouldUseSupabase(): boolean {
-  return STORAGE_CONFIG.USE_SUPABASE;
+  // Verificar se as configurações estão corretas
+  const hasValidUrl = STORAGE_CONFIG.SUPABASE_URL && 
+    STORAGE_CONFIG.SUPABASE_URL.includes('vwiumednzppcianfuynd') &&
+    !STORAGE_CONFIG.SUPABASE_URL.includes('dbhjhdaaacrzqrrxekzz');
+  
+  const hasValidKey = STORAGE_CONFIG.SUPABASE_KEY && 
+    STORAGE_CONFIG.SUPABASE_KEY.length > 100;
+  
+  const shouldUse = STORAGE_CONFIG.USE_SUPABASE && hasValidUrl && hasValidKey;
+  
+  if (!shouldUse) {
+    console.warn('Supabase não será usado:', {
+      useSupabase: STORAGE_CONFIG.USE_SUPABASE,
+      hasValidUrl,
+      hasValidKey,
+      url: STORAGE_CONFIG.SUPABASE_URL?.substring(0, 50) + '...'
+    });
+  }
+  
+  return shouldUse;
 }
 
 /**

@@ -7,10 +7,48 @@
       <title>SOFLIX</title>
       <link rel="icon" type="image/x-icon" href="/favicon.ico">
       <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-      <!-- Netflix Sans Font -->
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Netflix+Sans:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+      <!-- Netflix Sans Font - Cloudflare Pages Compatible -->
+      <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+      <!-- Fallback font loading with local fonts first -->
+      <style>
+        @font-face {
+          font-family: 'Netflix Sans';
+          font-style: normal;
+          font-weight: 300 900;
+          font-display: swap;
+          src: local('Netflix Sans'), local('NetflixSans-Regular'), 
+               local('Segoe UI'), local('Roboto'), local('Arial'), 
+               local('Helvetica Neue'), local('sans-serif');
+        }
+        
+        /* Fallback to system fonts if Google Fonts fails */
+        body {
+          font-family: 'Netflix Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+      </style>
+      
+      <!-- Try to load Google Fonts with error handling -->
+      <script>
+        (function() {
+          const link = document.createElement('link');
+          link.href = 'https://fonts.googleapis.com/css2?family=Netflix+Sans:wght@300;400;500;700;900&display=swap';
+          link.rel = 'stylesheet';
+          link.crossOrigin = 'anonymous';
+          
+          link.onerror = function() {
+            console.warn('Google Fonts failed to load, using system fonts');
+            document.documentElement.classList.add('fonts-failed');
+          };
+          
+          link.onload = function() {
+            console.log('Google Fonts loaded successfully');
+            document.documentElement.classList.add('fonts-loaded');
+          };
+          
+          document.head.appendChild(link);
+        })();
+      </script>
     </head>
 
     <body>

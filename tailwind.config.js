@@ -12,8 +12,36 @@ module.exports = {
         'netflix-gray': '#333333',
       },
       fontFamily: {
-        'sans': ['Netflix Sans', 'Helvetica Neue', 'Segoe UI', 'Roboto', 'Ubuntu', 'sans-serif'],
-        'netflix': ['Netflix Sans', 'Helvetica Neue', 'Segoe UI', 'Roboto', 'Ubuntu', 'sans-serif'],
+        'sans': [
+          'Netflix Sans', 
+          '-apple-system', 
+          'BlinkMacSystemFont', 
+          'Segoe UI', 
+          'Roboto', 
+          'Oxygen', 
+          'Ubuntu', 
+          'Cantarell', 
+          'Fira Sans', 
+          'Droid Sans', 
+          'Helvetica Neue', 
+          'system-ui',
+          'sans-serif'
+        ],
+        'netflix': [
+          'Netflix Sans', 
+          '-apple-system', 
+          'BlinkMacSystemFont', 
+          'Segoe UI', 
+          'Roboto', 
+          'Oxygen', 
+          'Ubuntu', 
+          'Cantarell', 
+          'Fira Sans', 
+          'Droid Sans', 
+          'Helvetica Neue', 
+          'system-ui',
+          'sans-serif'
+        ],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

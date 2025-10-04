@@ -21,7 +21,7 @@ export default defineConfig({
   build: {
     target: 'es2015',
     outDir: 'dist',
-    sourcemap: 'hidden',
+    sourcemap: false, // Desabilitar source maps para evitar erros de parse
     rollupOptions: {
       output: {
         manualChunks: {
@@ -29,6 +29,13 @@ export default defineConfig({
           ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tabs'],
           icons: ['lucide-react'],
         },
+      },
+    },
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
       },
     },
   },

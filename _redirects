@@ -1,0 +1,7 @@
+# Redirects para Cloudflare Pages
+
+# Redirecionar todas as rotas para index.html (SPA)
+/*    /index.html   200
+
+# Headers específicos para API routes (se necessário no futuro)
+/api/*    /api/:splat    200
