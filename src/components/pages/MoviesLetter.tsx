@@ -1,11 +1,9 @@
 import { ArrowLeft, Heart, Play } from 'lucide-react';
 import { useNavigation } from '@/hooks';
 
-interface MoviesLetterProps {
-  onBack: () => void;
-}
+interface MoviesLetterProps {}
 
-export function MoviesLetter({ onBack }: MoviesLetterProps) {
+export function MoviesLetter({}: MoviesLetterProps) {
   const { goBack } = useNavigation();
 
   // Conteúdo da carta - facilmente editável

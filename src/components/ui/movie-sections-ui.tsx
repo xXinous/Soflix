@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { Play, ThumbsUp, Download, Plus } from 'lucide-react';
 import { Movie } from '@/types';
 import { ImageWithFallback } from '@/components/common/figma/ImageWithFallback';
@@ -26,7 +26,7 @@ const MOVIE_SECTIONS: MovieSection[] = [
   },
   {
     id: 'porque-se-apaixonou-por-sofia',
-    title: 'Por que você se apaixonou por: Sofia',
+    title: 'Por que você se apaixonou por Sofia:',
     movieIds: ["eu-acredito", "roupa-preta-coracao-azul", "dilema-do-amor", "fade-runner-2099","uau-desordem" ],
     gridLayout: 'poster', // Layout retrato (aspect-[2/3])
   },
@@ -89,10 +89,68 @@ const MovieItem: React.FC<MovieItemProps> = ({
 }) => {
   const aspectRatio = variant === 'continue' ? 'aspect-video' : 'aspect-[2/3]';
   
+  // Estados para detectar arrasto vs clique
+  const [isDragging, setIsDragging] = useState(false);
+  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
+  const [hasMoved, setHasMoved] = useState(false);
+  const touchStartTime = useRef<number>(0);
+  const DRAG_THRESHOLD = 10; // pixels
+  const CLICK_MAX_DURATION = 300; // ms
+
+  // Handler para início do toque
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    setStartPosition({ x: touch.clientX, y: touch.clientY });
+    setIsDragging(false);
+    setHasMoved(false);
+    touchStartTime.current = Date.now();
+  };
+
+  // Handler para movimento do toque
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!startPosition) return;
+    
+    const touch = e.touches[0];
+    const deltaX = Math.abs(touch.clientX - startPosition.x);
+    const deltaY = Math.abs(touch.clientY - startPosition.y);
+    
+    // Se moveu mais que o threshold, considera como arrasto
+    if (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD) {
+      setIsDragging(true);
+      setHasMoved(true);
+    }
+  };
+
+  // Handler para fim do toque
+  const handleTouchEnd = () => {
+    const touchDuration = Date.now() - touchStartTime.current;
+    
+    // Só abre o modal se:
+    // 1. Não foi um arrasto (hasMoved = false)
+    // 2. O toque foi rápido (menos que CLICK_MAX_DURATION)
+    // 3. Não estava arrastando
+    if (!hasMoved && !isDragging && touchDuration < CLICK_MAX_DURATION) {
+      onMovieClick(movie);
+    }
+    
+    // Reset dos estados
+    setIsDragging(false);
+    setHasMoved(false);
+  };
+
+  // Handler para clique do mouse (desktop)
+  const handleClick = () => {
+    // No desktop, sempre permite clique
+    onMovieClick(movie);
+  };
+  
   return (
     <div
       className="group cursor-pointer transition-all duration-300"
-      onClick={() => onMovieClick(movie)}
+      onClick={handleClick}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => onKeyDown(e, movie)}

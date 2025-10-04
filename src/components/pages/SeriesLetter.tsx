@@ -1,21 +1,20 @@
 import { ArrowLeft, Heart, Play } from 'lucide-react';
 import { useNavigation } from '@/hooks';
 
-interface SeriesLetterProps {
-  onBack: () => void;
-}
+interface SeriesLetterProps {}
 
-export function SeriesLetter({ onBack }: SeriesLetterProps) {
+export function SeriesLetter({}: SeriesLetterProps) {
   const { goBack } = useNavigation();
 
   // Conteúdo da carta - facilmente editável
   const letterContent = `
-    [CARTA PARA SÉRIES - ESCREVER NO GOOGLE DOCS E COLAR AQUI]
-    
-    Aqui você pode escrever sua carta romântica sobre séries...
-    Este texto será substituído pelo conteúdo que você escrever no Google Docs.
-    
-    Mantenha a formatação do Google Docs aqui para facilitar a edição.
+Sofi, Sofi, Sofi...O cronômetro da nossa história marca 3 meses e 2 semanas, e eu me pego maratonando cada segundo que passamos juntos desde a nossa estreia.
+
+Cada mês foi como uma temporada nova, cheia de reviravoltas emocionantes e momentos que mereciam um "replay".Nessas primeiras temporadas, fui descobrindo a protagonista incrível que você é: sua força, seu jeito único de amar e o roteiro perfeito do seu sorriso.
+
+E estar no seu elenco me fez ver o meu próprio desenvolvimento de personagem. Ao seu lado, aprendo a ser alguém melhor, não só para você, mas para todos que fazem parte da minha trama.
+
+Você me ensina que os melhores episódios são aqueles que não estavam no script, os espontâneos, onde a gente simplesmente aproveita o momento.Já se foram 3 temporadas inesquecíveis, e a minha única torcida é para que a nossa série seja renovada por tempo indeterminado, até que os diretores lá de cima decidam pelo nosso grand finale.
   `;
 
   return (
@@ -39,8 +38,7 @@ export function SeriesLetter({ onBack }: SeriesLetterProps) {
         <div className="h-64 bg-gradient-to-r from-red-600 to-pink-600 flex items-center justify-center relative overflow-hidden">
           <div className="absolute inset-0 bg-black/30"></div>
           <div className="text-center z-10 px-4">
-            <h2 className="text-4xl md:text-5xl mb-4">Carta sobre Séries</h2>
-            <p className="text-lg md:text-xl">Uma carta especial para minha amada Sofia</p>
+            <h2 className="text-4xl md:text-5xl mb-4">Novas temporadas:</h2>
           </div>
         </div>
       </div>
@@ -95,7 +93,7 @@ export function SeriesLetter({ onBack }: SeriesLetterProps) {
         {/* Footer romântico */}
         <div className="text-center mt-8 p-6 bg-gradient-to-r from-red-600/10 to-pink-600/10 rounded-lg border border-red-500/20">
           <p className="text-gray-300 italic">
-            "Ainda estamso na primeira temporada da nossa história."
+            "Ainda estamos só no começo."
           </p>
         </div>
       </div>

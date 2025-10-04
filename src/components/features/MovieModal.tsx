@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Movie } from '@/types';
 import { 
   MovieModalUI, 
@@ -41,6 +42,30 @@ const generateSpecialPhotos = (movie: Movie) => {
 
 export function MovieModal({ movie, onClose }: MovieModalProps) {
   const movieDetails = getMovieDetails(movie);
+
+  // Interceptar o botão de voltar do navegador para fechar apenas o modal
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      // Fechar apenas o modal quando o usuário pressionar o botão de voltar
+      onClose();
+    };
+
+    // Adicionar uma entrada no histórico para poder interceptar o popstate
+    // Isso permite que o botão de voltar seja interceptado
+    window.history.pushState({ modalOpen: true }, '');
+    
+    // Adicionar o listener para o evento popstate
+    window.addEventListener('popstate', handlePopState);
+
+    // Cleanup: remover o listener quando o componente for desmontado
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      // Remover a entrada do histórico que foi adicionada
+      if (window.history.state?.modalOpen) {
+        window.history.back();
+      }
+    };
+  }, [onClose]);
 
   // Renderizar conteúdo especial automaticamente
   const renderSpecialContent = () => {

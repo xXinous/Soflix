@@ -99,7 +99,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Uma noite inteira',
     classification: 'L - Livre para sonhar',
-    romanticQuote: 'Se eu tiver sonhando com você, então eu quero dormir pra sempre.'
+    romanticQuote: 'Se eu tiver sonhando com você, não me acordem, é aqui que quero estar.'
   },
   {
     id: "casal-aranha-teia-do-julgamento",
@@ -135,7 +135,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Um jogo de coração',
     classification: 'L - Livre para jogar com amor',
-    romanticQuote: 'Mesmo com o coração em luto, ela lidera com amor e coragem!'
+    romanticQuote: 'HOME RUN!'
   },
   {
     id: "dilema-do-amor",
@@ -153,7 +153,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Entre livros e beijos',
     classification: 'L - Livre para estudar o amor',
-    romanticQuote: 'Entre livros e beijos, ela busca a sentença final do amor!'
+    romanticQuote: 'Te dividir com o Direito ta me dando ciúme'
   },
   {
     id: "beijo-estrelado",
@@ -171,7 +171,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Uma noite sob as estreslas',
     classification: 'L - Livre para beijar as estrelas',
-    romanticQuote: 'Sob as estrelas de 1986, duas almas se encontraram para sempre!'
+    romanticQuote: 'Te beijar é gual a como explorar o vasto seu estrelado.'
   },
   {
     id: "amor-em-alta-velocidade",
@@ -190,7 +190,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     duration: 'Velocidade do amor infinito',
     classification: 'L - Livre para amar em velocidade máxima',
     genres: ['Romance', 'Aventura', 'Praia', 'Conexão'],
-    romanticQuote: 'Na praia encontramos nossa conexão mais pura. Cada caminhada na areia, cada pôr do sol contemplado ao seu lado me lembra como somos sortudos por termos encontrado um ao outro neste universo imenso.'
+    romanticQuote: 'Sem roda-gigante mas com pizza quadrada'
   },
   {
     id: "troca-troca-juridico",
@@ -208,7 +208,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Uma briga inocente, uma lição de amor',
     classification: 'L - Livre para fazer as pazes',
-    romanticQuote: 'Até nas brigas mais inocentes, o amor sempre encontra um jeito de fazer as pazes!'
+    romanticQuote: 'Se a gente trocar de lugar, qual seria a primeira coisa que você faria?'
   },
   {
     id: "motim-estelar",
@@ -244,7 +244,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Uma cascata infinita de amor',
     classification: 'L - Livre para amar em cascata',
-    romanticQuote: 'O universo juntou e agora ta nos testando, que teste mais!!!!'
+    romanticQuote: 'Te escolheria sempre, aqui ou em qualquer outro universo.'
   },
   {
     id: "flip-fever",
@@ -314,7 +314,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'O mesmo periodo de vida de uma arvore',
     classification: 'L - Livre para amar',
-    romanticQuote: 'Não é segredo pra ninguém que você é tudo que eu sempre quis.'
+    romanticQuote: 'Não é segredo pra ninguém que eu penso em você o tempo todo'
   },
   {id: "uau-desordem",
     title: "Uau Desordem",
@@ -331,7 +331,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Uma jornada infinita pelo espaço',
     classification: 'L - Livre para explorar o amor',
-    romanticQuote: 'Entre as estrelas, encontramos nosso amor infinito!'
+    romanticQuote: 'Nossa vida pode ser uma bagunça as vezes, mas quero pode ter certeza que estarei aqui como um porto seguro para ti.'
   },
   {id: "fade-runner-2099",
     title: "Fade Runner 2099",
@@ -348,7 +348,7 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     ],
     duration: 'Uma jornada infinita pelo espaço',
     classification: 'L - Livre para explorar o amor',
-    romanticQuote: 'Sei que nao vai ser um filme facil de fazer, mas eu acredito que conseguiremos'
+    romanticQuote: 'Para ser tao perfeita, só pode ser um robo do futuro.'
   }
 ];
 
