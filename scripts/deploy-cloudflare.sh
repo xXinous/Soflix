@@ -88,16 +88,16 @@ build_project() {
 deploy_preview() {
     print_status "Deployando para preview..."
     
-    wrangler pages deploy dist --project-name soflix-preview
+    wrangler pages deploy dist --project-name soflix
     
     print_success "Deploy para preview concluído!"
 }
 
 # Function to deploy to production
 deploy_production() {
-    print_status "Deployando para produção..."
+    print_status "Deployando para produção (branch: main)..."
     
-    wrangler pages deploy dist --project-name soflix-production
+    wrangler pages deploy dist --project-name soflix --branch main
     
     print_success "Deploy para produção concluído!"
 }
@@ -106,8 +106,8 @@ deploy_production() {
 show_deployment_info() {
     print_status "Informações do deploy:"
     echo "  📁 Diretório de build: dist/"
-    echo "  🌐 Preview: soflix-preview.pages.dev"
-    echo "  🎯 Produção: soflix-production.pages.dev"
+    echo "  🌐 Preview: Uma URL de preview será gerada."
+    echo "  🎯 Produção: soflix.pages.dev (após o merge na branch 'main')"
     echo "  📊 Dashboard: https://dash.cloudflare.com/pages"
 }
 
