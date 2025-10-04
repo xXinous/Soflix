@@ -17,42 +17,71 @@ export const Carousel: React.FC<CarouselProps> = ({
   scrollStep = 300
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  
+  // Converter children para array
+  const childrenArray = React.Children.toArray(children);
+  const itemCount = childrenArray.length;
 
-  // Verificar se pode rolar para os lados
-  const checkScrollability = () => {
-    if (!scrollContainerRef.current) return;
+  // Calcular largura de um item
+  const getItemWidth = () => {
+    if (!scrollContainerRef.current || itemCount === 0) return scrollStep;
+    return scrollContainerRef.current.scrollWidth / (itemCount * 3); // 3 = original + 2 duplicatas
+  };
+
+  // Verificar e ajustar posição para looping infinito
+  const checkAndAdjustPosition = () => {
+    if (!scrollContainerRef.current || isTransitioning) return;
     
     const container = scrollContainerRef.current;
-    const canScrollLeftValue = container.scrollLeft > 0;
-    const canScrollRightValue = container.scrollLeft < (container.scrollWidth - container.clientWidth);
+    const itemWidth = getItemWidth();
+    const currentScroll = container.scrollLeft;
     
-    setCanScrollLeft(canScrollLeftValue);
-    setCanScrollRight(canScrollRightValue);
+    // Se estiver no final (última duplicata), voltar ao início
+    if (currentScroll >= itemWidth * itemCount * 2) {
+      setIsTransitioning(true);
+      container.style.scrollBehavior = 'auto';
+      container.scrollLeft = itemWidth * itemCount;
+      setTimeout(() => {
+        container.style.scrollBehavior = 'smooth';
+        setIsTransitioning(false);
+      }, 50);
+    }
+    // Se estiver no início (primeira duplicata), ir para o final
+    else if (currentScroll <= itemWidth * itemCount) {
+      setIsTransitioning(true);
+      container.style.scrollBehavior = 'auto';
+      container.scrollLeft = itemWidth * itemCount * 2;
+      setTimeout(() => {
+        container.style.scrollBehavior = 'smooth';
+        setIsTransitioning(false);
+      }, 50);
+    }
   };
 
   // Scroll para a esquerda
   const scrollLeftHandler = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({
-        left: -scrollStep,
-        behavior: 'smooth'
-      });
-    }
+    if (!scrollContainerRef.current || isTransitioning) return;
+    
+    const itemWidth = getItemWidth();
+    scrollContainerRef.current.scrollBy({
+      left: -itemWidth,
+      behavior: 'smooth'
+    });
   };
 
   // Scroll para a direita
   const scrollRightHandler = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({
-        left: scrollStep,
-        behavior: 'smooth'
-      });
-    }
+    if (!scrollContainerRef.current || isTransitioning) return;
+    
+    const itemWidth = getItemWidth();
+    scrollContainerRef.current.scrollBy({
+      left: itemWidth,
+      behavior: 'smooth'
+    });
   };
 
   // Eventos de mouse para drag
@@ -112,41 +141,52 @@ export const Carousel: React.FC<CarouselProps> = ({
   };
 
   // Evento de scroll com roda do mouse
-  const handleWheel = (e: React.WheelEvent) => {
-    if (!scrollContainerRef.current) return;
+  const handleWheel = (e: WheelEvent) => {
+    if (!scrollContainerRef.current || isTransitioning) return;
     
     e.preventDefault();
-    const container = scrollContainerRef.current;
-    container.scrollBy({
-      left: e.deltaY > 0 ? scrollStep : -scrollStep,
+    const itemWidth = getItemWidth();
+    scrollContainerRef.current.scrollBy({
+      left: e.deltaY > 0 ? itemWidth : -itemWidth,
       behavior: 'smooth'
     });
   };
 
-  // Verificar scrollability quando o componente monta e quando o scroll muda
+  // Configurar carousel infinito quando o componente monta
   useEffect(() => {
     const container = scrollContainerRef.current;
-    if (!container) return;
+    if (!container || itemCount === 0) return;
 
-    checkScrollability();
+    const itemWidth = getItemWidth();
+    
+    // Posicionar no meio (início dos itens originais)
+    container.scrollLeft = itemWidth * itemCount;
 
     const handleScroll = () => {
-      checkScrollability();
+      checkAndAdjustPosition();
     };
 
+    // Adicionar event listeners
     container.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', checkScrollability);
+    window.addEventListener('resize', () => {
+      const newItemWidth = getItemWidth();
+      container.scrollLeft = newItemWidth * itemCount;
+    });
+    
+    // Adicionar event listener para wheel com passive: false
+    container.addEventListener('wheel', handleWheel, { passive: false });
 
     return () => {
       container.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', checkScrollability);
+      window.removeEventListener('resize', () => {});
+      container.removeEventListener('wheel', handleWheel);
     };
-  }, [children]);
+  }, [children, itemCount]);
 
   return (
     <div className={`relative group ${className}`}>
-      {/* Seta esquerda */}
-      {showArrows && canScrollLeft && (
+      {/* Seta esquerda - sempre visível no carousel infinito */}
+      {showArrows && (
         <button
           onClick={scrollLeftHandler}
           className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -171,14 +211,34 @@ export const Carousel: React.FC<CarouselProps> = ({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         onKeyDown={handleKeyDown}
-        onWheel={handleWheel}
         tabIndex={0}
         role="region"
         aria-label="Carrossel de filmes"
       >
+        {/* Primeira duplicata (para transição suave ao voltar) */}
         {React.Children.map(children, (child, index) => (
           <div
-            key={index}
+            key={`duplicate-start-${index}`}
+            className={`flex-shrink-0 ${itemClassName}`}
+          >
+            {child}
+          </div>
+        ))}
+        
+        {/* Itens originais */}
+        {React.Children.map(children, (child, index) => (
+          <div
+            key={`original-${index}`}
+            className={`flex-shrink-0 ${itemClassName}`}
+          >
+            {child}
+          </div>
+        ))}
+        
+        {/* Segunda duplicata (para transição suave ao avançar) */}
+        {React.Children.map(children, (child, index) => (
+          <div
+            key={`duplicate-end-${index}`}
             className={`flex-shrink-0 ${itemClassName}`}
           >
             {child}
@@ -186,8 +246,8 @@ export const Carousel: React.FC<CarouselProps> = ({
         ))}
       </div>
 
-      {/* Seta direita */}
-      {showArrows && canScrollRight && (
+      {/* Seta direita - sempre visível no carousel infinito */}
+      {showArrows && (
         <button
           onClick={scrollRightHandler}
           className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"

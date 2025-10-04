@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { User, ChevronDown } from 'lucide-react';
 import { UserType } from '@/types';
+import { ProfileAvatarSmall } from '@/components/ui/ProfileAvatar';
 
 interface ProfileDropdownProps {
   onUserChange: () => void;
@@ -68,11 +69,10 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
         type="button"
         aria-label="Menu do perfil"
       >
-        <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
-          <span className="text-white font-semibold text-sm">
-            {getUserInitial()}
-          </span>
-        </div>
+        <ProfileAvatarSmall 
+          profileId={currentUser as 'sofia' | 'marcelo'}
+          className="w-8 h-8"
+        />
         <ChevronDown 
           className={`w-4 h-4 text-gray-300 transition-transform ${
             isOpen ? 'rotate-180' : ''
@@ -87,11 +87,10 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
             {/* Informações do usuário atual */}
             <div className="px-4 py-3 border-b border-gray-700">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-semibold">
-                    {getUserInitial()}
-                  </span>
-                </div>
+                <ProfileAvatarSmall 
+                  profileId={currentUser as 'sofia' | 'marcelo'}
+                  className="w-10 h-10"
+                />
                 <div>
                   <p className="text-white font-medium">{getUserDisplayName()}</p>
                   <p className="text-gray-400 text-sm">Usuário atual</p>

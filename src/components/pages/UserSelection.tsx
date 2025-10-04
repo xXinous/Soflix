@@ -1,30 +1,22 @@
 import { updateUserType } from '@/utils/cloudflareAnalytics';
 import { UserSelectionProps } from '@/types';
+import { ProfileAvatarLarge } from '@/components/ui/ProfileAvatar';
+import { getAllProfiles } from '@/constants/profiles';
 
 export function UserSelection({ onUserSelect }: UserSelectionProps) {
-  const handleSofiaSelect = async () => {
+  const handleProfileSelect = async (profileId: 'sofia' | 'marcelo') => {
     try {
       // Atualizar analytics
-      await updateUserType('sofia');
-      onUserSelect('sofia');
+      await updateUserType(profileId);
+      onUserSelect(profileId);
     } catch (error) {
-      console.error('Erro ao registrar acesso da Sofia:', error);
+      console.error(`Erro ao registrar acesso do ${profileId}:`, error);
       // Continuar mesmo com erro para não bloquear o usuário
-      onUserSelect('sofia');
+      onUserSelect(profileId);
     }
   };
 
-  const handleMarceloSelect = async () => {
-    try {
-      // Atualizar analytics
-      await updateUserType('marcelo');
-      onUserSelect('marcelo');
-    } catch (error) {
-      console.error('Erro ao registrar acesso do Marcelo:', error);
-      // Continuar mesmo com erro para não bloquear o usuário
-      onUserSelect('marcelo');
-    }
-  };
+  const profiles = getAllProfiles();
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center">
@@ -37,37 +29,28 @@ export function UserSelection({ onUserSelect }: UserSelectionProps) {
 
         {/* Perfis */}
         <div className="space-y-6">
-          {/* Perfil Sofia */}
-          <button
-            onClick={handleSofiaSelect}
-            className="w-full bg-gray-800 hover:bg-gray-700 rounded-lg p-6 transition-colors group"
-          >
-            <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg flex items-center justify-center text-2xl font-bold">
-                S
+          {profiles.map((profile) => (
+            <button
+              key={profile.id}
+              onClick={() => handleProfileSelect(profile.id as 'sofia' | 'marcelo')}
+              className="w-full bg-gray-800 hover:bg-gray-700 rounded-lg p-6 transition-colors group"
+            >
+              <div className="flex items-center space-x-4">
+                <ProfileAvatarLarge 
+                  profileId={profile.id as 'sofia' | 'marcelo'}
+                  className="w-16 h-16"
+                />
+                <div className="text-left">
+                  <h3 className="text-xl font-semibold group-hover:text-white">
+                    {profile.name}
+                  </h3>
+                  <p className="text-gray-400 text-sm">
+                    {profile.description}
+                  </p>
+                </div>
               </div>
-              <div className="text-left">
-                <h3 className="text-xl font-semibold group-hover:text-white">Sofia</h3>
-                <p className="text-gray-400 text-sm">Perfil principal</p>
-              </div>
-            </div>
-          </button>
-
-          {/* Perfil Marcelo */}
-          <button
-            onClick={handleMarceloSelect}
-            className="w-full bg-gray-800 hover:bg-gray-700 rounded-lg p-6 transition-colors group"
-          >
-            <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg flex items-center justify-center text-2xl font-bold">
-                M
-              </div>
-              <div className="text-left">
-                <h3 className="text-xl font-semibold group-hover:text-white">Marcelo</h3>
-                <p className="text-gray-400 text-sm">Perfil secundário</p>
-              </div>
-            </div>
-          </button>
+            </button>
+          ))}
         </div>
 
         {/* Footer */}

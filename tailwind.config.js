@@ -13,7 +13,7 @@ module.exports = {
       },
       fontFamily: {
         'sans': [
-          'Netflix Sans', 
+          'Montserrat', 
           '-apple-system', 
           'BlinkMacSystemFont', 
           'Segoe UI', 
@@ -27,8 +27,8 @@ module.exports = {
           'system-ui',
           'sans-serif'
         ],
-        'netflix': [
-          'Netflix Sans', 
+        'montserrat': [
+          'Montserrat', 
           '-apple-system', 
           'BlinkMacSystemFont', 
           'Segoe UI', 

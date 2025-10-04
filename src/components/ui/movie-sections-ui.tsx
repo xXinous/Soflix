@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Play, ThumbsUp, Download, Plus } from 'lucide-react';
 import { Movie } from '@/types';
 import { ImageWithFallback } from '@/components/common/figma/ImageWithFallback';
-import { Carousel } from './carousel';
+import { SwiperCarousel } from './swiper-carousel';
 
 // ============================================================================
 // CONFIGURAÇÃO CENTRALIZADA DAS CATEGORIAS/SEÇÕES
@@ -222,10 +222,11 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
     <div className="px-3 sm:px-4 py-4 sm:py-8 space-y-4 sm:space-y-12 relative z-10">
       {/* Continue assistindo */}
       <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Continue assistindo nossa história</h3>
-        <Carousel 
+        <h3 className="text-xl sm:text-2xl mb-2 sm:mb-4">Continue assistindo nossa história</h3>
+        <SwiperCarousel 
           className="w-full"
-          itemClassName="w-2/3 sm:w-1/3 min-w-0"
+          slideClassName="w-2/3 sm:w-1/3 min-w-0"
+          forceDisableLoop={true}
         >
           {continueWatchingMovies.map((movie, index) => (
             <MovieItem
@@ -237,15 +238,15 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
               progressValue={progressValues[index]}
             />
           ))}
-        </Carousel>
+        </SwiperCarousel>
       </section>
 
       {/* Por que você se apaixonou */}
       <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Por que você se apaixonou por: Sofia</h3>
-        <Carousel 
+        <h3 className="text-xl sm:text-2xl mb-2 sm:mb-4">Por que você se apaixonou por: Sofia</h3>
+        <SwiperCarousel 
           className="w-full"
-          itemClassName="w-1/3 sm:w-1/5 min-w-0"
+          slideClassName="w-1/3 sm:w-1/5 min-w-0"
         >
           {getMoviesFromSection('porque-se-apaixonou-por-sofia', allMovies).map((movie) => (
             <MovieItem
@@ -256,15 +257,15 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
               variant="poster"
             />
           ))}
-        </Carousel>
+        </SwiperCarousel>
       </section>
 
       {/* Top 10 do Marcelo */}
       <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Top 5 do Marcelo</h3>
-        <Carousel 
+        <h3 className="text-xl sm:text-2xl mb-2 sm:mb-4">Top 5 do Marcelo</h3>
+        <SwiperCarousel 
           className="w-full"
-          itemClassName="w-1/3 sm:w-1/5 min-w-0"
+          slideClassName="w-1/3 sm:w-1/5 min-w-0"
         >
           {getMoviesFromSection('top-10-do-marcelo', allMovies).map((movie, index) => (
             <MovieItem
@@ -277,15 +278,15 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
               ranking={index + 1}
             />
           ))}
-        </Carousel>
+        </SwiperCarousel>
       </section>
 
       {/* Baseado em uma história real */}
       <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Popular na cabeça do Marcelo</h3>
-        <Carousel 
+        <h3 className="text-xl sm:text-2xl mb-2 sm:mb-4">Popular na cabeça do Marcelo</h3>
+        <SwiperCarousel 
           className="w-full"
-          itemClassName="w-1/3 sm:w-1/5 min-w-0"
+          slideClassName="w-1/3 sm:w-1/5 min-w-0"
         >
           {getMoviesFromSection('baseado-em-historia-real', allMovies).map((movie) => (
             <MovieItem
@@ -299,7 +300,7 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
               badgeColor="bg-yellow-500"
             />
           ))}
-        </Carousel>
+        </SwiperCarousel>
       </section>
     </div>  
   );

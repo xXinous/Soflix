@@ -34,12 +34,14 @@
             "react-dom": "^18.3.1",
             "react-hook-form": "^7.55.0",
             "react-router-dom": "^7.9.3",
+            "swiper": "^12.0.2",
             "tailwind-merge": "*"
       },
       "devDependencies": {
             "@types/node": "^20.10.0",
             "@types/react": "^19.1.13",
             "@types/react-dom": "^19.1.9",
+            "@types/swiper": "^5.4.3",
             "@vitejs/plugin-react-swc": "^3.10.2",
             "autoprefixer": "^10.4.21",
             "imagemin": "^9.0.1",

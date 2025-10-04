@@ -21,7 +21,7 @@ export const Header = ({
   onUserChange,
   currentUser,
 }: HeaderProps) => {
-  const { goBack, canGoBack } = useNavigation();
+  const { goBack, canGoBack, goHome } = useNavigation();
 
   // Handlers para as ações do header
   const handleSearch = () => {
@@ -38,8 +38,8 @@ export const Header = ({
     if (canGoBack) {
       goBack();
     } else {
-      // Navegar para /home
-      window.location.href = '/home';
+      // Navegar para /home usando React Router
+      goHome();
     }
   };
 
@@ -55,6 +55,7 @@ export const Header = ({
       onNotifications={handleNotifications}
       onBack={handleBack}
       canGoBack={canGoBack}
+      onLogoClick={goHome}
     />
   );
 };

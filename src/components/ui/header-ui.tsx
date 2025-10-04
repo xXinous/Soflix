@@ -14,6 +14,7 @@ interface HeaderUIProps {
   onNotifications: () => void;
   onBack?: () => void;
   canGoBack?: boolean;
+  onLogoClick?: () => void;
 }
 
 export const HeaderUI: React.FC<HeaderUIProps> = ({
@@ -27,6 +28,7 @@ export const HeaderUI: React.FC<HeaderUIProps> = ({
   onNotifications,
   onBack,
   canGoBack,
+  onLogoClick,
 }) => {
   return (
     <header className="flex items-center justify-between p-3 sm:p-4 bg-gradient-to-b from-black/80 to-transparent relative z-50">
@@ -42,7 +44,7 @@ export const HeaderUI: React.FC<HeaderUIProps> = ({
           </button>
         )}
         <button 
-          onClick={() => window.location.href = '/home'}
+          onClick={onLogoClick || (() => onPageNavigation('home'))}
           className="text-xl sm:text-2xl font-bold text-red-500 hover:text-red-400 transition-colors"
           type="button"
         >

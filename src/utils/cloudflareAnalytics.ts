@@ -4,7 +4,8 @@
  */
 
 // URL do seu Cloudflare Worker (substitua pela sua URL)
-const ANALYTICS_WORKER_URL = 'https://soflix-analytics.your-subdomain.workers.dev';
+// Temporariamente desabilitado para evitar erros de CORS
+const ANALYTICS_WORKER_URL = null;
 
 interface AnalyticsData {
   sessionId: string;
@@ -45,6 +46,13 @@ export async function trackPageView(userType: 'visitor' | 'sofia' | 'marcelo' = 
       referrer: document.referrer || undefined,
       pageViews: 1
     };
+
+    // Se o worker não estiver configurado, usar apenas backup local
+    if (!ANALYTICS_WORKER_URL) {
+      storeAnalyticsBackup(analyticsData);
+      console.log('📊 Analytics data stored locally (worker disabled)');
+      return true;
+    }
 
     // Enviar para Cloudflare Worker
     const response = await fetch(`${ANALYTICS_WORKER_URL}/analytics?user_type=${userType}&url=${encodeURIComponent(window.location.href)}`, {

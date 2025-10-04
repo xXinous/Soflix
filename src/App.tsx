@@ -31,7 +31,7 @@ function AppRoutes() {
   
   const timeElapsed = useTimer();
   const { showMobileMenu, closeMobileMenu, toggleMobileMenu } = useMobileMenu();
-  const { goBack } = useNavigation();
+  const { goBack, navigateTo } = useNavigation();
   const location = useLocation();
 
   // Inicializar analytics IMEDIATAMENTE ao carregar o site
@@ -59,16 +59,17 @@ function AppRoutes() {
       mylist: '/mylist'
     };
     
-    window.location.href = pageUrls[page];
-  }, [closeMobileMenu]);
+    // Usar React Router em vez de window.location.href
+    navigateTo(pageUrls[page]);
+  }, [closeMobileMenu, navigateTo]);
 
   // Handler para trocar usuário
   const handleUserChange = useCallback(() => {
     setCurrentUser(null);
     closeMobileMenu();
-    // Navegar para /perfis
-    window.location.href = '/perfis';
-  }, [closeMobileMenu, setCurrentUser]);
+    // Navegar para /perfis usando React Router
+    navigateTo('/perfis');
+  }, [closeMobileMenu, setCurrentUser, navigateTo]);
 
   // Handler para gêneros banidos
   const handleBannedGenres = useCallback(() => {
@@ -88,12 +89,15 @@ function AppRoutes() {
     setSelectedMovie(AMOR_EM_CASCATA_MOVIE);
   }, []);
 
+  // Redirecionar para /perfis se não há usuário selecionado
+  useEffect(() => {
+    if (!currentUser && location.pathname !== '/perfis') {
+      navigateTo('/perfis');
+    }
+  }, [currentUser, location.pathname, navigateTo]);
+
   // Renderização condicional da seleção de usuário
   if (!currentUser) {
-    // Redirecionar para /perfis se não há usuário selecionado
-    if (location.pathname !== '/perfis') {
-      window.location.href = '/perfis';
-    }
     return <UserSelectionPage />;
   }
 

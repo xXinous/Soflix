@@ -1,5 +1,7 @@
 import React from 'react';
 import { Heart, User } from 'lucide-react';
+import { ProfileAvatarLarge } from './ProfileAvatar';
+import { getAllProfiles } from '@/constants/profiles';
 
 interface UserSelectionUIProps {
   showAdminLogin: boolean;
@@ -85,12 +87,10 @@ export const UserSelectionUI: React.FC<UserSelectionUIProps> = ({
               onClick={onSofiaSelect}
             >
               <div className="relative mb-4">
-                <div 
-                  className="w-24 h-24 md:w-32 md:h-32 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-105" 
-                  style={{ background: 'linear-gradient(to bottom right, #ec4899, #ef4444)' }}
-                >
-                  <Heart className="w-12 h-12 md:w-16 md:h-16 text-white" />
-                </div>
+                <ProfileAvatarLarge 
+                  profileId="sofia"
+                  className="w-24 h-24 md:w-32 md:h-32"
+                />
               </div>
               <h3 className="text-sm md:text-lg font-semibold text-gray-300">
                 Sofia
@@ -103,11 +103,10 @@ export const UserSelectionUI: React.FC<UserSelectionUIProps> = ({
               onClick={onAdminClick}
             >
               <div className="relative mb-4">
-                <div 
-                  className="w-24 h-24 md:w-32 md:h-32 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-105 bg-gradient-to-br from-gray-600 to-gray-800"
-                >
-                  <User className="w-12 h-12 md:w-16 md:h-16 text-white" />
-                </div>
+                <ProfileAvatarLarge 
+                  profileId="marcelo"
+                  className="w-24 h-24 md:w-32 md:h-32"
+                />
               </div>
               <h3 className="text-sm md:text-lg font-semibold text-gray-300">
                 Marcelo

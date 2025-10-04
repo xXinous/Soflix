@@ -3,7 +3,7 @@
  * Permite compartilhar o estado do usuário entre componentes
  */
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { UserType } from '@/types';
 
 interface UserContextType {
@@ -19,15 +19,16 @@ interface UserProviderProps {
 }
 
 export function UserProvider({ children }: UserProviderProps) {
-  // Inicializar com o usuário salvo no localStorage ou null
-  const [currentUser, setCurrentUser] = useState<UserType>(() => {
-    try {
-      const savedUser = localStorage.getItem('soflix_current_user');
-      return savedUser as UserType;
-    } catch {
-      return null;
+  // Inicializar sempre como null para forçar seleção de perfil
+  const [currentUser, setCurrentUser] = useState<UserType>(null);
+
+  // Carregar usuário do localStorage na inicialização
+  useEffect(() => {
+    const savedUser = localStorage.getItem('soflix_current_user') as UserType;
+    if (savedUser) {
+      setCurrentUser(savedUser);
     }
-  });
+  }, []);
 
   const clearUser = () => {
     setCurrentUser(null);
