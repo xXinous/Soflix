@@ -27,33 +27,21 @@ const MOVIE_SECTIONS: MovieSection[] = [
   {
     id: 'porque-se-apaixonou-por-sofia',
     title: 'Por que você se apaixonou por: Sofia',
-    movieIds: ["the-pijama-dreamer", "casal-aranha-teia-do-julgamento", "amor-em-alta-velocidade", "aventura-estelar", "motim-estelar"],
-    gridLayout: 'poster', // Layout retrato (aspect-[2/3])
-  },
-  {
-    id: 'talvez-voce-goste',
-    title: 'Talvez você goste',
-    movieIds: ["roupa-preta-coracao-azul", "dilema-do-amor", "beijo-estrelado", "troca-troca-juridico"],
+    movieIds: ["eu-acredito", "roupa-preta-coracao-azul", "dilema-do-amor", "fade-runner-2099","uau-desordem" ],
     gridLayout: 'poster', // Layout retrato (aspect-[2/3])
   },
   {
     id: 'top-10-do-marcelo',
     title: 'Top 5 do Marcelo',
-    movieIds: ["amor-em-alta-velocidade", "casal-aranha-teia-do-julgamento","the-pijama-dreamer", "amor-em-cascata", "beijo-estrelado", ],
+    movieIds: ["amor-em-alta-velocidade", "casal-aranha-teia-do-julgamento","the-pijama-dreamer", "eu-acredito", "beijo-estrelado", ],
     gridLayout: 'poster', // Layout retrato (aspect-[2/3])
   },
   {
     id: 'baseado-em-historia-real',
-    title: 'Baseado em uma história real: A nossa',
-    movieIds: ["amor-em-cascata", "amor-em-alta-velocidade", "troca-troca-juridico", "the-pijama-dreamer"],
+    title: 'Popular na cabeça do Marcelo',
+    movieIds: ["amor-em-cascata", "motim-estelar", "uau-desordem", "motim-estelar", "troca-troca-juridico" ],
     gridLayout: 'poster', // Layout retrato (aspect-[2/3])
   },
-  {
-    id: 'romances-emocionantes',
-    title: 'Romances emocionantes',
-    movieIds: ["the-pijama-dreamer", "beijo-estrelado", "amor-em-alta-velocidade", "amor-em-cascata"],
-    gridLayout: 'poster', // Layout retrato (aspect-[2/3])
-  }
 ];
 
 // Função para obter filmes de uma seção específica
@@ -140,7 +128,6 @@ const MovieItem: React.FC<MovieItemProps> = ({
         {/* Overlay com informações */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end">
           <div className="p-2 sm:p-3 w-full">
-            <h4 className="font-semibold text-xs sm:text-sm mb-1 truncate">{movie.title}</h4>
             {variant === 'continue' ? (
               <p className="text-gray-400 text-xs">{movie.year}</p>
             ) : (
@@ -161,10 +148,6 @@ const MovieItem: React.FC<MovieItemProps> = ({
         )}
       </div>
       
-      {/* Título abaixo do poster (apenas para variante poster) */}
-      {variant === 'poster' && (
-        <h4 className="font-semibold text-xs sm:text-sm truncate">{movie.title}</h4>
-      )}
     </div>
   );
 };
@@ -218,25 +201,6 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
         </Carousel>
       </section>
 
-      {/* Talvez você goste */}
-      <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Talvez você goste</h3>
-        <Carousel 
-          className="w-full"
-          itemClassName="w-1/3 sm:w-1/5 min-w-0"
-        >
-          {getMoviesFromSection('talvez-voce-goste', allMovies).map((movie) => (
-            <MovieItem
-              key={`maybe-${movie.id}`}
-              movie={movie}
-              onMovieClick={onMovieClick}
-              onKeyDown={onKeyDown}
-              variant="poster"
-            />
-          ))}
-        </Carousel>
-      </section>
-
       {/* Top 10 do Marcelo */}
       <section>
         <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Top 5 do Marcelo</h3>
@@ -260,7 +224,7 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
 
       {/* Baseado em uma história real */}
       <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Baseado em uma história real: A nossa</h3>
+        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Popular na cabeça do Marcelo</h3>
         <Carousel 
           className="w-full"
           itemClassName="w-1/3 sm:w-1/5 min-w-0"
@@ -273,35 +237,12 @@ export const MovieSectionsUI: React.FC<MovieSectionsUIProps> = ({
               onKeyDown={onKeyDown}
               variant="poster"
               showBadge={true}
-              badgeText="Real"
-              badgeColor="bg-blue-600"
+              badgeText="★"
+              badgeColor="bg-yellow-500"
             />
           ))}
         </Carousel>
       </section>
-
-      {/* Romances emocionantes */}
-      <section>
-        <h3 className="text-lg sm:text-xl mb-2 sm:mb-4">Romances emocionantes</h3>
-        <Carousel 
-          className="w-full"
-          itemClassName="w-1/3 sm:w-1/5 min-w-0"
-        >
-          {getMoviesFromSection('romances-emocionantes', allMovies).map((movie) => (
-            <MovieItem
-              key={`romance-${movie.id}`}
-              movie={movie}
-              onMovieClick={onMovieClick}
-              onKeyDown={onKeyDown}
-              variant="poster"
-              showBadge={true}
-              badgeText="♥"
-              badgeColor="bg-pink-600"
-            />
-          ))}
-        </Carousel>
-      </section>
-    </div>
+    </div>  
   );
 };
-

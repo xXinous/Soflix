@@ -1,11 +1,14 @@
 import React from 'react';
 import { ArrowLeft, Heart, Plus, Check } from 'lucide-react';
+import { useNavigation } from '@/hooks';
 
 interface MyListProps {
   onBack: () => void;
 }
 
 export function MyList({ onBack }: MyListProps) {
+  const { goBack } = useNavigation();
+
   // Lista dos detalhes que você adora na Sofia - facilmente editável
   const thingsILoveAboutSofia = [
     "Esforço",
@@ -37,7 +40,7 @@ export function MyList({ onBack }: MyListProps) {
       <header className="flex items-center justify-between p-4 bg-gradient-to-b from-black/80 to-transparent relative z-10">
         <div className="flex items-center space-x-6">
           <button
-            onClick={onBack}
+            onClick={goBack}
             className="flex items-center space-x-2 text-red-500 hover:text-red-400 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />

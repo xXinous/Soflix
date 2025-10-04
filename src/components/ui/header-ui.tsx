@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Bell, Heart, ChevronDown } from 'lucide-react';
+import { Search, Bell, Heart, ChevronDown, ArrowLeft } from 'lucide-react';
 import { PageType, UserType } from '@/types';
 import { ProfileDropdown } from '@/components/layout/ProfileDropdown';
 
@@ -12,6 +12,8 @@ interface HeaderUIProps {
   currentUser: UserType;
   onSearch: () => void;
   onNotifications: () => void;
+  onBack?: () => void;
+  canGoBack?: boolean;
 }
 
 export const HeaderUI: React.FC<HeaderUIProps> = ({
@@ -23,12 +25,24 @@ export const HeaderUI: React.FC<HeaderUIProps> = ({
   currentUser,
   onSearch,
   onNotifications,
+  onBack,
+  canGoBack,
 }) => {
   return (
     <header className="flex items-center justify-between p-3 sm:p-4 bg-gradient-to-b from-black/80 to-transparent relative z-50">
       <div className="flex items-center space-x-3 sm:space-x-6">
+        {canGoBack && onBack && (
+          <button 
+            onClick={onBack}
+            className="w-6 h-6 sm:w-8 sm:h-8 hover:text-gray-300 transition-colors flex items-center justify-center"
+            type="button"
+            aria-label="Voltar"
+          >
+            <ArrowLeft className="w-full h-full" />
+          </button>
+        )}
         <button 
-          onClick={() => onPageNavigation('home')}
+          onClick={() => window.location.href = '/home'}
           className="text-xl sm:text-2xl font-bold text-red-500 hover:text-red-400 transition-colors"
           type="button"
         >

@@ -3,6 +3,7 @@ import { ArrowLeft, Users, Eye, Calendar, Heart, TrendingUp, Clock, Globe, Smart
 import { DeviceInfo } from '@/utils/deviceInfo';
 import { loadVisits, processUserStats, clearAllData, migrateLegacyData, verifyDataIntegrity, saveAdminStats, syncWithSupabase } from '@/utils/secureStorage';
 import { verifyAdminSession, clearAdminSession, getSecurityLogs } from '@/utils/auth';
+import { getGlobalAccesses, processGlobalStats } from '@/utils/globalTracking';
 import { DataSyncStatus } from '@/components/ui/DataSyncStatus';
 
 interface AdminDashboardProps {
@@ -36,6 +37,7 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
   const [securityLogs, setSecurityLogs] = useState<any[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [dataIntegrity, setDataIntegrity] = useState<boolean | null>(null);
+  const [globalStats, setGlobalStats] = useState<any>(null);
   const [stats, setStats] = useState({
     totalVisits: 0,
     sofiaVisits: 0,
@@ -83,6 +85,10 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
         // Carregar logs de segurança
         const logs = getSecurityLogs();
         setSecurityLogs(logs);
+
+        // Carregar estatísticas globais
+        const globalStatsData = processGlobalStats();
+        setGlobalStats(globalStatsData);
 
         // Calcular estatísticas
         const allVisits = [...sofia, ...admin];
@@ -323,6 +329,98 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
             <p className="text-2xl font-bold text-orange-400">{stats.uniqueDevices}</p>
           </div>
         </div>
+
+        {/* Estatísticas Globais */}
+        {globalStats && (
+          <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-6 mb-8">
+            <h3 className="text-xl font-bold mb-4 flex items-center space-x-2">
+              <Globe className="w-5 h-5 text-green-400" />
+              <span>Estatísticas Globais - TODOS os Acessos</span>
+            </h3>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Users className="w-4 h-4 text-green-400" />
+                  <span className="text-xs text-gray-400">Visitantes Únicos</span>
+                </div>
+                <p className="text-lg font-bold text-green-400">{globalStats.uniqueVisitors}</p>
+              </div>
+              
+              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Eye className="w-4 h-4 text-blue-400" />
+                  <span className="text-xs text-gray-400">Total Global</span>
+                </div>
+                <p className="text-lg font-bold text-blue-400">{globalStats.totalAccesses}</p>
+              </div>
+              
+              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Calendar className="w-4 h-4 text-red-400" />
+                  <span className="text-xs text-gray-400">Hoje</span>
+                </div>
+                <p className="text-lg font-bold text-red-400">{globalStats.todayAccesses}</p>
+              </div>
+              
+              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                <div className="flex items-center space-x-2 mb-2">
+                  <TrendingUp className="w-4 h-4 text-yellow-400" />
+                  <span className="text-xs text-gray-400">Esta Semana</span>
+                </div>
+                <p className="text-lg font-bold text-yellow-400">{globalStats.thisWeekAccesses}</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-gray-300 mb-3">Tipos de Usuário</h4>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-xs text-gray-400">Sofia:</span>
+                    <span className="text-sm font-bold text-pink-400">{globalStats.sofiaAccesses}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-xs text-gray-400">Admin:</span>
+                    <span className="text-sm font-bold text-red-400">{globalStats.adminAccesses}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-xs text-gray-400">Visitantes:</span>
+                    <span className="text-sm font-bold text-blue-400">{globalStats.visitorAccesses}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-gray-300 mb-3">Top Dispositivos</h4>
+                <div className="space-y-2">
+                  {globalStats.topDevices.slice(0, 3).map((device: any, index: number) => (
+                    <div key={index} className="flex justify-between">
+                      <span className="text-xs text-gray-400 capitalize">{device.device}:</span>
+                      <span className="text-sm font-bold text-orange-400">{device.count}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-gray-300 mb-3">Top Países</h4>
+                <div className="space-y-2">
+                  {globalStats.topCountries.slice(0, 3).map((country: any, index: number) => (
+                    <div key={index} className="flex justify-between">
+                      <span className="text-xs text-gray-400">{country.country}:</span>
+                      <span className="text-sm font-bold text-cyan-400">{country.count}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 text-xs text-gray-500 text-center">
+              Última atualização: {new Date(globalStats.lastUpdated).toLocaleString('pt-BR')}
+            </div>
+          </div>
+        )}
 
         {/* User Analytics */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

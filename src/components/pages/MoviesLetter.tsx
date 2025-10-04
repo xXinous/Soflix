@@ -1,10 +1,13 @@
 import { ArrowLeft, Heart, Play } from 'lucide-react';
+import { useNavigation } from '@/hooks';
 
 interface MoviesLetterProps {
   onBack: () => void;
 }
 
 export function MoviesLetter({ onBack }: MoviesLetterProps) {
+  const { goBack } = useNavigation();
+
   // Conteúdo da carta - facilmente editável
   const letterContent = `
     [CARTA PARA FILMES - ESCREVER NO GOOGLE DOCS E COLAR AQUI]
@@ -21,7 +24,7 @@ export function MoviesLetter({ onBack }: MoviesLetterProps) {
       <header className="flex items-center justify-between p-4 bg-gradient-to-b from-black/80 to-transparent relative z-10">
         <div className="flex items-center space-x-6">
           <button
-            onClick={onBack}
+            onClick={goBack}
             className="flex items-center space-x-2 text-red-500 hover:text-red-400 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />

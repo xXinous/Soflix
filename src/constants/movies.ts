@@ -202,9 +202,9 @@ const MOVIES_DATA: (Movie & Partial<MovieWithDetails>)[] = [
     rating: "10★",
     specialPhotos: [trocaTrocaJuridicoPhoto1, trocaTrocaJuridicoPhoto2, trocaTrocaJuridicoPhoto3],
     specialPhotoCaptions: [
-      'Uma briga inocente que virou uma lição de amor',
-      'A troca que nos ensinou a ver o mundo pelos olhos do outro',
-      'O amor sempre encontra um jeito de fazer as pazes'
+      'Eu super vejo você e ele trocando de lugares como em "sexta-feira muito louca".',
+      'Eu amo essas fotos...',
+      'Se você invadir a minha casa pra entregar os presentes de natal, que você seja o presente.'
     ],
     duration: 'Uma briga inocente, uma lição de amor',
     classification: 'L - Livre para fazer as pazes',

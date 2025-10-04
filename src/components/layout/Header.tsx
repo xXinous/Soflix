@@ -1,5 +1,6 @@
 import { PageType, UserType } from '@/types';
 import { HeaderUI } from '@/components/ui/header-ui';
+import { useNavigation } from '@/hooks';
 
 interface HeaderProps {
   currentPage: PageType;
@@ -20,6 +21,8 @@ export const Header = ({
   onUserChange,
   currentUser,
 }: HeaderProps) => {
+  const { goBack, canGoBack } = useNavigation();
+
   // Handlers para as ações do header
   const handleSearch = () => {
     console.log('Buscar');
@@ -29,6 +32,15 @@ export const Header = ({
   const handleNotifications = () => {
     console.log('Notificações');
     // TODO: Implementar lógica de notificações
+  };
+
+  const handleBack = () => {
+    if (canGoBack) {
+      goBack();
+    } else {
+      // Navegar para /home
+      window.location.href = '/home';
+    }
   };
 
   return (
@@ -41,6 +53,8 @@ export const Header = ({
       currentUser={currentUser}
       onSearch={handleSearch}
       onNotifications={handleNotifications}
+      onBack={handleBack}
+      canGoBack={canGoBack}
     />
   );
 };
